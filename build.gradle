@@ -1,0 +1,107 @@
+group 'StockNNBot'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
+}
+
+jar {
+    baseName = 'gs-serving-web-content'
+    version = '0.1.0'
+}
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+
+        // https://mvnrepository.com/artifact/org.jsoup/jsoup
+        compile group: 'org.jsoup', name: 'jsoup', version: '1.10.1'
+
+        // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
+
+        // https://mvnrepository.com/artifact/commons-collections/commons-collections
+        compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+
+        // https://mvnrepository.com/artifact/io.reactivex/rxjava
+        compile group: 'io.reactivex', name: 'rxjava', version: '1.2.5'
+
+        // https://mvnrepository.com/artifact/com.google.code.gson/gson
+        compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+
+        // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api
+        compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+
+        // https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-client
+        compile group: 'org.glassfish.tyrus', name: 'tyrus-client', version: '1.13'
+
+        compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13'
+
+        // https://mvnrepository.com/artifact/org.jsonschema2pojo/jsonschema2pojo-core
+        compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '0.4.29'
+
+        // https://mvnrepository.com/artifact/com.esotericsoftware.kryo/kryo
+        compile group: 'com.esotericsoftware.kryo', name: 'kryo', version: '2.24.0'
+
+        // https://mvnrepository.com/artifact/org.jfree/jfreechart
+        compile group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
+
+        // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+        compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.12'
+
+        // https://mvnrepository.com/artifact/com.github.luben/zstd-jni
+        compile group: 'com.github.luben', name: 'zstd-jni', version: '1.1.2'
+
+        // https://mvnrepository.com/artifact/net.jpountz.lz4/lz4
+        compile group: 'net.jpountz.lz4', name: 'lz4', version: '1.3.0'
+
+        // https://mvnrepository.com/artifact/io.airlift/aircompressor
+        compile group: 'io.airlift', name: 'aircompressor', version: '0.4'
+
+    }
+}
+
+
+dependencies {
+    compile project(':Model')
+    compile project(':ViewControl')
+}
+
+project(":Model") {
+    dependencies {
+        // https://mvnrepository.com/artifact/com.yahoofinance-api/YahooFinanceAPI
+        compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.5.0'
+    }
+}
+
+project(":ViewControl") {
+    dependencies {
+        compile project(':Model')
+
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+        compile("org.springframework.boot:spring-boot-devtools")
+    }
+}
+

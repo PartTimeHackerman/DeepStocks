@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.code.javaparser:javaparser:1.0.11">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.javaparser/javaparser/1.0.11/ca8e06b0e6ee3ce2e1f6f08e09847d27c1746846/javaparser-1.0.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.javaparser/javaparser/1.0.11/9aa991baa9a694b18447fdeed56341ea3bfcd1ae/javaparser-1.0.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
