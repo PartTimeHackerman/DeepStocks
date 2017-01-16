@@ -14,6 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../ViewControl/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../ViewControl/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../../ViewControl/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../ViewControl/src/main/js" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../../../ViewControl/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../ViewControl/build" />
     </content>

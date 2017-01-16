@@ -1,9 +1,12 @@
+import com.moowork.gradle.node.task.NodeTask
+
 group 'StockNNBot'
 version '1.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: "com.moowork.node"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -11,9 +14,12 @@ targetCompatibility = 1.8
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+
     }
 }
 
@@ -103,5 +109,28 @@ project(":ViewControl") {
 
         compile("org.springframework.boot:spring-boot-devtools")
     }
+
+    /////FRONTEND SHIT/////
+
+    node {
+        version = '5.8.0'
+        npmVersion = '3.8.0'
+        download = true
+        // distBaseUrl = Custom artifactory location here.
+    }
+
+    task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+        def osName = System.getProperty("os.name").toLowerCase();
+        if (osName.contains("windows")) {
+            script = project.file('node_modules/webpack/bin/webpack.js')
+        } else {
+            script = project.file('node_modules/.bin/webpack')
+        }
+    }
+
+    processResources.dependsOn 'webpack'
+
+    clean.delete << file('node_modules')
+    clean.delete << file('src/main/webapp/dist')
 }
 
