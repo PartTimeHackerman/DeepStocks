@@ -1,0 +1,33 @@
+{
+  "name": "webpack-gradle",
+  "version": "0.0.1",
+  "description": "Sample application using react with webpack and Spring Boot",
+  "scripts": {},
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "babel": "latest",
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-polyfill": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-react": "latest",
+    "css-loader": "latest",
+    "file-loader": "latest",
+    "less": "latest",
+    "less-loader": "latest",
+    "style-loader": "latest",
+    "url-loader": "latest"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest",
+    "rest": "latest",
+    "webpack": "latest",
+    "react-google-charts": "latest"
+  }
+}
+

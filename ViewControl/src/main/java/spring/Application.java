@@ -19,7 +19,7 @@ public class Application {
 	public CommandLineRunner commandLineRunner(ApplicationContext context) {
 		return args -> {
 			
-			System.out.println("Let's inspect the beans provided by Spring Boot:");
+			System.out.println("Beans provided by Spring Boot:");
 			
 			String[] beanNames = context.getBeanDefinitionNames();
 			Arrays.sort(beanNames);

@@ -1,14 +1,15 @@
 package spring;
 
+import data.StockData;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RESTController {
 	
-	@RequestMapping("/")
-	public String index(){
-		return "Test start";
+	@RequestMapping("/stock")
+	public StockData index() {
+		return new StockData("TEST");
 	}
 	
 }

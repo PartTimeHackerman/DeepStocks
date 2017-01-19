@@ -13,12 +13,12 @@ public class Main extends Application {
 	
 	private DataLoaderController dataLoaderController;
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
 		//stocksLoader = new StocksLoader();
 		
 		launch();
-	}
+	}*/
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
