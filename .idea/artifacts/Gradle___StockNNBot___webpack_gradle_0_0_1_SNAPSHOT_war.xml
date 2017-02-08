@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" name="Gradle : StockNNBot : webpack-gradle-0.0.1-SNAPSHOT.war">
-    <output-path>$PROJECT_DIR$/ViewControl/build/libs</output-path>
+    <output-path>$PROJECT_DIR$/Control/build/libs</output-path>
     <properties id="gradle-properties">
       <options external-project-path="$PROJECT_DIR$" />
     </properties>

@@ -9,8 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Control" />
             <option value="$PROJECT_DIR$/Model" />
-            <option value="$PROJECT_DIR$/ViewControl" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

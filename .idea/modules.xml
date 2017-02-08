@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Control/Control.iml" filepath="$PROJECT_DIR$/.idea/modules/Control/Control.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Model/Model.iml" filepath="$PROJECT_DIR$/.idea/modules/Model/Model.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/StockNNBot.iml" filepath="$PROJECT_DIR$/.idea/modules/StockNNBot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ViewControl/ViewControl.iml" filepath="$PROJECT_DIR$/.idea/modules/ViewControl/ViewControl.iml" />
     </modules>
   </component>
 </project>

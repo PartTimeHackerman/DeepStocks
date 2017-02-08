@@ -1,2 +1,4 @@
 rootProject.name = 'StockNNBot'
-include 'Model', 'ViewControl'
+include 'Model'
+include 'Control'
+
