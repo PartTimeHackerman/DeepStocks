@@ -1,12 +1,11 @@
 package model;
 
 import data.StockData;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import utils.ISerializer;
-import utils.KryoSerializer;
 import utils.MainPool;
 import utils.Serializer;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import java.io.File;
 import java.util.ArrayList;

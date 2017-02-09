@@ -43,15 +43,13 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        flatDir {
-            dirs "$rootProject.projectDir/libs"
-        }
     }
 
     dependencies {
         ////////////////////////// SPRING //////////////////////////
 
-        compile fileTree(dir: 'libs', include: ['*.jar'])
+        // https://mvnrepository.com/artifact/org.postgresql/postgresql
+        compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212.jre7'
 
         compile("org.springframework.boot:spring-boot-starter-web") {
             exclude module: "spring-boot-starter-tomcat"

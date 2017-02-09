@@ -7,17 +7,20 @@ import connection.PacketStream;
 import connection.Request;
 import data.StockData;
 import jdbc.dao.StockDataDAO;
+import jdbc.dao.StockDataDAOImpl;
 import model.BinaryCandlesGather;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -41,6 +44,9 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	private StockDataDAO stockDataDAO;
 	
+	@Autowired
+	private StockDataDAOImpl stockDataDAOimpl;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -61,13 +67,17 @@ public class Application implements CommandLineRunner {
 		StockData stock = stocks.get(0);
 		//binaryCandlesGather.getCandlesT(stock, 1451606400L, System.currentTimeMillis());
 		binaryCandlesGather.getCandlesT(stock, 1486121231L, System.currentTimeMillis());
-		stockDataDAO.save(stock);
+		stockDataDAOimpl.save(stock);
 		
 		MainLogger.log().info("Done!");
 		System.exit(0);
 		
 	}
 	
+	@Bean
+	public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){
+		return hemf.getSessionFactory();
+	}
 	/*@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext context) {
 		return args -> {

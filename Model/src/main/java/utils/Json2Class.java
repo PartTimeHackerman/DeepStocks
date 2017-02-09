@@ -134,11 +134,11 @@ public class Json2Class {
 		
 		try {
 			json = Jsoup.connect(url + dir + "/" + "send.json").get().text();
-			mapper.generate(codeModel, getWithoutFloor(dir) + "Send", "data.binaryAPI.commands."+dir, json);
+			mapper.generate(codeModel, getWithoutFloor(dir) + "Send", "binaryAPI.commands."+dir, json);
 			codeModel.build(file);
 			
 			json = Jsoup.connect(url + "/" + dir + "/" + "receive.json").get().text();
-			mapper.generate(codeModel, getWithoutFloor(dir) + "Receive", "data.binaryAPI.commands."+dir, json);
+			mapper.generate(codeModel, getWithoutFloor(dir) + "Receive", "binaryAPI.commands."+dir, json);
 			codeModel.build(file);
 			
 			

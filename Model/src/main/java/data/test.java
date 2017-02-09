@@ -1,25 +1,21 @@
 package data;
 
-import data.binaryAPI.commands.ticks_history.Candle;
 import model.StocksLoader;
-import org.jfree.data.xy.DefaultHighLowDataset;
 import utils.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class test {
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		Serializer kryo = new Serializer(new KryoSerializer());
-		Serializer zstd = new Serializer(new ZstdSerializer());
-		Serializer lz4 = new Serializer(new LZ4Serializer());
+		utils.Serializer kryo = new utils.Serializer(new utils.KryoSerializer());
+		utils.Serializer zstd = new utils.Serializer(new utils.ZstdSerializer());
+		utils.Serializer lz4 = new utils.Serializer(new utils.LZ4Serializer());
 		
-		StocksLoader kstocksLoader = new StocksLoader(new KryoSerializer());
-		StocksLoader zstocksLoader = new StocksLoader(new ZstdSerializer());
+		StocksLoader kstocksLoader = new StocksLoader(new utils.KryoSerializer());
+		StocksLoader zstocksLoader = new StocksLoader(new utils.ZstdSerializer());
 		
 		List<StockData> data = kstocksLoader.loadStocksData("stocksSER");
 		

@@ -1,6 +1,5 @@
 package spring;
 
-import data.StockTest;
 import model.StocksLoader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;

@@ -2,38 +2,74 @@ package data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import data.binaryAPI.commands.active_symbols.ActiveSymbol;
-import data.binaryAPI.commands.ticks_history.Candle;
+import binaryAPI.commands.active_symbols.ActiveSymbol;
+import binaryAPI.commands.ticks_history.Candle;
+import lombok.Data;
+import org.hibernate.annotations.*;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-public class StockData implements Serializable{
+@Entity
+@Data
+@Table(name = "stocks")//, uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+//@SQLInsert( sql="INSERT INTO stocks(name) VALUES (?) ON DUPLICATE KEY UPDATE id = VALUES(id);")
+public class StockData implements Serializable {
 	
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	@SerializedName("id")
+	@Expose
+	private Long id;
+	
+	@Id
 	@SerializedName("name")
 	@Expose
 	private String name;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@SerializedName("symbols")
 	@Expose
-	private Map<StockProvider, String> symbols;
+	private List<Symbol> symbols;
 	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
 	@SerializedName("binaryData")
 	@Expose
 	private ActiveSymbol binaryData;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@SerializedName("stockCandles")
 	@Expose
-	private TreeMap<Long, Candle> stockCandles;
+	private List<Candle> stockCandles;
 	
-	public StockData(){}
+	public StockData() {}
 	
-	public StockData(String name){
+	public StockData(String name) {
 		setName(name);
-		setSymbols(new HashMap<>());
-		setStockCandles(new TreeMap<>());
+		setSymbols(new ArrayList<>());
+		setStockCandles(new ArrayList<>());
+	}
+	
+	public void setBinaryData(ActiveSymbol binaryData) {
+		binaryData.setStock(this);
+		this.binaryData = binaryData;
+	}
+	
+	public void addSymbol(Symbol symbol){
+		symbol.setStock(this);
+		symbols.add(symbol);
+	}
+	
+	public void addCandle(Candle candle){
+		candle.setStock(this);
+		stockCandles.add(candle);
 	}
 	
 	public String getName() {
@@ -44,11 +80,11 @@ public class StockData implements Serializable{
 		this.name = name;
 	}
 	
-	public Map<StockProvider, String> getSymbols() {
+	public List<Symbol> getSymbols() {
 		return symbols;
 	}
 	
-	public void setSymbols(HashMap<StockProvider, String> symbols) {
+	public void setSymbols(List<Symbol> symbols) {
 		this.symbols = symbols;
 	}
 	
@@ -56,16 +92,20 @@ public class StockData implements Serializable{
 		return binaryData;
 	}
 	
-	public void setBinaryData(ActiveSymbol binaryData) {
-		this.binaryData = binaryData;
-	}
-	
-	public TreeMap<Long, Candle> getStockCandles() {
+	public List<Candle> getStockCandles() {
 		return stockCandles;
 	}
 	
-	public void setStockCandles(TreeMap<Long, Candle> stockCandles) {
+	public void setStockCandles(List<Candle> stockCandles) {
 		this.stockCandles = stockCandles;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 	
 	@Override
@@ -78,7 +118,7 @@ public class StockData implements Serializable{
 		if (other == this) {
 			return true;
 		}
-		if ((other instanceof Candle) == false) {
+		if (!(other instanceof Candle)) {
 			return false;
 		}
 		Candle rhs = ((Candle) other);
