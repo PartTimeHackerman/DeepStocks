@@ -45,7 +45,9 @@ subprojects {
         jcenter()
     }
 
+    ext['hibernate.version'] = '5.2.6.Final'
     dependencies {
+
         ////////////////////////// SPRING //////////////////////////
 
         // https://mvnrepository.com/artifact/org.postgresql/postgresql
@@ -61,7 +63,7 @@ subprojects {
 
         testCompile('org.springframework.boot:spring-boot-starter-test')
 
-        //compile("org.springframework.boot:spring-boot-devtools")
+        compile("org.springframework.boot:spring-boot-devtools")
 
         compile("org.springframework.boot:spring-boot-starter-data-rest")
 
@@ -84,6 +86,9 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter-jdbc')
 
         runtime('mysql:mysql-connector-java')
+
+        //compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.6.Final'
+
     }
 }
 

@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import binaryAPI.commands.active_symbols.ActiveSymbol;
 import binaryAPI.commands.ticks_history.Candle;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -16,35 +18,36 @@ import java.util.*;
 
 @Entity
 @Data
-@Table(name = "stocks")//, uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-//@SQLInsert( sql="INSERT INTO stocks(name) VALUES (?) ON DUPLICATE KEY UPDATE id = VALUES(id);")
+@EqualsAndHashCode
+@ToString
+@Table(name = "stocks")
 public class StockData implements Serializable {
 	
-	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Id
 	@SerializedName("id")
 	@Expose
 	private Long id;
 	
-	@Id
+	@Column(name = "name")
 	@SerializedName("name")
 	@Expose
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@SerializedName("symbols")
 	@Expose
 	private List<Symbol> symbols;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "stock")
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@SerializedName("binaryData")
 	@Expose
 	private ActiveSymbol binaryData;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@SerializedName("stockCandles")
 	@Expose
 	private List<Candle> stockCandles;
@@ -78,50 +81,18 @@ public class StockData implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+		this.id = (long) name.hashCode();
 	}
 	
-	public List<Symbol> getSymbols() {
-		return symbols;
-	}
-	
-	public void setSymbols(List<Symbol> symbols) {
-		this.symbols = symbols;
-	}
-	
-	public ActiveSymbol getBinaryData() {
-		return binaryData;
-	}
-	
-	public List<Candle> getStockCandles() {
-		return stockCandles;
-	}
-	
-	public void setStockCandles(List<Candle> stockCandles) {
-		this.stockCandles = stockCandles;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	@Override
-	public int hashCode() {
-		return name.hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
-		if (!(other instanceof Candle)) {
-			return false;
-		}
-		Candle rhs = ((Candle) other);
-		return this.hashCode() == rhs.hashCode();
+	@Data
+	@EqualsAndHashCode
+	public static class StockDataPK {
+		
+		private Long id;
+		
+		private String name;
+		
+		public StockDataPK(){}
+		
 	}
 }
