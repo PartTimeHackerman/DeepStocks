@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - stocks@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="stocks">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="sys"/>
+    <table id="7" parent="2" name="candles"/>
+    <table id="8" parent="2" name="sbinary"/>
+    <table id="9" parent="2" name="stocks"/>
+    <table id="10" parent="2" name="symbols"/>
+    <column id="11" parent="7" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="12" parent="7" name="stockId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="13" parent="7" name="epoch">
+      <Position>3</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="14" parent="7" name="open">
+      <Position>4</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="15" parent="7" name="high">
+      <Position>5</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="16" parent="7" name="low">
+      <Position>6</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="17" parent="7" name="close">
+      <Position>7</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="18" parent="7" name="volume">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="19" parent="7" name="fk_stockId_idx">
+      <ColNames>stockId</ColNames>
+    </index>
+    <index id="20" parent="7" name="id_UNIQUE">
+      <ColNames>stockId
+epoch</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="21" parent="7" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="22" parent="7" name="id_UNIQUE">
+      <ColNames>stockId
+epoch</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="23" parent="7" name="candles_fk_stockId">
+      <ColNames>stockId</ColNames>
+      <RefSchemaName>stocks</RefSchemaName>
+      <RefTableName>stocks</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>no-action</OnUpdate>
+      <OnDelete>no-action</OnDelete>
+    </foreign-key>
+    <column id="24" parent="8" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="25" parent="8" name="stockId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="8" name="intradayIntervalMinutes">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="27" parent="8" name="symbolType">
+      <Position>4</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="28" parent="8" name="exchangeIsOpen">
+      <Position>5</Position>
+      <DataType>binary(1)|0</DataType>
+    </column>
+    <column id="29" parent="8" name="exchangeName">
+      <Position>6</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="30" parent="8" name="delayAmount">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="31" parent="8" name="spot">
+      <Position>8</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <column id="32" parent="8" name="spotTime">
+      <Position>9</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="33" parent="8" name="isTradingSuspended">
+      <Position>10</Position>
+      <DataType>binary(1)|0</DataType>
+    </column>
+    <column id="34" parent="8" name="quotedCurrencySymbol">
+      <Position>11</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="35" parent="8" name="spotAge">
+      <Position>12</Position>
+      <DataType>bigint(20)|0</DataType>
+    </column>
+    <column id="36" parent="8" name="market">
+      <Position>13</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="37" parent="8" name="submarket">
+      <Position>14</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="38" parent="8" name="pip">
+      <Position>15</Position>
+      <DataType>double|0</DataType>
+    </column>
+    <index id="39" parent="8" name="binary_fk_stockId">
+      <ColNames>stockId</ColNames>
+    </index>
+    <index id="40" parent="8" name="id_UNIQUE">
+      <ColNames>stockId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="41" parent="8" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="42" parent="8" name="id_UNIQUE">
+      <ColNames>stockId</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="43" parent="8" name="binary_fk_stockId">
+      <ColNames>stockId</ColNames>
+      <RefSchemaName>stocks</RefSchemaName>
+      <RefTableName>stocks</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>no-action</OnUpdate>
+      <OnDelete>no-action</OnDelete>
+    </foreign-key>
+    <column id="44" parent="9" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="45" parent="9" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="46" parent="9" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="47" parent="9" name="name_UNIQUE">
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="48" parent="9" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="49" parent="9" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="50" parent="9" name="name_UNIQUE">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="51" parent="10" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="52" parent="10" name="stockId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="10" name="stockProvider">
+      <Position>3</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="10" name="symbol">
+      <Position>4</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <index id="55" parent="10" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="56" parent="10" name="stockProvider_UNIQUE">
+      <ColNames>stockProvider
+symbol</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="57" parent="10" name="symbols_fk_stockId_idx">
+      <ColNames>stockId</ColNames>
+    </index>
+    <key id="58" parent="10" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="59" parent="10" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <key id="60" parent="10" name="stockProvider_UNIQUE">
+      <ColNames>stockProvider
+symbol</ColNames>
+      <UnderlyingIndexName>stockProvider_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="61" parent="10" name="symbols_fk_stockId">
+      <ColNames>stockId</ColNames>
+      <RefSchemaName>stocks</RefSchemaName>
+      <RefTableName>stocks</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>no-action</OnUpdate>
+      <OnDelete>no-action</OnDelete>
+    </foreign-key>
+  </database-model>
+</dataSource>
