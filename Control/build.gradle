@@ -1,0 +1,67 @@
+import com.moowork.gradle.node.task.NodeTask
+
+group 'StockNNBot'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: "com.moowork.node"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile project(':Model')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+    }
+}
+
+node {
+    version = '5.8.0'
+    npmVersion = '3.8.0'
+    download = true
+    // distBaseUrl = Custom artifactory location here.
+}
+
+war {
+    baseName = 'webpack-gradle'
+    version = '0.0.1-SNAPSHOT'
+}
+
+configurations {
+    providedRuntime
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+    def osName = System.getProperty("os.name").toLowerCase();
+    if (osName.contains("windows")) {
+        script = project.file('node_modules/webpack/bin/webpack.js')
+    } else {
+        script = project.file('node_modules/.bin/webpack')
+    }
+}
+
+processResources.dependsOn 'webpack'
+
+clean.delete << file('node_modules')
+clean.delete << file('src/main/webapp/dist')
+
+

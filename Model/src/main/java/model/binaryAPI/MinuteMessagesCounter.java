@@ -1,6 +1,6 @@
 package model.binaryAPI;
 
-public class MinuteMessageCounter implements IMessagesCounter {
+public class MinuteMessagesCounter implements IMessagesCounter {
 	
 	private final Integer messagesLimit = 240;
 	
