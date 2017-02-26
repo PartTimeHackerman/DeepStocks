@@ -89,6 +89,8 @@ subprojects {
 
         //compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.6.Final'
 
+        // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+        compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     }
 }
 

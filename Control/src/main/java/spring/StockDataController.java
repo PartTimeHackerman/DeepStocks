@@ -1,14 +1,6 @@
 package spring;
 
-import model.StocksLoader;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import utils.KryoSerializer;
-
-import java.util.Collection;
 
 //@Component
 //@RestController

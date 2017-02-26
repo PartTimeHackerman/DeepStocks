@@ -1,6 +1,6 @@
 package spring;
 
-import data.StockData;
+import model.data.Stock;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RESTController {
 	
 	@RequestMapping("/stock")
-	public StockData index() {
-		return new StockData("TEST");
+	public Stock index() {
+		return new Stock("TEST");
 	}
 	
 }

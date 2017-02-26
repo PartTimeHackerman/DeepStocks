@@ -1,55 +1,63 @@
 package spring;
 
-import binaryAPI.commands.active_symbols.ActiveSymbolsSend;
-import binaryAPI.commands.ticks_history.TicksHistorySend;
-import connection.Packet;
-import connection.PacketStream;
-import connection.Request;
-import data.StockData;
-import jdbc.dao.StockDataDAO;
-import jdbc.dao.StockDataDAOImpl;
-import model.BinaryCandlesGather;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.StatelessSession;
-import org.hibernate.Transaction;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.jpa.HibernateEntityManagerFactory;
+import model.binaryAPI.BinaryAPI;
+import model.binaryAPI.commands.active_symbols.ActiveSymbolsSend;
+import model.binaryAPI.commands.authorize.Authorize;
+import model.binaryAPI.commands.authorize.AuthorizeSend;
+import model.binaryAPI.commands.ticks_history.TicksHistorySend;
+import model.connection.PacketSender;
+import model.dataUpdater.CandlesUpdaterDB;
+import model.dataUpdater.StocksUpdater;
+import model.connection.ReceivedPacketsStream;
+import model.data.StockRepo;
+import model.jdbc.dao.*;
+import model.packetHandler.PacketManager;
+import model.packetHandler.TicksHandler;
+import model.packetHandler.TicksHistoryHandler;
+import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
-import packetHandler.ActiveSymbolsHandler;
-import packetHandler.TicksHistoryHandler;
-import utils.MainLogger;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.FlushModeType;
-import javax.persistence.Persistence;
-import java.util.ArrayList;
-import java.util.List;
 
-@SpringBootApplication(scanBasePackages = {"data"})
-@EntityScan({"binaryAPI", "jdbc", "spring", "data"})
-@EnableJpaRepositories({"jdbc", "spring", "data"})
-@ComponentScan({"jdbc", "spring", "data"})
+@SpringBootApplication(scanBasePackages = {"model.data"})
+@EntityScan({"model.*", "spring"})
+@EnableJpaRepositories({"model.*", "spring"})
+@ComponentScan({"model.*","model", "spring"})
+@Transactional
 public class Application implements CommandLineRunner {
 	
 	@Autowired
-	private StockDataDAO stockDataDAO;
+	private StockDAO stockDataDAO;
 	
 	@Autowired
-	private StockDataDAOImpl stockDataDAOimpl;
+	private StockRepo stockRepo;
 	
+	@Autowired
+	private ReceivedPacketsStream receivedPacketsStream;
+	
+	@Autowired
+	private BinaryDataDAO binaryDataDAO;
+	
+	@Autowired
+	private StocksUpdater stocksUpdater;
+	
+	@Autowired
+	private CandleDAOImpl candleDAO;
+	
+	@Autowired
+	private CandlesUpdaterDB candlesUpdaterDB;
+	
+	@Autowired
+	private PacketManager packetManager;
+	
+	@Autowired
+	private PacketSender packetSender;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -57,28 +65,49 @@ public class Application implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		//StockData stock = stockDataDAO.findOne(10);
-		//StockData test = stockDataFacadeDAO.findById(1);
-		PacketStream packetStream = new PacketStream();
-		List<StockData> stocks = new ArrayList<>();
-		packetStream.addHandler(new TicksHistoryHandler(stocks));
-		Request request = new Request();
-		ActiveSymbolsHandler activeSymbolsHandler = new ActiveSymbolsHandler(stocks);
-		activeSymbolsHandler.handle(request.sendAndGet(new Packet(new ActiveSymbolsSend())));
-		BinaryCandlesGather binaryCandlesGather = new BinaryCandlesGather(request);
+		receivedPacketsStream
+				//.addHandler(new ActiveSymbolsHandler(stockRepo.getStocks()))
+				.addHandler(new TicksHandler(stockRepo.getStocks()))
+				.addHandler(new TicksHistoryHandler(stockRepo.getStocks()));
 		
-		StockData stock = stocks.get(0);
-		//binaryCandlesGather.getCandlesT(stock, 1451606400L, System.currentTimeMillis());
-		binaryCandlesGather.getCandlesT(stock, 1486743960L, 1486743970000L);
+		BinaryAPI binaryAPI2 = new BinaryAPI(packetManager,"162.243.122.37", "8080");
 		
-		StockData stock2 = stockDataDAOimpl.load(1170355226L);
-		stock.getBinaryData().setExchangeName("Test");
-		stock2.setBinaryData(stock.getBinaryData());
-		stockDataDAOimpl.save(stock2);
+		PacketSender packetSender2 = new PacketSender(binaryAPI2);
 		
-		MainLogger.log().info("Done!");
+		TicksHistorySend ticksHistory = new TicksHistorySend();
+		ticksHistory.setTicksHistory("AEX");
+		ticksHistory.setStart(1488116600L);
+		ticksHistory.setEnd(1488116600L+"");
+		ticksHistory.setCount(1);
+		ticksHistory.setGranularity(60);
+		ticksHistory.setStyle(TicksHistorySend.Style.CANDLES);
 		
-		System.exit(0);
+		for (int i = 0; i < 250; i++) {
+			MainLogger.log().info("sender one " + i);
+			packetSender.sendAndGet(ticksHistory);
+		}
+		
+		MainLogger.log().info("sender two!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		for (int i = 0; i < 250; i++) {
+			MainLogger.log().info("sender two " + i);
+			packetSender2.sendAndGet(ticksHistory);
+		}
+		
+		stockRepo.findAll();
+		
+		
+		//stockRepo.getStocks().forEach(stock -> MainLogger.log().info(stock.getStockCandles().size()));
+		
+		stocksUpdater.updateStocks(stockRepo.getStocks());
+		
+		candlesUpdaterDB.updateStocks(stockRepo.getStocks());
+		
+		stockDataDAO.save(stockRepo.getStocks());
+		
+		MainLogger.log().info("Done!xD");
+		//stockDataDAO.save(stock);
+		//System.exit(0);
 		
 	}
 	

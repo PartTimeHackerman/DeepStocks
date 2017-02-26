@@ -1,9 +1,9 @@
 package model;
 
-import data.StockData;
-import utils.ISerializer;
-import utils.MainPool;
-import utils.Serializer;
+import model.data.Stock;
+import model.utils.ISerializer;
+import model.utils.MainPool;
+import model.utils.Serializer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
+@Deprecated
 public class StocksLoader extends Observable {
 	
 	private Serializer serializer;
@@ -29,25 +30,25 @@ public class StocksLoader extends Observable {
 		serializer = new Serializer(dataSerializer);
 	}
 	
-	public List<StockData> loadStocksData() {
+	public List<Stock> loadStocksData() {
 		return MainPool.getInstance().sendTask(() -> loadStocksData(defaultPath), false);
 	}
 	
-	public List<StockData> loadStocksData(String path) {
-		List<StockData> stocks = new ArrayList<>();
+	public List<Stock> loadStocksData(String path) {
+		List<Stock> stocks = new ArrayList<>();
 		createDir(path);
 		Collection<File> files = FileUtils.listFiles(new File(path), new WildcardFileFilter("*.ser"), null);
 		total = files.size();
 		done = 0;
-		files.forEach(file -> {
-			stocks.add(loadStock(path, file));
-		});
+		files.forEach(file ->
+							  stocks.add(loadStock(path, file))
+					 );
 		return stocks;
 	}
 	
-	private StockData loadStock(String path, File file) {
+	private Stock loadStock(String path, File file) {
 		currentStock = file.getName();
-		StockData stock = serializer.deserialize(StockData.class, path, file.getName());
+		Stock stock = serializer.deserialize(Stock.class, path, file.getName());
 		done++;
 		System.out.println(done + currentStock);
 		setChanged();
@@ -55,19 +56,19 @@ public class StocksLoader extends Observable {
 		return stock;
 	}
 	
-	public void saveStocksData(List<StockData> stocksData) {
+	public void saveStocksData(List<Stock> stocksData) {
 		saveStocksData(stocksData, defaultPath);
 	}
 	
-	public void saveStocksData(List<StockData> stocksData, String path) {
+	public void saveStocksData(List<Stock> stocksData, String path) {
 		total = stocksData.size();
 		done = 0;
-		for (StockData stock : stocksData) {
+		for (Stock stock : stocksData) {
 			saveStock(path, stock);
 		}
 	}
 	
-	private void saveStock(String path, StockData stock) {
+	private void saveStock(String path, Stock stock) {
 		currentStock = stock.getName();
 		serializer.serialize(stock, path, stock.getName().replace("/", "_"));
 		done++;

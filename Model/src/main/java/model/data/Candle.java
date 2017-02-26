@@ -1,0 +1,107 @@
+
+package model.data;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import lombok.*;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+
+@Data
+@ToString(exclude = "stock")
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "candles")
+@IdClass(Candle.CandlePK.class)
+public class Candle implements Serializable, Comparable<Candle>
+{
+    
+    @EmbeddedId
+    private CandlePK candlePK = new CandlePK();
+    
+    @Column(name = "stockId", insertable = false, updatable = false)
+    private Long stockId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "stockId")
+    private Stock stock;
+    
+    /**
+     * It is an epoch value
+     * 
+     */
+    @Column(name = "epoch", insertable = false, updatable = false)
+    @SerializedName("epoch")
+    @Expose
+    private Long epoch;
+    
+    /**
+     * It is the open price value for the given time
+     * 
+     */
+    @SerializedName("open")
+    @Expose
+    private Double open;
+    
+    /**
+     * It is the high price value for the given time
+     * 
+     */
+    @SerializedName("high")
+    @Expose
+    private Double high;
+    
+    /**
+     * It is the low price value for the given time
+     * 
+     */
+    @SerializedName("low")
+    @Expose
+    private Double low;
+    
+    /**
+     * It is the close price value for the given time
+     * 
+     */
+    @SerializedName("close")
+    @Expose
+    private Double close;
+    
+    private final static long serialVersionUID = -8683231578361442030L;
+    
+    @SerializedName("volume")
+    @Expose
+    private Integer volume;
+    
+    public void setStock(Stock stock){
+        this.stock = stock;
+        setStockId(stock.getId());
+    }
+    
+    @Override
+    public int compareTo(Candle o) {
+        return (int) (getEpoch() - o.getEpoch());
+    }
+    
+    @Embeddable
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @EqualsAndHashCode
+    public static class CandlePK implements Serializable {
+    
+        @Column(name = "stockId", insertable = false, updatable = false)
+        private Long stockId;
+        
+        @Column(name = "epoch", insertable = false, updatable = false)
+        private Long epoch;
+    }
+}
