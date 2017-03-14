@@ -1,9 +1,7 @@
 package spring;
 
+import com.google.gson.Gson;
 import model.binaryAPI.BinaryAPI;
-import model.binaryAPI.commands.active_symbols.ActiveSymbolsSend;
-import model.binaryAPI.commands.authorize.Authorize;
-import model.binaryAPI.commands.authorize.AuthorizeSend;
 import model.binaryAPI.commands.ticks_history.TicksHistorySend;
 import model.connection.PacketSender;
 import model.dataUpdater.CandlesUpdaterDB;
@@ -11,7 +9,7 @@ import model.dataUpdater.StocksUpdater;
 import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
 import model.jdbc.dao.*;
-import model.packetHandler.PacketManager;
+import model.packetHandler.BinaryPacketManager;
 import model.packetHandler.TicksHandler;
 import model.packetHandler.TicksHistoryHandler;
 import model.utils.MainLogger;
@@ -23,7 +21,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @SpringBootApplication(scanBasePackages = {"model.data"})
 @EntityScan({"model.*", "spring"})
@@ -54,7 +51,7 @@ public class Application implements CommandLineRunner {
 	private CandlesUpdaterDB candlesUpdaterDB;
 	
 	@Autowired
-	private PacketManager packetManager;
+	private BinaryPacketManager packetManager;
 	
 	@Autowired
 	private PacketSender packetSender;
@@ -70,9 +67,10 @@ public class Application implements CommandLineRunner {
 				.addHandler(new TicksHandler(stockRepo.getStocks()))
 				.addHandler(new TicksHistoryHandler(stockRepo.getStocks()));
 		
-		BinaryAPI binaryAPI2 = new BinaryAPI(packetManager,"162.243.122.37", "8080");
+		Gson gson = new Gson();
+		BinaryAPI binaryAPI2 = new BinaryAPI(packetManager, gson, "127.0.0.1", "80");
 		
-		PacketSender packetSender2 = new PacketSender(binaryAPI2);
+		PacketSender packetSender2 = new PacketSender(new BinaryPacketManager(receivedPacketsStream));
 		
 		TicksHistorySend ticksHistory = new TicksHistorySend();
 		ticksHistory.setTicksHistory("AEX");

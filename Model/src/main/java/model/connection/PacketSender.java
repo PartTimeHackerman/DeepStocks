@@ -1,22 +1,16 @@
 package model.connection;
 
-import model.binaryAPI.BinaryAPI;
 import model.binaryAPI.BinaryMessage;
-import model.binaryAPI.commands.authorize.AuthorizeSend;
 import model.data.StockProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PacketSender {
 	
-	private final BinaryAPI binaryAPI;
+	private IPacketManager binaryPacketManager;
 	
-	@Autowired
-	public PacketSender(BinaryAPI binaryAPI){
-		this.binaryAPI = binaryAPI;
-		
-		send(new Packet(new AuthorizeSend(BinaryAPI.token, null, null, null)));
+	public PacketSender(IPacketManager binaryPacketManager){
+		this.binaryPacketManager = binaryPacketManager;
 	}
 	
 	public void send(Message message){
@@ -28,7 +22,7 @@ public class PacketSender {
 		
 		switch (provider){
 			case BINARY:
-				binaryAPI.send(packet);
+				 binaryPacketManager.send(packet);
 		}
 	}
 	

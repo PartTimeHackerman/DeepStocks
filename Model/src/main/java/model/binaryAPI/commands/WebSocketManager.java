@@ -9,9 +9,12 @@ public class WebSocketManager {
 	
 	private IMessagesCounter messageCounter;
 	
-	public WebSocketManager(WebsocketClient websocketClient, IMessagesCounter messageCounter){
+	private Access access;
+	
+	public WebSocketManager(WebsocketClient websocketClient, IMessagesCounter messageCounter, Access access){
 		this.websocketClient = websocketClient;
 		this.messageCounter = messageCounter;
+		this.access = access;
 	}
 	
 	public boolean canSend(){
@@ -24,6 +27,15 @@ public class WebSocketManager {
 	
 	public IMessagesCounter getMessageCounter() {
 		return messageCounter;
+	}
+	
+	public Access getAccess() {
+		return access;
+	}
+	
+	public enum Access{
+		USER,
+		PROXY
 	}
 	
 }
