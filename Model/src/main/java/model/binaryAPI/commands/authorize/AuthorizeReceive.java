@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Authorization Response
  * <p>
- * A message containing account information for the holder of that token
+ * A message containing account information for the holder of that userToken
  * 
  */
 public class AuthorizeReceive implements Serializable, BinaryMessage
@@ -23,7 +23,7 @@ public class AuthorizeReceive implements Serializable, BinaryMessage
     /**
      * Authorization Response
      * <p>
-     * Account information for the holder of the token
+     * Account information for the holder of the userToken
      * 
      */
     @SerializedName("authorize")
@@ -81,7 +81,7 @@ public class AuthorizeReceive implements Serializable, BinaryMessage
     /**
      * Authorization Response
      * <p>
-     * Account information for the holder of the token
+     * Account information for the holder of the userToken
      * 
      */
     public Authorize getAuthorize() {
@@ -91,7 +91,7 @@ public class AuthorizeReceive implements Serializable, BinaryMessage
     /**
      * Authorization Response
      * <p>
-     * Account information for the holder of the token
+     * Account information for the holder of the userToken
      * 
      */
     public void setAuthorize(Authorize authorize) {

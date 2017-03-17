@@ -62,8 +62,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            exclude '**//*commandsUnused*//**'
-            exclude '**//*view*//**'
+            exclude '**//*excluded*//**'
         }
     }
 }

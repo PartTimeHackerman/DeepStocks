@@ -4,6 +4,7 @@ package model.binaryAPI.commands.ticks;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import model.binaryAPI.BinaryMessage;
+import model.connection.UpdateMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +18,7 @@ import java.io.Serializable;
  * Initiate a continuous stream of spot price updates for a given symbol
  * 
  */
-public class TicksSend implements Serializable, BinaryMessage
+public class TicksSend implements Serializable, BinaryMessage, UpdateMessage
 {
 
     /**

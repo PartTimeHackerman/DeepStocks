@@ -1,4 +1,4 @@
-package model.binaryAPI;
+package model.connection.websocket;
 
 import model.utils.MainLogger;
 import org.glassfish.tyrus.client.ClientManager;

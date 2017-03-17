@@ -4,6 +4,7 @@ package model.binaryAPI.commands.ticks_history;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import model.binaryAPI.BinaryMessage;
+import model.connection.UpdateMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,7 +20,7 @@ import java.util.Map;
  * Get historic tick data for a given symbol name
  * 
  */
-public class TicksHistorySend implements Serializable, BinaryMessage
+public class TicksHistorySend implements Serializable, BinaryMessage, UpdateMessage
 {
 
     /**

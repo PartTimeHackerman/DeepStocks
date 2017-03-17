@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PacketSender {
 	
-	private IPacketManager binaryPacketManager;
+	private IProviderSender binaryPacketSender;
 	
-	public PacketSender(IPacketManager binaryPacketManager){
-		this.binaryPacketManager = binaryPacketManager;
+	public PacketSender(IProviderSender binaryPacketSender){
+		this.binaryPacketSender = binaryPacketSender;
 	}
 	
 	public void send(Message message){
@@ -22,7 +22,7 @@ public class PacketSender {
 		
 		switch (provider){
 			case BINARY:
-				 binaryPacketManager.send(packet);
+				 binaryPacketSender.send(packet);
 		}
 	}
 	

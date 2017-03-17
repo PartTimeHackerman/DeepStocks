@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Authorization Response
  * <p>
- * Account information for the holder of the token
+ * Account information for the holder of the userToken
  * 
  */
 public class Authorize implements Serializable
@@ -43,7 +43,7 @@ public class Authorize implements Serializable
     @Expose
     private Double balance;
     /**
-     * The account ID that the token was issued for
+     * The account ID that the userToken was issued for
      * 
      */
     @SerializedName("loginid")
@@ -85,7 +85,7 @@ public class Authorize implements Serializable
     @Expose
     private String fullname;
     /**
-     * provide scope of current token like read, trade etc
+     * provide scope of current userToken like read, trade etc
      * 
      */
     @SerializedName("scopes")
@@ -176,7 +176,7 @@ public class Authorize implements Serializable
     }
 
     /**
-     * The account ID that the token was issued for
+     * The account ID that the userToken was issued for
      * 
      */
     public String getLoginid() {
@@ -184,7 +184,7 @@ public class Authorize implements Serializable
     }
 
     /**
-     * The account ID that the token was issued for
+     * The account ID that the userToken was issued for
      * 
      */
     public void setLoginid(String loginid) {
@@ -272,7 +272,7 @@ public class Authorize implements Serializable
     }
 
     /**
-     * provide scope of current token like read, trade etc
+     * provide scope of current userToken like read, trade etc
      * 
      */
     public List<String> getScopes() {
@@ -280,7 +280,7 @@ public class Authorize implements Serializable
     }
 
     /**
-     * provide scope of current token like read, trade etc
+     * provide scope of current userToken like read, trade etc
      * 
      */
     public void setScopes(List<String> scopes) {

@@ -11,10 +11,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../Model/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../../Model/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../Model/build" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/model/binaryAPI/commandsUnused" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/model/jdbc/daoOLD" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/model/jdbc/mapper" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/model/view" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/excluded" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/excluded/commandsUnused" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/excluded/daoOLD" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/excluded/mapper" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/java/excluded/view" />
       <excludeFolder url="file://$MODULE_DIR$/../../../Model/src/main/resources/view" />
     </content>
     <orderEntry type="jdk" jdkName="1.8 (1)" jdkType="JavaSDK" />

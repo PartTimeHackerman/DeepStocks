@@ -1,71 +1,57 @@
 package model.binaryAPI;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import model.binaryAPI.commands.WebSocketManager;
 import model.binaryAPI.commands.authorize.AuthorizeSend;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import model.packetHandler.BinaryPacketManager;
+import model.connection.ConnectionType;
+import model.connection.IdGenerator;
 import model.connection.Message;
 import model.connection.Packet;
+import model.connection.websocket.WebsocketClient;
+import model.connection.websocket.WebsocketFactory;
+import model.utils.GsonService;
 import model.utils.MainLogger;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.net.URI;
-import java.util.concurrent.atomic.AtomicInteger;
 
-@Service
+@Component
 public class BinaryAPI {
 	
-	public final URI apiUri = URI.create("wss://ws.binaryws.com/websockets/v3?app_id=2663");
-	
-	private WebsocketClient client;
-	
-	private WebSocketManager webSocketManager;
-	
-	public static final String token = "QuZpbffDx7DUipF";
-	
-	private Gson gson;
-	
-	private final BinaryPacketManager packetManager;
-	
-	private AtomicInteger ids = new AtomicInteger(0);
+	private static final URI websocketURI = URI.create("wss://ws.binaryws.com/websockets/v3?app_id=2663");
+	private static final String userToken = "QuZpbffDx7DUipF";
+	private static final Gson gson = GsonService.getGson();
 	
 	@Autowired
-	public BinaryAPI(BinaryPacketManager packetManager, Gson gson) {
-		this(packetManager, gson, null, null);
+	private BinaryPacketSender binaryPacketSender;
+	
+	@Autowired
+	private WebsocketFactory websocketFactory;
+	
+	private ConnectionType connectionType;
+	private WebsocketClient websocketClient;
+	private IMessagesCounter messageCounter;
+	
+	public BinaryAPI() {
+		this(ConnectionType.DIRECT);
 	}
 	
-	public BinaryAPI(BinaryPacketManager packetManager, Gson gson, String ip, String port) {
-		this.packetManager = packetManager;
-		this.gson = gson;
-		client = ip == null ? new WebsocketClient(apiUri) : new WebsocketClient(apiUri, ip, port);
-		webSocketManager = new WebSocketManager(client, new MinuteMessagesCounter(), ip == null ? WebSocketManager.Access.USER : WebSocketManager.Access.PROXY);
-		client.addMessageHandler(this::onMessage);
+	public BinaryAPI(ConnectionType connectionType) {
+		this.connectionType = connectionType;
 		
-		if(webSocketManager.getAccess() == WebSocketManager.Access.USER)
-			send(new Packet(new AuthorizeSend(token, null, null, null)));
+		websocketClient = websocketFactory.getWebsocketClient(websocketURI, connectionType);
+		websocketClient.addMessageHandler(this::onMessage);
 		
+		messageCounter = new MinuteMessagesCounter();
+		
+		if(connectionType == ConnectionType.DIRECT)
+			send(new Packet(new AuthorizeSend(userToken, null, null, null)));
 	}
 	
-	public void onMessage(String json) {
-		try {
-			Integer id = getReceivedId(json);
-			Packet packet = packetManager.getFiltered(m ->
-															  ((BinaryMessage) m.getSender()).getReqId().equals(id));
-			packet.setReceiver(gson.fromJson(json, packet.getTo()));
-			packetManager.addToDone(packet);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void send(Packet packet) {
 		Message message = packet.getSender();
+		((BinaryMessage) message).setReqId(IdGenerator.getIdInteger());
 		
-		((BinaryMessage) message).setReqId(ids.getAndAdd(1));
 		try {
 			packet.setTo(getReceiverClass(packet));
 		} catch (Exception e) {
@@ -74,18 +60,7 @@ public class BinaryAPI {
 		}
 		
 		String json = gson.toJson(message);
-		packetManager.addToPending(packet);
-		client.sendMessage(json);
-	}
-	
-	public String toPrettyFormat(String jsonString) {
-		JsonParser parser = new JsonParser();
-		JsonObject json = parser.parse(jsonString).getAsJsonObject();
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String prettyJson = gson.toJson(json);
-		
-		return prettyJson;
+		websocketClient.sendMessage(json);
 	}
 	
 	public Class getReceiverClass(Packet packet) throws Exception {
@@ -96,25 +71,39 @@ public class BinaryAPI {
 						.replace("Send", "Receive"));
 	}
 	
+	private void onMessage(String json) {
+		try {
+			Integer id = getReceivedId(json);
+			Packet packet = binaryPacketSender.getFiltered(m ->
+															  ((BinaryMessage) m.getSender()).getReqId().equals(id));
+			packet.setReceiver(gson.fromJson(json, packet.getTo()));
+			binaryPacketSender.addToDone(packet);
+		} catch (Exception e) {
+			MainLogger.log().error(e);
+		}
+	}
+	
 	private Integer getReceivedId(String json) throws Exception {
 		Response response = gson.fromJson(json, Response.class);
 		if (response.error != null) {
 			MainLogger.log().error("Error: {}", response.error.code);
 			switch (response.error.code) {
 				case "AuthorizationRequired":
-					throw new Exception("AuthorizationRequired");
+					throw new Exception("Authorization required");
 			}
 		}
-		Integer id = response.req_id;
-		return id;
+		return response.req_id;
 	}
 	
-	public WebSocketManager getWebSocketManager() {
-		return webSocketManager;
+	public boolean canSend(){
+		return messageCounter.getRemained() > 1;
+	}
+	
+	public ConnectionType getConnectionType() {
+		return connectionType;
 	}
 	
 	private class Response {
-		
 		ResErr error;
 		public int req_id;
 		

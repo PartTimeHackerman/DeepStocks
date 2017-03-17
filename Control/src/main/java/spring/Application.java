@@ -9,19 +9,21 @@ import model.dataUpdater.StocksUpdater;
 import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
 import model.jdbc.dao.*;
-import model.packetHandler.BinaryPacketManager;
+import model.binaryAPI.BinaryPacketSender;
 import model.packetHandler.TicksHandler;
 import model.packetHandler.TicksHistoryHandler;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Transactional;
 
+@EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages = {"model.data"})
 @EntityScan({"model.*", "spring"})
 @EnableJpaRepositories({"model.*", "spring"})
@@ -51,7 +53,7 @@ public class Application implements CommandLineRunner {
 	private CandlesUpdaterDB candlesUpdaterDB;
 	
 	@Autowired
-	private BinaryPacketManager packetManager;
+	private BinaryPacketSender packetManager;
 	
 	@Autowired
 	private PacketSender packetSender;
@@ -62,6 +64,8 @@ public class Application implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
+		
+		
 		receivedPacketsStream
 				//.addHandler(new ActiveSymbolsHandler(stockRepo.getStocks()))
 				.addHandler(new TicksHandler(stockRepo.getStocks()))
@@ -70,7 +74,7 @@ public class Application implements CommandLineRunner {
 		Gson gson = new Gson();
 		BinaryAPI binaryAPI2 = new BinaryAPI(packetManager, gson, "127.0.0.1", "80");
 		
-		PacketSender packetSender2 = new PacketSender(new BinaryPacketManager(receivedPacketsStream));
+		PacketSender packetSender2 = new PacketSender(new BinaryPacketSender(receivedPacketsStream));
 		
 		TicksHistorySend ticksHistory = new TicksHistorySend();
 		ticksHistory.setTicksHistory("AEX");

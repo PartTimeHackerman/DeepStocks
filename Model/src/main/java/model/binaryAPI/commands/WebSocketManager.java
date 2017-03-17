@@ -1,7 +1,8 @@
 package model.binaryAPI.commands;
 
 import model.binaryAPI.IMessagesCounter;
-import model.binaryAPI.WebsocketClient;
+import model.connection.websocket.WebsocketClient;
+import model.connection.ConnectionType;
 
 public class WebSocketManager {
 	
@@ -9,12 +10,12 @@ public class WebSocketManager {
 	
 	private IMessagesCounter messageCounter;
 	
-	private Access access;
+	private ConnectionType connectionType;
 	
-	public WebSocketManager(WebsocketClient websocketClient, IMessagesCounter messageCounter, Access access){
+	public WebSocketManager(WebsocketClient websocketClient, IMessagesCounter messageCounter, ConnectionType connectionType){
 		this.websocketClient = websocketClient;
 		this.messageCounter = messageCounter;
-		this.access = access;
+		this.connectionType = connectionType;
 	}
 	
 	public boolean canSend(){
@@ -29,13 +30,9 @@ public class WebSocketManager {
 		return messageCounter;
 	}
 	
-	public Access getAccess() {
-		return access;
+	public ConnectionType getConnectionType() {
+		return connectionType;
 	}
 	
-	public enum Access{
-		USER,
-		PROXY
-	}
 	
 }

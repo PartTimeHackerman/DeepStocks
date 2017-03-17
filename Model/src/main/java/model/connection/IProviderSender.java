@@ -1,6 +1,6 @@
 package model.connection;
 
-public interface IPacketManager {
+public interface IProviderSender {
 	
 	void send(Packet packet);
 	

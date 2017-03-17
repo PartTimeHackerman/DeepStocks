@@ -14,14 +14,14 @@ import java.io.Serializable;
 /**
  * Authorize Request
  * <p>
- * Authorize current WebSocket session to act on behalf of the owner of a given token. Must precede request thats needs to access client account, for example purchasing and selling contracts or viewing portfolio
+ * Authorize current WebSocket session to act on behalf of the owner of a given userToken. Must precede request thats needs to access client account, for example purchasing and selling contracts or viewing portfolio
  * 
  */
 public class AuthorizeSend implements Serializable, BinaryMessage
 {
 
     /**
-     * Authentication token. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
+     * Authentication userToken. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
      * 
      */
     @SerializedName("authorize")
@@ -73,7 +73,7 @@ public class AuthorizeSend implements Serializable, BinaryMessage
     }
 
     /**
-     * Authentication token. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
+     * Authentication userToken. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
      * 
      */
     public String getAuthorize() {
@@ -81,7 +81,7 @@ public class AuthorizeSend implements Serializable, BinaryMessage
     }
 
     /**
-     * Authentication token. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
+     * Authentication userToken. May be retrieved from https://www.binary.com/en/user/security/api_tokenws.html
      * 
      */
     public void setAuthorize(String authorize) {

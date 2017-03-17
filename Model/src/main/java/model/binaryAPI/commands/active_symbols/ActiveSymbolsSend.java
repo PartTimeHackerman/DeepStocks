@@ -4,6 +4,7 @@ package model.binaryAPI.commands.active_symbols;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import model.binaryAPI.BinaryMessage;
+import model.connection.UpdateMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +18,7 @@ import java.io.Serializable;
  * Retrieve a list of all active symbols (underlying markets upon which contracts are available for trading).
  * 
  */
-public class ActiveSymbolsSend implements Serializable, BinaryMessage
+public class ActiveSymbolsSend implements Serializable, BinaryMessage, UpdateMessage
 {
 
     /**

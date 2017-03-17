@@ -8,6 +8,16 @@ apply plugin: 'org.springframework.boot'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+bootRepackage.enabled = false
+
+springBoot {
+    mainClass = "spring.Application"
+}
+
+bootRepackage {
+    mainClass = "spring.Application"
+}
+
 buildscript {
     repositories {
         mavenCentral()

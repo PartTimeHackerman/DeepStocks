@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "symbols")
 @Data
+@EqualsAndHashCode
 @ToString(exclude = "stock")
 public class Symbol implements Serializable{
 	

@@ -21,13 +21,13 @@
     "less": "latest",
     "less-loader": "latest",
     "style-loader": "latest",
-    "url-loader": "latest"
+    "url-loader": "latest",
+    "webpack": "2.1.0-beta.22"
   },
   "dependencies": {
     "react": "latest",
     "react-dom": "latest",
     "rest": "latest",
-    "webpack": "latest",
     "react-google-charts": "latest",
     "require":"latest"
   }
