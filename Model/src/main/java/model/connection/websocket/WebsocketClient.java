@@ -29,17 +29,14 @@ public class WebsocketClient {
 		}
 	}
 	
-	public WebsocketClient(URI uri, String ip, String port){
-		try {
+	public WebsocketClient(URI uri, String ip, String port) throws Exception {
 			client = ClientManager.createClient();
 			client.getProperties().put(ClientProperties.PROXY_URI, "http://" + ip + ":" + port);
 			client.setDefaultMaxTextMessageBufferSize(3276800);
 			client.setDefaultMaxBinaryMessageBufferSize(3276800);
 			client.setDefaultMaxSessionIdleTimeout(0);
 			client.connectToServer(this, uri);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		
 	}
 	
 	/**

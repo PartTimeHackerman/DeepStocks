@@ -1,15 +1,13 @@
 
 package model.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
-import org.springframework.stereotype.Component;
+import org.springframework.cache.annotation.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 @Data
@@ -20,6 +18,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "candles")
 @IdClass(Candle.CandlePK.class)
+@JsonIgnoreProperties(value = {"candlePK","stockId", "stock"}, ignoreUnknown = true)
 public class Candle implements Serializable, Comparable<Candle>
 {
     

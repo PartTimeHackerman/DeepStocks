@@ -24,14 +24,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+        classpath 'org.springframework:springloaded:1.2.6.RELEASE'
     }
 }
 
 dependencies {
     //compile project(':Model')
     compile project(':Control')
-
 }
 
 repositories {
@@ -55,7 +55,7 @@ subprojects {
         jcenter()
     }
 
-    ext['hibernate.version'] = '5.2.6.Final'
+    ext['hibernate.version'] = '5.2.9.Final'
     dependencies {
 
         ////////////////////////// SPRING //////////////////////////
@@ -82,7 +82,9 @@ subprojects {
 
         //compile("com.h2database:h2")
 
-        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+        compile("org.springframework.boot:spring-boot-starter-data-jpa"){
+            //exclude group: 'org.hibernate', module: 'hibernate-core'
+        }
 
         compile("org.springframework:spring-jdbc")
 
@@ -91,25 +93,37 @@ subprojects {
         compile("org.springframework:spring-core")
 
         // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-        compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.5'
+        //compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.5'
 
         compile('org.springframework.boot:spring-boot-starter-jdbc')
 
-        runtime('mysql:mysql-connector-java')
+        //runtime('mysql:mysql-connector-java')
 
         //compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.6.Final'
 
         // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
         compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+
+        compile("org.springframework.boot:spring-boot-starter-cache")
+
+        // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+        compile group: 'com.zaxxer', name: 'HikariCP', version: '2.6.1'
+
+        // https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp
+        compile group: 'org.hibernate', name: 'hibernate-hikaricp', version: '5.2.9.Final'
+
+        // https://mvnrepository.com/artifact/com.hazelcast/hazelcast
+        compile group: 'com.hazelcast', name: 'hazelcast', version: '3.8'
+
+        // https://mvnrepository.com/artifact/com.hazelcast/hazelcast-hibernate5
+        compile group: 'com.hazelcast', name: 'hazelcast-hibernate5', version: '1.2'
     }
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
+/*idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
-    }
-}
+}*/
 

@@ -1,16 +1,20 @@
 package model.jdbc.dao;
 
 import model.data.Stock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.List;
 
 @Repository
-@Transactional
-public interface StockDAO extends CrudRepository<Stock, Integer> {
+public interface StockDAO extends CrudRepository<Stock, Long> {
 	
-	Stock findById(Long id);
+	Page<Stock> findAll(Pageable pageable);
 	
 	Stock findByName(String name);
 	

@@ -3,6 +3,7 @@ package model.factory;
 import model.data.Stock;
 import model.data.StockRepo;
 import model.data.Symbol;
+import model.jdbc.dao.CandleDAO;
 import model.jdbc.dao.StockDAO;
 import model.jdbc.dao.SymbolDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,14 @@ public class StockFactory {
 	
 	private final StockRepo stockRepo;
 	
+	private final CandleDAO candleDAO;
+	
 	@Autowired
-	public StockFactory(StockDAO stockDataDAO, SymbolDAO symbolDAO, StockRepo stockRepo) {
+	public StockFactory(StockDAO stockDataDAO, SymbolDAO symbolDAO, StockRepo stockRepo, CandleDAO candleDAO) {
 		this.stockDataDAO = stockDataDAO;
 		this.symbolDAO = symbolDAO;
 		this.stockRepo = stockRepo;
+		this.candleDAO = candleDAO;
 	}
 	
 	public Stock getByName(String name) {
@@ -30,6 +34,7 @@ public class StockFactory {
 		if (stock == null)
 			stock = new Stock(name);
 		
+		stock.setCandleDAO(candleDAO);
 		return stock;
 	}
 	

@@ -2,9 +2,9 @@ package model.binaryAPI;
 
 public class MinuteMessagesCounter implements IMessagesCounter {
 	
-	private final Integer messagesLimit = 240;
+	private final Integer messagesLimit;
 	
-	private final Integer timeLimitMillis = 60 * 1000;
+	private final Integer timeLimitMillis;
 	
 	private Integer sendMessages = 0;
 	
@@ -12,10 +12,19 @@ public class MinuteMessagesCounter implements IMessagesCounter {
 	
 	private Long lastTime = 0L;
 	
+	public MinuteMessagesCounter() {
+		this(240, 60 * 1000);
+	}
+	
+	public MinuteMessagesCounter(Integer messagesLimit, Integer timeLimitMillis){
+		this.messagesLimit = messagesLimit;
+		this.timeLimitMillis = timeLimitMillis;
+	}
+	
 	private void setTime() {
 		Long currentTime = System.currentTimeMillis();
 		if (lastTime != 0)
-			elapsedTime += (int) (lastTime - currentTime);
+			elapsedTime += (int) (currentTime - lastTime);
 		lastTime = System.currentTimeMillis();
 		
 		if (elapsedTime >= timeLimitMillis)
@@ -35,7 +44,7 @@ public class MinuteMessagesCounter implements IMessagesCounter {
 	}
 	
 	@Override
-	public Integer getRemained() {
+	public Integer getRemaining() {
 		setTime();
 		return messagesLimit - sendMessages;
 	}

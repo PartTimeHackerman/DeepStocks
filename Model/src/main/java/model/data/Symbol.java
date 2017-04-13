@@ -1,8 +1,11 @@
 package model.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import model.jdbc.resourceProcessor.ReverseResourceRelation;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -14,6 +17,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode
 @ToString(exclude = "stock")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Symbol implements Serializable{
 	
 	@Id
@@ -23,6 +27,8 @@ public class Symbol implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId
 	@JoinColumn(name = "stockId")
+	@JsonIgnore
+	@ReverseResourceRelation
 	private Stock stock;
 	
 	@Column(name = "provider")

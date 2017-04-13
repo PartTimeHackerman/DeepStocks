@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PacketSender {
 	
-	private IProviderSender binaryPacketSender;
+	private ProviderSender binaryPacketSender;
 	
-	public PacketSender(IProviderSender binaryPacketSender){
+	public PacketSender(ProviderSender binaryPacketSender){
 		this.binaryPacketSender = binaryPacketSender;
 	}
 	

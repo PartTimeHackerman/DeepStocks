@@ -16,4 +16,9 @@ public class CycleProxyProvider implements ProxyProvider {
 		proxies.add(proxy);
 		return proxy;
 	}
+	
+	@Override
+	public void addProxy(Proxy proxy) {
+		proxies.add(proxy);
+	}
 }

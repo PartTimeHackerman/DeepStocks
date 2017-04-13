@@ -6,5 +6,5 @@ public interface IMessagesCounter {
 	
 	void reset();
 	
-	Integer getRemained();
+	Integer getRemaining();
 }

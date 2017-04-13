@@ -10,44 +10,45 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Component
-public class BinaryPacketSender implements IProviderSender {
+public class BinaryPacketSender implements ProviderSender, ProviderReceiver {
 	
 	private final List<Packet> pendingMessages = new ArrayList<>();
 	
+	private final BinaryAPIFactory binaryAPIFactory;
 	private final ReceivedPacketsStream packetStream;
 	
 	private final List<BinaryAPI> apis = new ArrayList<>();
 	
 	@Autowired
-	public BinaryPacketSender(ReceivedPacketsStream packetStream) {
+	public BinaryPacketSender(BinaryAPIFactory binaryAPIFactory, ReceivedPacketsStream packetStream) {
+		this.binaryAPIFactory = binaryAPIFactory;
 		this.packetStream = packetStream;
-		addAPI(new BinaryAPI());
+		//addAPI(binaryAPIFactory.createDirectApi());
 	}
 	
 	@Override
 	public void send(Packet packet) {
+		ConnectionType connectionType = packet.getSender() instanceof UpdateMessage ? ConnectionType.PROXY : ConnectionType.DIRECT;
 		BinaryAPI api = apis.stream()
 				.filter(BinaryAPI::canSend)
 				.filter(binaryAPI ->
-								packet.getSender() instanceof UpdateMessage
-										? binaryAPI.getConnectionType() == ConnectionType.PROXY
-										: binaryAPI.getConnectionType() == ConnectionType.DIRECT)
+								binaryAPI.getConnectionType() == connectionType)
 				.findFirst()
 				.orElseGet(() -> {
-					BinaryAPI binaryAPI = new BinaryAPI(ConnectionType.PROXY);
+					BinaryAPI binaryAPI = binaryAPIFactory.createApiByConnectionType(connectionType);
 					addAPI(binaryAPI);
 					return binaryAPI;
 				});
 		
 		api.send(packet);
-		addToPending(packet);
 	}
 	
-	private void addToPending(Packet packet) {
+	public void addToPending(Packet packet) {
 		pendingMessages.add(packet);
 	}
 	
-	public void addToDone(Packet packet) {
+	@Override
+	public void receive(Packet packet) {
 		MainLogger.log().info("Received: {}", packet);
 		
 		pendingMessages.remove(packet);
@@ -73,4 +74,6 @@ public class BinaryPacketSender implements IProviderSender {
 			packet.notify();
 		}
 	}
+	
+	
 }

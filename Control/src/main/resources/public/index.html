@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stocks</title>
+    <link href="css/general.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+
+<body class="body">
+<div id="app">
+    <div class="menuContainer">
+        <ul class="menu-list w-list-unstyled">
+            <li class="menu-item">
+                <h1 class="menu-text">Stocks</h1>
+            </li>
+        </ul>
+    </div>
+    <div id="contentContainer">
+        <div id="stockListContainer" class="bordered">
+            <stocks-list></stocks-list>
+        </div>
+        <stock-container inline-template>
+            <div id="rightContent">
+                <div class="bordered" id="topContent">
+                    <stock-info :stock="stock"></stock-info>
+                </div>
+                <div class="bordered" id="bottomContent">
+                    <stock-chart :stock="stock"></stock-chart>
+                </div>
+            </div>
+        </stock-container>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="dist/bundle.js"></script>
+
+</body>
+
+
+</html>

@@ -1,12 +1,17 @@
-
 package model.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import model.jdbc.resourceProcessor.ReverseResourceRelation;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 @ToString(exclude = "stock")
 @Table(name = "sbinary")
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BinaryData implements Serializable {
 	
 	@Id
@@ -26,6 +32,8 @@ public class BinaryData implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId
 	@JoinColumn(name = "stockId")
+	@JsonIgnore
+	@ReverseResourceRelation
 	private Stock stock;
 	
 	/**

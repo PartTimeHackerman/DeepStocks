@@ -1,5 +1,7 @@
 import com.moowork.gradle.node.task.NodeTask
 
+import java.lang.reflect.Executable
+
 group 'StockNNBot'
 version '1.0'
 
@@ -14,8 +16,6 @@ repositories {
     mavenCentral()
     jcenter()
 }
-
-
 
 dependencies {
     compile project(':Model')
@@ -61,9 +61,23 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
     }
 }
 
+task webpackWatch(type: Exec) {
+    executable "sh"
+    args "-c", "webpack --watch & webpack-dev-server --progress --colors --inline --port 8081"
+
+    addShutdownHook {
+        executable "sh"
+        args "-c", "kill \$! &"
+        println("Killed webpack server ;_;")
+    }
+}
+
+//webpack --watch & webpack-dev-server --inline --hot --port 9090
+//webpack --watch
+
 processResources.dependsOn 'webpack'
 
 clean.delete << file('node_modules')
-clean.delete << file('src/main/webapp/dist')
+clean.delete << file('src/main/public/dist')
 
 

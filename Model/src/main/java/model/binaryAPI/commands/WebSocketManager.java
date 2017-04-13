@@ -19,7 +19,7 @@ public class WebSocketManager {
 	}
 	
 	public boolean canSend(){
-		return messageCounter.getRemained() > 1;
+		return messageCounter.getRemaining() > 1;
 	}
 	
 	public WebsocketClient getWebsocketClient() {

@@ -1,17 +1,21 @@
 package model.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import model.jdbc.dao.CandleDAO;
+import model.jdbc.resourceProcessor.ReverseResourceRelation;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,8 @@ import java.util.List;
 @EqualsAndHashCode(exclude = {"binaryData", "symbols", "stockCandles"})
 @ToString(exclude = {"binaryData", "stockCandles"})
 @Table(name = "stocks")
-public class Stock implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Stock implements Serializable{
 	
 	@Id
 	@SerializedName("id")
@@ -37,6 +42,8 @@ public class Stock implements Serializable {
 	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@SerializedName("binaryData")
 	@Expose
+	@JsonIgnore
+	@ReverseResourceRelation
 	private BinaryData binaryData;
 	
 	@OneToMany(mappedBy = "stock")
@@ -44,19 +51,26 @@ public class Stock implements Serializable {
 	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@SerializedName("symbols")
 	@Expose
+	@JsonIgnore
+	@ReverseResourceRelation
 	private List<Symbol> symbols;
 	
-	
-	@OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-	//@LazyCollection(LazyCollectionOption.FALSE)
-	@Cascade({org.hibernate.annotations.CascadeType.ALL})
-	@OrderBy("epoch")
-	@Where(clause = "DATE_PART('day', NOW() - to_timestamp(epoch)) <= 7")
+	@OneToMany(mappedBy = "stock")
 	@SerializedName("stockCandles")
 	@Expose
+	@JsonIgnore
+	@ReverseResourceRelation
 	private List<Candle> stockCandles;
 	
-	public Stock() {
+	@Transient
+	@JsonIgnore
+	private CandleDAO candleDAO;
+	
+	public Stock(CandleDAO candleDAO){
+		this.candleDAO = candleDAO;
+	}
+	
+	public Stock(){
 	}
 	
 	public Stock(String name) {
@@ -64,6 +78,31 @@ public class Stock implements Serializable {
 		setSymbols(new ArrayList<>());
 		setStockCandles(new ArrayList<>());
 	}
+	
+	
+	@OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
+	@LazyCollection(LazyCollectionOption.TRUE)
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
+	@OrderBy("epoch")
+	@BatchSize(size = 1000)
+	//@Where(clause= "DATE_PART('day', to_timestamp((SELECT max(c.epoch) FROM candles c)) - to_timestamp(epoch)) <= 7)")
+	//@Where(clause = "epoch in (SELECT epoch from candles order by epoch desc limit 1000)")
+	private List<Candle> getStockCandlesByAnnotations(){
+		return stockCandles;
+	}
+	
+	public List<Candle> getStockCandles(){
+		if(stockCandles != null)
+			return stockCandles;
+		
+		if(candleDAO == null)
+			return getStockCandlesByAnnotations();
+		
+		stockCandles = candleDAO.findTopLimitByStockidOrderByEpoch(id, 1440);
+		return stockCandles;
+	}
+	
+	
 	
 	public void setBinaryData(BinaryData binaryData) {
 		if (this.binaryData != null) {
@@ -85,6 +124,7 @@ public class Stock implements Serializable {
 		candle.setStock(this);
 		stockCandles.add(candle);
 	}
+	
 	
 	public String getName() {
 		return name;

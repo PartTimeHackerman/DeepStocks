@@ -36,9 +36,9 @@ dependencies {
     compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
 
     // https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-client
-    compile group: 'org.glassfish.tyrus', name: 'tyrus-client', version: '1.13'
+    compile group: 'org.glassfish.tyrus', name: 'tyrus-client', version: '1.13.1'
 
-    compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13'
+    compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13.1'
 
     // https://mvnrepository.com/artifact/org.jsonschema2pojo/jsonschema2pojo-core
     compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '0.4.29'
@@ -57,6 +57,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.yahoofinance-api/YahooFinanceAPI
     compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.5.0'
+
 }
 
 sourceSets {

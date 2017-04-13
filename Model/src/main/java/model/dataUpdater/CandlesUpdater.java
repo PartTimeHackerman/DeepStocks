@@ -19,14 +19,13 @@ public class CandlesUpdater implements ICandlesUpdater{
 	
 	@Override
 	public void updateStock(Stock stock) {
-		binaryCandlesGather.assocLatestCandles(stock);
+		binaryCandlesGather.getLatestCandles(stock);
 	}
 	
 	@Override
 	public void updateStocks(Collection<Stock> stocks) {
 		stocks.stream()
-				.filter(stock ->
-								stock.getBinaryData() != null)
+				//.filter(stock -> stock.getBinaryData() != null)
 				.forEach(this::updateStock);
 	}
 }

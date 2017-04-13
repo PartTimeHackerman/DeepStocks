@@ -19,52 +19,17 @@ import java.util.List;
 @Component
 public class BinaryCandlesGather {
 	
-	private final CandleDAOImpl candleDAO;
-	
 	private final PacketSender packetSender;
-	
+	private final TicksHistoryHandler ticksHistoryHandler;
 	private Integer count = 1000;
 	
 	@Autowired
-	public BinaryCandlesGather(PacketSender packetSender, CandleDAOImpl candleDAO) {
+	public BinaryCandlesGather(PacketSender packetSender, TicksHistoryHandler ticksHistoryHandler) {
 		this.packetSender = packetSender;
-		this.candleDAO = candleDAO;
+		this.ticksHistoryHandler = ticksHistoryHandler;
 	}
 	
-	public void assocCandlesConcurrent(Stock stock, Long start, Long end) {
-		Integer count = this.count * 60;
-		
-		while (start < end) {
-			Packet packet = getPacket(stock, start, start + count);
-			start += count;
-			packetSender.send(packet);
-		}
-	}
-	
-	public void assocCandles(Stock stock, Long start, Long end) {
-		TicksHistoryHandler ticksHistoryHandler = new TicksHistoryHandler(new ArrayList<>(Arrays.asList(stock)));
-		
-		Integer count = this.count * 60;
-		
-		while (start < end) {
-			Packet packet = getPacket(stock, start, start + count);
-			start += count;
-			packetSender.sendAndGet(packet);
-			ticksHistoryHandler.handle(packet);
-		}
-	}
-	
-	public void assocLatestCandles(Stock stock) {
-		Long currentTime = EpochUtil.getCurrentTime();
-		stock.getStockCandles().sort(null);
-		Long start = stock.getStockCandles().isEmpty()
-				? EpochUtil.FirstJanuary2016
-				: stock.getStockCandles().get(stock.getStockCandles().size() - 1).getEpoch();
-		assocCandles(stock, start, currentTime);
-	}
-	
-	public List<Candle> getCandles(Stock stock, Long start, Long end){
-		TicksHistoryHandler ticksHistoryHandler = new TicksHistoryHandler(new ArrayList<>(Arrays.asList(stock)));
+	public List<Candle> getCandles(Stock stock, Long start, Long end) {
 		List<Candle> candles = new ArrayList<>();
 		
 		Integer count = this.count * 60;
@@ -73,6 +38,7 @@ public class BinaryCandlesGather {
 			Packet packet = getPacket(stock, start, start + count);
 			start += count;
 			packetSender.sendAndGet(packet);
+			ticksHistoryHandler.handle(packet);
 			candles.addAll(ticksHistoryHandler.getCandles(packet));
 		}
 		return candles;
@@ -80,11 +46,10 @@ public class BinaryCandlesGather {
 	
 	public List<Candle> getLatestCandles(Stock stock) {
 		Long currentTime = EpochUtil.getCurrentTime();
-		Candle latest = candleDAO.getCrudDAO().findTopByStockOrderByEpochDesc(stock);
 		
-		Long start = latest == null
+		Long start = stock.getStockCandles().isEmpty()
 				? EpochUtil.FirstJanuary2016
-				: latest.getEpoch();
+				: stock.getStockCandles().get(stock.getStockCandles().size() - 1).getEpoch();
 		
 		return getCandles(stock, start, currentTime);
 	}

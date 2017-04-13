@@ -1,0 +1,55 @@
+spring:
+    mvc:
+        static-path-pattern: /**
+        cors:
+            allowed-origins: http://localhost/
+    data:
+        rest:
+            base-path: /data
+            max-page-size: 10000
+    datasource:
+        dataSourceProperties:
+            databaseName: stocks
+            portNumber: 5432
+            serverName: localhost
+        driver-class-name: org.postgresql.Driver
+        idleTimeout: 5001
+        maximumPoolSize: 31
+        minimumIdle: 21
+        password: root
+        pool-name: Fuck-1
+        testWhileIdle: true
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost/stocks
+        username: postgres
+        validationQuery: SELECT 1
+    jpa:
+        generate-ddl: true
+        hibernate:
+            ddl-auto: update
+            naming:
+                implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+                strategy: org.hibernate.cfg.EJB3NamingStrategy
+            cache:
+                use_second_level_cache: true
+                use_query_cache: true
+                region:
+                    factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+
+        open-in-view: true
+        properties:
+            hibernate:
+                batch_versioned_data: true
+                current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+                dialect: org.hibernate.dialect.PostgreSQL94Dialect
+                enable_lazy_load_no_trans: true
+                jdbc:
+                    batch_size: 100
+                    use_get_generated_keys: false
+                order_inserts: true
+                order_updates: true
+                temp:
+                    use_jdbc_metadata_defaults: false
+        show-sql: true
+
