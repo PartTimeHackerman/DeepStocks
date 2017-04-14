@@ -1,3 +1,8 @@
+/*global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;*/
+
+
 import Vue from 'vue'
 import VueResource from 'vue-resource-2'
 import MomentLib from 'moment'

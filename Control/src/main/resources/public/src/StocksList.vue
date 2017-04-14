@@ -102,7 +102,7 @@
 
     .stockListItem {
         user-select: none;
-        padding: 0 0 10%;
+        padding: 5% 0 5%;
         list-style-type: none;
         font-size: 150%;
     }

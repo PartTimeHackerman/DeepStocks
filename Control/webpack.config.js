@@ -26,6 +26,7 @@ module.exports = {
         extensions: ['.js', '.jsx', '.vue'],
         alias: {
             vue: 'vue/dist/vue.js'
+            //,'jquery': path.join(__dirname, 'node_modules/jquery/src/jquery')
         }
     },
     module: {
@@ -43,6 +44,14 @@ module.exports = {
             {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
             {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
+
+            //,{ test: require.resolve('jquery'), loader: 'expose?jQuery!expose?$' }
         ]
     }
+    /*, plugins:[
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ]*/
 };

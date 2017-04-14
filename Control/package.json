@@ -20,6 +20,7 @@
     "babel-runtime": "latest",
     "babel-plugin-transform-runtime": "latest",
     "babel-preset-react": "latest",
+    "expose": "latest",
 
     "css-loader": "latest",
     "file-loader": "latest",
@@ -38,6 +39,8 @@
     "zingchart": "latest",
     "moment": "latest",
     "vis": "latest",
+    "jquery": "latest",
+    "jqwidgets-framework": "latest",
 
     "webpack": "latest",
 

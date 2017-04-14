@@ -16,7 +16,7 @@
         created() {
             Main.EventBus.$on('getStock', id => {
                 this.getStock(id);
-                this.$emit('showStock');
+                //this.$emit('showStock');
             });
         },
         components: {

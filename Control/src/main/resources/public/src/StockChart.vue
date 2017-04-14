@@ -1,10 +1,10 @@
 <template>
     <div id="felxContainer">
-        <div class="stockChartContainer" >
+        <div class="stockChartContainer">
             <div id="stockChart"></div>
         </div>
         <div class="chartRangeContainer">
-            <div id="rangeSlider"></div>
+            <div id="rangeSelector"></div>
         </div>
     </div>
 </template>
@@ -12,8 +12,53 @@
 <script>
     import {EventBus, Moment} from 'main.js'
     import Chart from './CandleChart.js'
+    //import $ from 'jquery'
+
+    //console.log($);
 
     let chart = new Chart();
+
+    var rangeSelector = {
+        theme: 'metrodark',
+        width: 750,
+        height: 15,
+        min: new Date(new Date() - 1000 * 60 * 60 * 100),
+        max: new Date(new Date().getTime()),
+        majorTicksInterval: {
+            months: 1
+        },
+        minorTicksInterval: {
+            days: 1
+        },
+        labelsFormat: 'dd-MM-yyyy hh:mm tt',
+        markersFormat: 'dd-MM-yyyy hh:mm tt'
+    };
+
+    var mountSelector = function () {
+        $("#rangeSelector").jqxRangeSelector(rangeSelector);
+    };
+
+    var mountRangeScroll = function () {
+        $('#rangeSelector').bind('mousewheel', function (e) {
+            var range = $("#rangeSelector").jqxRangeSelector("getRange");
+            var minEpoch = rangeSelector.min.getTime();
+            var maxEpoch = rangeSelector.max.getTime();
+            var offsetEpoch = Math.round((maxEpoch - minEpoch) * .1);
+            if (e.originalEvent.wheelDelta / 120 > 0) {
+                rangeSelector.min = new Date(minEpoch + offsetEpoch);
+                rangeSelector.max = new Date(maxEpoch - offsetEpoch);
+            } else {
+                rangeSelector.min = new Date(minEpoch - offsetEpoch);
+                rangeSelector.max = (maxEpoch + offsetEpoch) >= new Date().getTime() ? rangeSelector.max : new Date(maxEpoch + offsetEpoch);
+            }
+            $("#rangeSelector").jqxRangeSelector(rangeSelector);
+            $("#rangeSelector").jqxRangeSelector("setRange",
+                range.from.getTime() <= rangeSelector.min.getTime() ? rangeSelector.min : range.from ,
+                range.to.getTime() >= rangeSelector.max.getTime() ? rangeSelector.max : range.to);
+            //$('#rangeSelector').jqxRangeSelector('render');
+        });
+    }
+
 
     google.charts.load('current', {'packages': ['corechart']});
     //google.charts.setOnLoadCallback(drawChart);
@@ -91,8 +136,14 @@
      }*/
 
     function drawChart() {
-        chart.config.series[0].values = [chartVue.candlesToChartData2()[0]];
-        chart.render();
+        let chartCandles = chartVue.candlesToChartData2();
+        let minValue = Math.min.apply(Math, chartCandles.map(candle => candle[1][2]));
+        let maxValue = Math.max.apply(Math, chartCandles.map(candle => candle[1][1]));
+        minValue -= minValue * 0.0005;
+        maxValue += maxValue * 0.0005;
+        chart.config["scale-y"]["values"] = minValue + ":" + maxValue + ":" + 0.1;
+        chart.config.series[0].values = chartCandles;
+        //chart.render();
     }
 
     $(window).resize(function () {
@@ -123,6 +174,10 @@
 //            });
 
         },
+        mounted(){
+            mountSelector();
+            mountRangeScroll();
+        },
         watch: {
             'stock.meta.id': function () {
                 if (this.stock.meta.id !== undefined) {
@@ -136,7 +191,8 @@
             getStockCandles(start, end, granularity){
                 this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '?start=' + start + '&end=' + end + '&size=100').then(function (response) {
                     response.data.forEach(candle => this.candles.push(candle));
-                    drawChart();
+                    if (this.candles.length > 0)
+                        drawChart();
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -145,7 +201,7 @@
                 return this.candles.map(candle => [Moment(+candle.epoch * 1000).format("DD-MM-YYYY, hh:mm A"), candle.low, candle.open, candle.close, candle.high]);
             },
             candlesToChartData2(){
-                return this.candles.map(candle => [candle.epoch * 1000, [candle.open, candle.close, candle.high, candle.low]]);
+                return this.candles.map(candle => [+candle.epoch * 1000, [candle.open, candle.high, candle.low, candle.close]]);
             }
         }
     }
@@ -182,6 +238,9 @@
     }
 
     #stockChart {
+        width: 100%;
+        height: 100%;
+        z-index: 4;
     }
 
 </style>

@@ -1,4 +1,5 @@
 import ZingChart from 'zingchart'
+import $ from 'jquery'
 
 var config = {
     "type": "stock",
@@ -13,8 +14,8 @@ var config = {
                 "type": "date",
                 "all": "%mm-%dd-%Y, %h:%i"
             },
-            "placement": "node-top",
-            "offset-y": -15,
+            //"placement": "node-top",
+            //"offset-y": -15,
             "multiple": true,
             "padding": "10%",
             "border-radius": "5px"
@@ -35,7 +36,7 @@ var config = {
     },
     "scale-x": {
         //"min-value":1420232400000,
-        "step": "day",
+        "step": "minute",
         "transform": {
             "type": "date",
             "all": "%mm-%dd-%Y, %h:%i"
@@ -48,14 +49,14 @@ var config = {
     },
     "scale-y": {
         step: 'decimal',
-        "values": "495:500:.01",
-        "format": "%v",
+        "values": "'min-value':'max-value':.01",
+        /*"format": "%v",
         "guide": {
             "line-style": "solid"
         },
         "item": {
             "font-size": 10
-        },
+        },*/
         "minor-ticks": 1,
         "minor-guide": {
             "line-color": "#010101",
@@ -95,7 +96,7 @@ function Chart() {
             id: 'stockChart',
             data: this.config,
             height: "100%",
-            width: "50%"
+            width: "100%"
         });
     }
 }

@@ -172,5 +172,6 @@
     <orderEntry type="library" name="Gradle: com.hazelcast:hazelcast-hibernate5:1.2" level="project" />
     <orderEntry type="library" name="loader" level="application" />
     <orderEntry type="library" name="jquery-3.2.1" level="application" />
+    <orderEntry type="library" name="jqx-all" level="application" />
   </component>
 </module>
