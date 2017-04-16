@@ -40,7 +40,7 @@
     "moment": "latest",
     "vis": "latest",
     "jquery": "latest",
-    "jqwidgets-framework": "latest",
+    "canvasjs":"latest",
 
     "webpack": "latest",
 

@@ -48,8 +48,8 @@ var config = {
         }
     },
     "scale-y": {
-        step: 'decimal',
-        "values": "'min-value':'max-value':.01",
+        //step: 'decimal',
+        //"values": "'min-value':'max-value':.01",
         /*"format": "%v",
         "guide": {
             "line-style": "solid"

@@ -4,6 +4,7 @@
             <div id="stockChart"></div>
         </div>
         <div class="chartRangeContainer">
+            <input id="grain" type="text" v-model="grain">
             <div id="rangeSelector"></div>
         </div>
     </div>
@@ -12,6 +13,7 @@
 <script>
     import {EventBus, Moment} from 'main.js'
     import Chart from './CandleChart.js'
+    import Chart2 from './CandleChart2.js'
     //import $ from 'jquery'
 
     //console.log($);
@@ -19,46 +21,81 @@
     let chart = new Chart();
 
     var rangeSelector = {
-        theme: 'metrodark',
-        width: 750,
-        height: 15,
-        min: new Date(new Date() - 1000 * 60 * 60 * 100),
-        max: new Date(new Date().getTime()),
-        majorTicksInterval: {
-            months: 1
-        },
-        minorTicksInterval: {
-            days: 1
-        },
-        labelsFormat: 'dd-MM-yyyy hh:mm tt',
-        markersFormat: 'dd-MM-yyyy hh:mm tt'
+        min: {},
+        max: {}
     };
 
     var mountSelector = function () {
-        $("#rangeSelector").jqxRangeSelector(rangeSelector);
+        $('#rangeSelector').dateRangeSlider({
+            bounds: {min: new Date(2016, 1, 1), max: new Date()},
+            defaultValues: {min: new Date(2016, 1, 1), max: new Date()},
+            arrows: false,
+            range: {min: 100000*60},
+            scales: [{
+                first: function (value) {
+                    return value;
+                },
+                end: function (value) {
+                    return value;
+                },
+                next: function (value) {
+                    var next = new Date(value);
+                    next.setMonth(next.getMonth() + 1);
+                    return next;
+                },
+                label: function (value) {
+                    return value.getMonth() + 1;
+                },
+                format: function (tickContainer, tickStart, tickEnd) {
+                    tickContainer.addClass("myCustomClass");
+                }
+            }]
+        });
     };
 
     var mountRangeScroll = function () {
         $('#rangeSelector').bind('mousewheel', function (e) {
-            var range = $("#rangeSelector").jqxRangeSelector("getRange");
-            var minEpoch = rangeSelector.min.getTime();
-            var maxEpoch = rangeSelector.max.getTime();
-            var offsetEpoch = Math.round((maxEpoch - minEpoch) * .1);
-            if (e.originalEvent.wheelDelta / 120 > 0) {
-                rangeSelector.min = new Date(minEpoch + offsetEpoch);
-                rangeSelector.max = new Date(maxEpoch - offsetEpoch);
-            } else {
-                rangeSelector.min = new Date(minEpoch - offsetEpoch);
-                rangeSelector.max = (maxEpoch + offsetEpoch) >= new Date().getTime() ? rangeSelector.max : new Date(maxEpoch + offsetEpoch);
-            }
-            $("#rangeSelector").jqxRangeSelector(rangeSelector);
-            $("#rangeSelector").jqxRangeSelector("setRange",
-                range.from.getTime() <= rangeSelector.min.getTime() ? rangeSelector.min : range.from ,
-                range.to.getTime() >= rangeSelector.max.getTime() ? rangeSelector.max : range.to);
-            //$('#rangeSelector').jqxRangeSelector('render');
-        });
-    }
+            var bounds = $('#rangeSelector').dateRangeSlider("option", "bounds");
+            var range = $('#rangeSelector').dateRangeSlider("values");
 
+            var minBound = bounds.min.getTime();
+            var maxBound = bounds.max.getTime();
+            var minRange = range.min.getTime();
+            var maxRange = range.max.getTime();
+
+            var rangeZoomScale = ((maxRange - minRange) / (maxBound - minBound));
+            rangeZoomScale = Math.min(.5, .1 / rangeZoomScale);
+            var minOffset = Math.round(Math.max(minRange - minBound, 60000) * rangeZoomScale);
+            var maxOffset = Math.round(Math.max(maxBound - maxRange, 60000) * rangeZoomScale);
+
+            if (e.originalEvent.wheelDelta / 120 > 0) {
+                rangeSelector.min = new Date(minBound + minOffset);
+                rangeSelector.max = new Date(maxBound - maxOffset);
+            } else {
+                rangeSelector.min = (minBound + minOffset) <= new Date(2016, 1, 1).getTime() ? bounds.max : new Date(minBound - minOffset);
+                rangeSelector.max = (maxBound + maxOffset) >= new Date().getTime() ? bounds.max : new Date(maxBound + maxOffset);
+            }
+
+            $('#rangeSelector').dateRangeSlider(
+                "option",
+                "bounds",
+                {
+                    min: rangeSelector.min,
+                    max: rangeSelector.max
+                });
+
+        });
+    };
+
+    var getRangeVals = function(){
+        return $('#rangeSelector').dateRangeSlider("values");
+    };
+
+    var setRangeVals = function(min, max){
+        $('#rangeSelector').dateRangeSlider("values", min, max);
+    };
+
+    var granularity = 100;
 
     google.charts.load('current', {'packages': ['corechart']});
     //google.charts.setOnLoadCallback(drawChart);
@@ -143,7 +180,7 @@
         maxValue += maxValue * 0.0005;
         chart.config["scale-y"]["values"] = minValue + ":" + maxValue + ":" + 0.1;
         chart.config.series[0].values = chartCandles;
-        //chart.render();
+        chart.render();
     }
 
     $(window).resize(function () {
@@ -164,7 +201,8 @@
         props: ['stock'],
         data(){
             return {
-                candles: []
+                candles: [],
+                grain: 100
             }
         },
         created() {
@@ -182,14 +220,31 @@
             'stock.meta.id': function () {
                 if (this.stock.meta.id !== undefined) {
                     this.candles = [];
-                    this.getStockCandles(1487343060, 1487349000, 0);
+                    var today = new Date();
+                    var lastMonth = new Date();
+                    lastMonth.setMonth(lastMonth.getMonth()-1);
+
+                    $('#rangeSelector').bind("valuesChanged", function(e, data){
+                        chartVue.getStockCandlesGrain(parseInt(data.values.min.getTime()/1000), parseInt(data.values.max.getTime()/1000), chartVue.grain);
+                    });
+
+                    setRangeVals(lastMonth.getTime(), today.getTime());
                 }
             }
         }
         ,
         methods: {
-            getStockCandles(start, end, granularity){
-                this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '?start=' + start + '&end=' + end + '&size=100').then(function (response) {
+            getStockCandles(start, end, size){
+                this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '?start=' + start + '&end=' + end + '&size='+ size).then(function (response) {
+                    response.data.forEach(candle => this.candles.push(candle));
+                    if (this.candles.length > 0)
+                        drawChart();
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getStockCandlesGrain(start, end, granularity){
+                this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '/granularity?granularity='+ granularity +'&start=' + start + '&end=' + end + '&size='+granularity).then(function (response) {
                     response.data.forEach(candle => this.candles.push(candle));
                     if (this.candles.length > 0)
                         drawChart();
@@ -230,10 +285,10 @@
 
     .chartRangeContainer {
         margin: 0 20px 20px;
-        display: flex;
+        display: block;
         flex-direction: row;
         flex: 1;
-
+        padding: 0 20px 0;
         border: 2px #3fffda solid;
     }
 
@@ -241,6 +296,10 @@
         width: 100%;
         height: 100%;
         z-index: 4;
+    }
+
+    #rangeSelector {
+        display: block;
     }
 
 </style>
