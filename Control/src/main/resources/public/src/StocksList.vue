@@ -1,14 +1,12 @@
 <template>
-    <div class="listContainer">
-        <input class="searchBar" type="text" v-model="keyword" placeholder="Search"/>
-        <div class="shadow">
+    <div id="stockListContainer" class="bordered">
+        <input class="searchBar" type="text" v-model="keyword" placeholder="Search" onfocus=""/>
             <ul class="stocksList">
-                <li class="stockListItem grow" @click.stop.prevent="selectStock(stock.id)" v-for="stock in filteredStocks">
+                <li class="stockListItem grow" @click.stop.prevent="selectStock(stock)" v-for="stock in filteredStocks">
                     {{stock.name}}
                 </li>
             </ul>
         </div>
-    </div>
 </template>
 
 <script>
@@ -30,13 +28,13 @@
                 this.$http.get('http://localhost:8080/data/stocks?size=1000').then(function (response) {
                     response.data._embedded.stocks
                         .forEach(stock => this.stocks.push(stock));
-                    this.selectStock(this.stocks[0].id);
+                    this.selectStock(this.stocks[0]);
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
-            selectStock(id){
-                EventBus.$emit('getStock', id);
+            selectStock(stock){
+                this.$router.push('/stocks/'+stock.id);
             }
         },
         computed: {
@@ -51,38 +49,33 @@
 
 <style>
 
-    .listContainer {
-        /*display: flex;
-        justify-content: center;
+    #stockListContainer {
+        margin: 5px 0px 5px 5px;
+        display: flex;
         flex-direction: column;
-        margin-right: 0px;
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 0 auto;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;*/
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-
+        flex: 0;
     }
 
     .searchBar {
         border: none;
-        background-color: rgba(1,1,1,.05);
-        width: 100%;
+        /* width: 100%; */
         font-size: 130%;
         outline-width: 0;
         padding: 5% 5% 5% 30px;
+        display: flex;
+        margin: 4px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.03) 100%);
     }
 
     .stocksList {
-        position: absolute;
         height: 100%;
         margin-top: 10px;
         padding-bottom: 10px;
         padding-left: 30px;
         overflow-x: hidden;
         overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
 
     }
 

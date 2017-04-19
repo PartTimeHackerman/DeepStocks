@@ -19,7 +19,6 @@
     "babel-preset-stage-0": "latest",
     "babel-runtime": "latest",
     "babel-plugin-transform-runtime": "latest",
-    "babel-preset-react": "latest",
     "expose": "latest",
 
     "css-loader": "latest",
@@ -35,22 +34,21 @@
     "vue-loader": "latest",
     "vue-template-compiler": "latest",
     "vue-resource-2" : "latest",
+    "vue-router": "latest",
 
-    "zingchart": "latest",
     "moment": "latest",
-    "vis": "latest",
     "jquery": "latest",
-    "canvasjs":"latest",
 
-    "webpack": "latest",
+    "normalize.css": "latest",
 
-    "normalize.css": "latest"
+    "highcharts":"latest",
+    "highstock-release":"latest",
+    "cytoscape": "latest",
+
+    "webpack": "latest"
   },
   "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
     "rest": "latest",
-    "react-google-charts": "latest",
     "require": "latest"
   }
 }

@@ -31,7 +31,6 @@ module.exports = {
     },
     module: {
         loaders: [
-            {test: /\.jsx?$/, loaders: ['babel-loader?presets[]=es2015&presets[]=react'], include: SRC},
             {test: /\.js$/, loader: 'babel-loader?presets[]=es2015', exclude: /node_modules/},
             {test: /\.vue$/, loader: 'vue-loader'},
             {test: /\.css$/, loader: 'style-loader!css-loader'},

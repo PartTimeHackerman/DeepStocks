@@ -1,3 +1,14 @@
+<template>
+    <div id="rightContent">
+        <div class="bordered" id="topContent">
+            <stock-info :stock="stock"></stock-info>
+        </div>
+        <div class="bordered" id="bottomContent">
+            <stock-chart :stock="stock"></stock-chart>
+        </div>
+    </div>
+</template>
+
 <script>
     import StockInfo from './StockInfo.vue'
     import StockChart from './StockChart.vue'
@@ -14,10 +25,9 @@
             }
         },
         created() {
-            Main.EventBus.$on('getStock', id => {
-                this.getStock(id);
-                //this.$emit('showStock');
-            });
+            let id = this.$route.params.id;
+            this.getStock(id);
+            console.log("created StockContainer");
         },
         components: {
             'stock-info': StockInfo,
@@ -42,6 +52,59 @@
                     console.log(error);
                 });
             }
+        },
+        watch:{
+            '$route' (to, from){
+                //this.getStock(to.params.id);
+                //console.log(to);
+            }
         }
     }
 </script>
+
+<style>
+    #rightContent {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        overflow: visible;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        /*flex-grow: 0;*/
+        /*flex-shrink: 0;*/
+    }
+
+    #bottomContent {
+
+    }
+
+    #bottomContent.bordered {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        height: auto;
+        margin-top: 2px;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+    }
+</style>
