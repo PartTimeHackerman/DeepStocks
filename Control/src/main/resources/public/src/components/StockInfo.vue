@@ -40,7 +40,8 @@
 </template>
 
 <script>
-    import {EventBus, Moment} from 'main.js'
+    //import {EventBus} from '../main.js'
+    import Moment from 'moment'
 
     export default {
         name: 'stock-info',

@@ -1,23 +1,25 @@
 <template>
     <div id="stockListContainer" class="bordered">
-        <input class="searchBar" type="text" v-model="keyword" placeholder="Search" onfocus=""/>
-            <ul class="stocksList">
-                <li class="stockListItem grow" @click.stop.prevent="selectStock(stock)" v-for="stock in filteredStocks">
-                    {{stock.name}}
-                </li>
-            </ul>
-        </div>
+        <input class="searchBar" type="text" v-model="searchKeyword" placeholder="Search" onfocus=""/>
+        <ul class="stocksList">
+            <li class="stockListItem grow" @click.stop.prevent="selectStock(stock)" v-for="stock in filteredStocks">
+                {{stock.name}}
+
+
+
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
-    import {EventBus} from 'main.js'
+    //import {EventBus} from 'main.js'
 
     export default {
         name: 'stocks-list',
         data(){
             return {
-                stocks: [],
-                keyword: ''
+                searchKeyword: ''
             }
         },
         created () {
@@ -27,22 +29,34 @@
             fetchStocks(){
                 this.$http.get('http://localhost:8080/data/stocks?size=1000').then(function (response) {
                     response.data._embedded.stocks
-                        .forEach(stock => this.stocks.push(stock));
+                        .forEach(stock => this.$store.commit('addStock', stock));
                     this.selectStock(this.stocks[0]);
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
             selectStock(stock){
-                this.$router.push('/stocks/'+stock.id);
+                console.log("Selecting ", stock.name);
+                this.$store.commit('setActiveStock', stock);
+                this.$router.push('/stocks/' + stock.id);
             }
         },
         computed: {
             filteredStocks(){
                 return this.stocks.filter((stock) => {
-                    return stock.name.toLowerCase().includes(this.keyword.toLocaleLowerCase());
+                    return stock.name.toLowerCase().includes(this.searchKeyword.toLocaleLowerCase());
                 });
+            },
+            stocks(){
+                return this.$store.getters.getStocks;
+            },
+            activeStock(){
+                return this.$store.getters.getActiveStock;
             }
+        },
+        activated(){
+            if (Object.keys(this.activeStock).length !== 0)
+                this.selectStock(this.activeStock);
         }
     }
 </script>
@@ -79,17 +93,21 @@
 
     }
 
-    .shadow{
+    .shadow {
         height: 100%;
         box-shadow: inset 0px 40px 18px -20px rgb(244, 251, 253);
     }
 
-    .stocksList::-webkit-scrollbar{
+    .stocksList::-webkit-scrollbar {
         width: 0;
     }
 
-    .shadow:after{
-        position: absolute; top: 0; bottom: 0; left: -15px; right: -15px;
+    .shadow:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -15px;
+        right: -15px;
         box-shadow: inset 0px 40px 18px -20px rgb(0, 7, 253);
     }
 
@@ -105,10 +123,10 @@
     }
 
     .grow:hover {
-        text-shadow: -3px 3px 3px rgba(1, 1, 1,.15);
+        text-shadow: -3px 3px 3px rgba(1, 1, 1, .15);
         cursor: pointer;
         font-weight: bold;
-        transform: scale(1.1) translate(5%,0);
+        transform: scale(1.1) translate(5%, 0);
     }
 
 </style>

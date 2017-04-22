@@ -35,6 +35,7 @@
     "vue-template-compiler": "latest",
     "vue-resource-2" : "latest",
     "vue-router": "latest",
+    "vuex": "latest",
 
     "moment": "latest",
     "jquery": "latest",
@@ -44,7 +45,7 @@
     "highcharts":"latest",
     "highstock-release":"latest",
     "cytoscape": "latest",
-
+    "webpack-dev-server": "latest",
     "webpack": "latest"
   },
   "dependencies": {

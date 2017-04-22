@@ -6,39 +6,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource-2'
-import MomentLib from 'moment'
+
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
 export const EventBus = new Vue();
-export const Moment = MomentLib;
 
-import App from './App.vue'
-import StocksContentContainer from './StocksContentContainer.vue'
-import StockContainer from './StockContainer.vue'
-
-const routes = [
-    {
-        path: '/stocks', component: StocksContentContainer,
-        children: [{path: ':id', component: StockContainer}]
-    },
-    {path: '', redirect: '/stocks'}
-];
+import App from './components/App.vue'
 
 const router = new VueRouter({
     //mode: 'history',
-    routes: routes
+    routes: App.routes
 });
 
 window.App = new Vue({
     el: '#app',
-    router: router,
+    router,
     template: '<app></app>',
     components:{
         'app': App
     }
 });
+
 
 /*Vue.component('stocks-list', StocksList);
  Vue.component('stock-info', StockInfo);

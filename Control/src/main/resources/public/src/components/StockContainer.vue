@@ -12,7 +12,7 @@
 <script>
     import StockInfo from './StockInfo.vue'
     import StockChart from './StockChart.vue'
-    import * as Main from './main.js'
+    //import * as Main from '../main.js'
 
     export default{
         name: 'stock-container',
@@ -26,8 +26,10 @@
         },
         created() {
             let id = this.$route.params.id;
+
+            //TODO this is created with first entry to graph, bug
+            console.log("Created stock", id);
             this.getStock(id);
-            console.log("created StockContainer");
         },
         components: {
             'stock-info': StockInfo,
@@ -64,47 +66,20 @@
 
 <style>
     #rightContent {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
         display: flex;
         overflow: visible;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
         flex-direction: column;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
         flex: 1;
         /*flex-grow: 0;*/
         /*flex-shrink: 0;*/
     }
 
     #bottomContent {
-
-    }
-
-    #bottomContent.bordered {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
         display: flex;
         height: auto;
         margin-top: 2px;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
         flex-direction: column;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
-        -ms-flex-align: center;
         align-items: center;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
         flex: 1;
     }
 </style>

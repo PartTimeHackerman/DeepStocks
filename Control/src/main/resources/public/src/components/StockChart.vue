@@ -11,17 +11,17 @@
 </template>
 
 <script>
-    import {EventBus, Moment} from 'main.js'
+    //import {EventBus, Moment} from 'main.js'
     import Chart from './HighCandleChart.js'
-    import VueRouter from 'vue-router'
+    //import VueRouter from 'vue-router'
 
 
-    var rangeSelector = {
+    const rangeSelector = {
         min: {},
         max: {}
     };
 
-    var mountSelector = function () {
+    const mountSelector = function () {
         $('#rangeSelector').dateRangeSlider({
             bounds: {min: new Date(2016, 1, 1), max: new Date()},
             defaultValues: {min: new Date(2016, 1, 1), max: new Date()},
@@ -35,7 +35,7 @@
                     return value;
                 },
                 next: function (value) {
-                    var next = new Date(value);
+                    const next = new Date(value);
                     next.setMonth(next.getMonth() + 1);
                     return next;
                 },
@@ -49,20 +49,20 @@
         });
     };
 
-    var mountRangeScroll = function () {
+    const mountRangeScroll = function () {
         $('#rangeSelector').bind('mousewheel', function (e) {
-            var bounds = $('#rangeSelector').dateRangeSlider("option", "bounds");
-            var range = $('#rangeSelector').dateRangeSlider("values");
+            const bounds = $('#rangeSelector').dateRangeSlider("option", "bounds");
+            const range = $('#rangeSelector').dateRangeSlider("values");
 
-            var minBound = bounds.min.getTime();
-            var maxBound = bounds.max.getTime();
-            var minRange = range.min.getTime();
-            var maxRange = range.max.getTime();
+            const minBound = bounds.min.getTime();
+            const maxBound = bounds.max.getTime();
+            const minRange = range.min.getTime();
+            const maxRange = range.max.getTime();
 
-            var rangeZoomScale = ((maxRange - minRange) / (maxBound - minBound));
+            let rangeZoomScale = ((maxRange - minRange) / (maxBound - minBound));
             rangeZoomScale = Math.min(.5, .1 / rangeZoomScale);
-            var minOffset = Math.round(Math.max(minRange - minBound, 60000) * rangeZoomScale);
-            var maxOffset = Math.round(Math.max(maxBound - maxRange, 60000) * rangeZoomScale);
+            const minOffset = Math.round(Math.max(minRange - minBound, 60000) * rangeZoomScale);
+            const maxOffset = Math.round(Math.max(maxBound - maxRange, 60000) * rangeZoomScale);
 
             if (e.originalEvent.wheelDelta / 120 > 0) {
                 rangeSelector.min = new Date(minBound + minOffset);
@@ -83,24 +83,24 @@
         });
     };
 
-    var getRangeVals = function () {
+    const getRangeVals = function () {
         return $('#rangeSelector').dateRangeSlider("values");
     };
 
-    var setRangeVals = function (min, max) {
+    const setRangeVals = function (min, max) {
         $('#rangeSelector').dateRangeSlider("values", min, max);
     };
 
-    var granularity = 100;
+    const granularity = 100;
 
-    var pushIfDoesntExist = function (toArr, fromArray) {
-        for (var i = 0; i < fromArray.length; i++) {
-            var element = fromArray[i];
+    const pushIfDoesntExist = function (toArr, fromArray) {
+        for (let i = 0; i < fromArray.length; i++) {
+            const element = fromArray[i];
             pushElementIfDoesntExist(toArr, element);
         }
     };
 
-    var pushElementIfDoesntExist = function (toArr, element) {
+    const pushElementIfDoesntExist = function (toArr, element) {
         if (!toArr.includes(element))
             toArr.push(element);
     };
@@ -113,41 +113,38 @@
             return {
                 candles: [],
                 grain: 100,
-                chart: {}
+                chart: {},
+                stockId: 0
             }
         },
         created() {
             chartVue = this;
-//            this.$on('showStock',() => {
-//                this.getStockCandles(1487343060, 1487349000, 0);
-//            });
+
 
         },
         mounted(){
             mountSelector();
             mountRangeScroll();
-            this.chart = this.chart.constructor === Object ? new Chart("stockChart") : this.chart;
+
+            this.chart = new Chart("stockChart");
             this.chart.render();
+
+            this.stockId = this.$route.params.id;
+
+            $('#rangeSelector').bind("valuesChanged", function (e, data) {
+                chartVue.getStockCandlesGrain(parseInt(data.values.min.getTime() / 1000), parseInt(data.values.max.getTime() / 1000), chartVue.grain);
+            });
+
+            const today = new Date();
+            const lastMonth = new Date();
+            lastMonth.setMonth(lastMonth.getMonth() - 3);
+            setRangeVals(lastMonth.getTime(), today.getTime());
         },
         watch: {
-            'stock.meta.id': function () {
-                if (this.stock.meta.id !== undefined) {
-                    this.candles = [];
-                    var today = new Date();
-                    var lastMonth = new Date();
-                    lastMonth.setMonth(lastMonth.getMonth() - 3);
-
-                    $('#rangeSelector').bind("valuesChanged", function (e, data) {
-                        chartVue.getStockCandlesGrain(parseInt(data.values.min.getTime() / 1000), parseInt(data.values.max.getTime() / 1000), chartVue.grain);
-                    });
-
-                    setRangeVals(lastMonth.getTime(), today.getTime());
-                }
-            }
         },
         methods: {
             getStockCandles(start, end, size){
-                this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '?start=' + start + '&end=' + end + '&size=' + size).then(function (response) {
+                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '?start=' + start + '&end=' + end + '&size=' + size).then(function (response) {
                     response.data.forEach(candle =>
                         pushElementIfDoesntExist(this.candles, candle));
                 }).catch(function (error) {
@@ -155,7 +152,7 @@
                 });
             },
             getStockCandlesGrain(start, end, granularity){
-                this.$http.get('http://localhost:8080/data/candles/' + this.stock.meta.id + '/granularity?granularity=' + granularity + '&start=' + start + '&end=' + end + '&size=' + granularity).then(function (response) {
+                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '/granularity?granularity=' + granularity + '&start=' + start + '&end=' + end + '&size=' + granularity).then(function (response) {
                     let resopnseBody = response.data;
                     resopnseBody.forEach(candle =>
                         pushElementIfDoesntExist(this.candles, candle));

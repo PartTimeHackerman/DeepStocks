@@ -2,24 +2,50 @@
     <div id="app">
         <div class="menuContainer">
             <ul class="menu-list w-list-unstyled">
-                <li class="menu-item">
-                    <h1 class="menu-text">Stocks</h1>
-                </li>
-                <li class="menu-item">
-                    <h1 class="menu-text">Graph</h1>
-                </li>
+                <router-link to="/stocks">
+                    <li class="menu-item">
+                        <h1 class="menu-text">Stocks</h1>
+                    </li>
+                </router-link>
+                <router-link to="/graph">
+                    <li class="menu-item">
+                        <h1 class="menu-text">Graph</h1>
+                    </li>
+                </router-link>
             </ul>
         </div>
-        <router-view></router-view>
+        <!--<transition name="fade" mode="in">-->
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+        <!--</transition>-->
     </div>
 </template>
 
 <script>
 
+
+    import store from '../store/index.js'
+
+    import StocksContent from './StocksContent.vue'
+    import GraphContent from './graph/GraphContent.vue'
+
+    const routes = [
+        {
+            path: '/stocks', component: StocksContent,
+            children: StocksContent.routes
+        },
+        {path: '/', redirect: '/stocks'},
+        {path: '/graph', component: GraphContent}
+    ];
+
+
     export default {
         name: 'app',
-        //router: router
+        routes,
+        store
     }
+
 </script>
 
 <style>
