@@ -62,14 +62,14 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
 }
 
 task webpackWatch(type: Exec) {
-    executable "sh"
-    args "-c", "webpack --watch & webpack-dev-server --progress --colors --inline --port 8081"
+    commandLine "watchJS.cmd"
+    //rgs  "/c", "webpack.cmd --watch & webpack-dev-server.cmd --progress --colors --inline --port 8081"
 
-    addShutdownHook {
+    /*addShutdownHook {
         executable "sh"
         args "-c", "kill \$! &"
         println("Killed webpack server ;_;")
-    }
+    }*/
 }
 
 //webpack --watch & webpack-dev-server --inline --hot --port 9090
