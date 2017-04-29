@@ -12,6 +12,10 @@ public class Packet {
 	
 	private Object optional;
 	
+	private ConnectionType connectionType = ConnectionType.DIRECT;
+	
+	private Exception exception;
+	
 	private boolean wait;
 	
 	public Packet(Message sender){
@@ -20,7 +24,6 @@ public class Packet {
 	
 	public Packet(Message sender, Object optional){
 		this.sender = sender;
-		this.to = to;
 		this.optional = optional;
 	}
 	
@@ -71,5 +74,13 @@ public class Packet {
 	@Override
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	public Exception getException() {
+		return exception;
+	}
+	
+	public void setException(Exception exception) {
+		this.exception = exception;
 	}
 }
