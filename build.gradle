@@ -57,7 +57,9 @@ subprojects {
 
     ext['hibernate.version'] = '5.2.9.Final'
     dependencies {
-
+        testCompile 'org.junit.jupiter:junit-jupiter-api:5.+'
+        testCompile 'org.junit.vintage:junit-vintage-engine:4.+'
+        testCompile 'org.mockito:mockito-core:2.+'
         ////////////////////////// SPRING //////////////////////////
 
         // https://mvnrepository.com/artifact/org.postgresql/postgresql
@@ -117,6 +119,15 @@ subprojects {
 
         // https://mvnrepository.com/artifact/com.hazelcast/hazelcast-hibernate5
         compile group: 'com.hazelcast', name: 'hazelcast-hibernate5', version: '1.2'
+
+        compile("org.springframework.boot:spring-boot-starter-websocket")
+
+        //compile("org.springframework.boot:spring-boot-starter-security")
+
+        // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+        compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.9'
+
+
     }
 }
 
