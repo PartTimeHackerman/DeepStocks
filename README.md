@@ -8,14 +8,17 @@ That's why I made this project, let's computers handle that's what peoples just 
 ##### TL;DR: Bots can trade stocks better than anyone.
 
 
-## This project is divided into three parts:
-- [Model]: 'M' in 'MVC'. Consist of whole buisness logic,
-Made with Spring (Boot, Data), Hibernate, (my own :>) [Proxy] Srcaper. Using PostgreSQL DB
+## Project is divided into three modules:
+- [Model]: 'M' in 'MVC'. Consist of whole buisness logic.
+
+    Made with Spring (Boot, Data), Hibernate, (my own :>) [Proxy] Srcaper. Using PostgreSQL DB.
 - [Control]: 'C' and 'V' in 'MVC'. All Spring Controllers and main Application are here.
 It's also contains the clinet view, and by that I mean the bunch of JavaScript frameworks.
-Made with Node.js, Webpack, Vue.js, ES6
-- [AI]: The most exciting part of the project, it's supposed to contains several deep neural networks models (1st for predicting stocks prices, 2nd for calculating the risk of the trade, 3rd for interpreting stocks news, etc.),
-Made with Tensorflow and Python
+
+    Made with Node.js, Webpack, Vue.js, ES6.
+- [AI]: The most exciting part of the project, it's supposed to contains several deep neural networks models (1st for predicting stocks prices, 2nd for calculating the risk of the trade, 3rd for interpreting stocks news, etc.).
+
+    Made with Tensorflow and Python.
 
     [Model]: <https://github.com/WorstCoder/DeepStocks/tree/master/Model>
     [Control]: <https://github.com/WorstCoder/DeepStocks/tree/master/Control>
