@@ -1,79 +1,61 @@
 package model.connection;
 
+import io.reactivex.subscribers.DisposableSubscriber;
+import org.reactivestreams.Subscriber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.stereotype.Component;
-import model.packetHandler.PacketHandler;
-import rx.Subscriber;
-import rx.functions.Func1;
-import rx.observables.ConnectableObservable;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
+import model.connection.packetHandler.PacketHandler;
 import model.utils.MainLogger;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.Vector;
+import java.util.function.Predicate;
+
 
 @Component
-public class ReceivedPacketsStream {
+public class ReceivedPacketsStream extends SimpleStream<Packet> {
 	
-	private Subject<Packet, Packet> subject = PublishSubject.create();
-	
-	private ConnectableObservable<Packet> stream;
-	
-	private Map<Subscriber<Packet>, Func1<Packet, Boolean>> subscriberMap = new HashMap<>();
+	@Autowired
+	private Collection<PacketHandler> handlers;
 	
 	public ReceivedPacketsStream() {
-		stream = subject.publish();
-		stream.connect();
+		super();
 	}
 	
-	public ReceivedPacketsStream addHandler(PacketHandler handler){
-		Subscriber<Packet> subscriber = new Subscriber<Packet>() {
+	@PostConstruct
+	public void addHandlers(){
+		
+		handlers.forEach(this::addHandler);
+	}
+	
+	public ReceivedPacketsStream addHandler(PacketHandler handler) {
+		Subscriber<Packet> subscriber = new DisposableSubscriber<Packet>() {
 			@Override
-			public void onCompleted() {
-				System.out.println(this + "completed");
+			public void onComplete() {
+				MainLogger.log().info("{} COMPLETED", this);
 			}
 			
 			@Override
 			public void onError(Throwable e) {
-				System.out.println(this + " " + e);
+				MainLogger.log().info("{} {}", this, e);
 			}
 			
 			@Override
 			public void onNext(Packet packet) {
-				MainLogger.log().debug("Handling: {}", packet);
 				handler.handle(packet);
 			}
 		};
 		
-		Func1<Packet, Boolean> filter = handler.getFilter();
-		if(filter==null)
-			subscribe(subscriber);
-		else
-			subscribe(subscriber,  filter);
+		Predicate<Packet> filter = handler.getFilter();
+		subscribe(subscriber, filter);
 		return this;
 	}
 	
-	public void subscribe(Subscriber<Packet> subscriber){
-		subscribe(subscriber, p -> true);
+	@Override
+	public void submit(Packet o) {
+		super.submit(o);
 	}
 	
-	public void subscribe(Subscriber<Packet> subscriber, Func1<Packet, Boolean> filter){
-		subscriberMap.put(subscriber, filter);
-		stream
-				.filter(filter)
-				.subscribe(subscriber);
-	}
-	
-	public void submit(Packet obj){
-		subject.onNext(obj);
-	}
-	
-	public void unsubscribe(Subscriber<Packet> subscriber){
-		subscriberMap.remove(subscriber);
-		subscriber.unsubscribe();
-	}
-	
-	public Map<Subscriber<Packet>, Func1<Packet, Boolean>> getSubscriberMap() {
-		return subscriberMap;
-	}
 }
