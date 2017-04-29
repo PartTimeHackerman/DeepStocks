@@ -16,7 +16,7 @@ import java.io.Serializable;
  * Tick by tick list of streamed data
  * 
  */
-public class Tick implements Serializable
+public class Candle implements Serializable
 {
 
     /**
@@ -53,7 +53,7 @@ public class Tick implements Serializable
      * No args constructor for use in serialization
      * 
      */
-    public Tick() {
+    public Candle() {
     }
 
     /**
@@ -63,7 +63,7 @@ public class Tick implements Serializable
      * @param epoch
      * @param id
      */
-    public Tick(Integer epoch, String id, Double quote, String symbol) {
+    public Candle(Integer epoch, String id, Double quote, String symbol) {
         super();
         this.epoch = epoch;
         this.id = id;
@@ -150,10 +150,10 @@ public class Tick implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Tick) == false) {
+        if ((other instanceof Candle) == false) {
             return false;
         }
-        Tick rhs = ((Tick) other);
+        Candle rhs = ((Candle) other);
         return new EqualsBuilder().append(epoch, rhs.epoch).append(id, rhs.id).append(quote, rhs.quote).append(symbol, rhs.symbol).isEquals();
     }
 

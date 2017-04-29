@@ -1,9 +1,9 @@
-
 package model.binaryAPI.commands.ticks;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import model.binaryAPI.BinaryMessage;
+import model.data.Candle;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -38,7 +38,7 @@ public class TicksReceive implements Serializable, BinaryMessage
      */
     @SerializedName("tick")
     @Expose
-    private Tick tick;
+    private Candle tick;
     /**
      * tick
      * (Required)
@@ -70,7 +70,7 @@ public class TicksReceive implements Serializable, BinaryMessage
      * @param tick
      * @param reqId
      */
-    public TicksReceive(Object echoReq, Tick tick, String msgType, Integer reqId) {
+    public TicksReceive(Object echoReq, Candle tick, String msgType, Integer reqId) {
         super();
         this.echoReq = echoReq;
         this.tick = tick;
@@ -106,7 +106,7 @@ public class TicksReceive implements Serializable, BinaryMessage
      * Tick by tick list of streamed data
      * 
      */
-    public Tick getTick() {
+    public Candle getCandle() {
         return tick;
     }
 
@@ -116,7 +116,7 @@ public class TicksReceive implements Serializable, BinaryMessage
      * Tick by tick list of streamed data
      * 
      */
-    public void setTick(Tick tick) {
+    public void setTick(Candle tick) {
         this.tick = tick;
     }
 
