@@ -1,7 +1,16 @@
-webpack-gradle
+DeepStocks
 ==============
-This project is a sample Spring boot application using Webpack and React.  The goal of this application is to show a simple project using React as a Javascript framework with Spring Boot. The JS framework can be anything though.  
+If You ever wanted to trade stocks, You've seen it's not that's easy. There's so many stocks in which You can invest in, so many relations between them, between news and actions that corporations make.
+Every action or new product corporation make influence whole stocks exchange.
+Literally everything correlate with each other.
+There's so much data that's no one can handle and proccess, except computers and neural networks.
+That's why I made this project, let's computers handle that's what peoples just aren't able to.
 
-The gradle file is setup so that webpack is always run before bootRun.  There are also utility watchJS script files that can be run on *nix/Windows which will watch your JS files and recreate a bundle.  You'll need to refresh your page to see the changes though but you will not need to restart your Spring Boot app.
-  
-For a better step by step build up on this project, check out the [blog post](https://objectpartners.com/2016/04/22/using-webpack-with-gradle/) associated with this project. If you're a Java developer new to the JS world, then it's worth a read as I go over npm and package.json and how they are used.
+** This project is divided in three parts: **
+    -Model: 'M' in 'MVC'. Consist of whole buisness logic,
+        Made with Spring (Boot, Data), Hibernate, (my own :>) [Proxy] Srcaper. Using PostgreSQL DB
+    -Control: 'C' and 'V' in 'MVC'. All Spring Controllers and also main Application are here.
+        It's also contains the clinet view, and by that I mean the bunch of JavaScript frameworks, which most importand is Vue.js.
+        Made with Node.js, Webpack, Vue.js, ES6
+    -AI: The most exciting part of the project, it's supposed to contains several deep neural networks models (1st for predicting stocks prices, 2nd for calculate the risk of the trade, 3rd for interpreting stocks news, etc.),
+        Made with Tensorflow and Python
