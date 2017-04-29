@@ -14,13 +14,20 @@
                 </tr>
                 <tr>
                     <td>Spot: </td>
-                    <td>{{stock.data.spot}} {{stock.data.quotedCurrencySymbol}}</td>
+                    <transition :name="onchange(stock.data.spot, oldStock.data.spot)" mode="out-in">
+                        <td :key="stock.data.spot + new Date().getTime()">
+                            {{stock.data.spot}} {{stock.data.quotedCurrencySymbol}}
+
+                        </td>
+                    </transition>
                     <td>Submarket: </td>
                     <td>{{stock.data.submarketDisplayName}}</td>
                 </tr>
                 <tr>
                     <td>Spot time: </td>
-                    <td>{{spotTime}}</td>
+                    <transition name="onchange" mode="out-in">
+                        <td>{{spotTime}}</td>
+                    </transition>
                     <td>Exchange name: </td>
                     <td>{{stock.data.exchangeName}}</td>
                 </tr>
@@ -28,7 +35,9 @@
                     <td class="pip">Pip:
                         <span class="tooltiptext">Minimum fluctuation amount</span>
                     </td>
-                    <td>{{stock.data.pip}}</td>
+                    <transition name="onchange" mode="out-in">
+                        <td>{{stock.data.pip}}</td>
+                    </transition>
                     <td>Type: </td>
                     <td>{{stock.data.symbolType}}</td>
                 </tr>
@@ -45,18 +54,30 @@
 
     export default {
         name: 'stock-info',
-        props : ['stock'],
+        props: ['stock', 'oldStock'],
         data(){
-            return {
-            }
+            return {}
         },
         created () {
             /*this.$on('showStock', id => {
-                this.getStock(id);
-            });*/
+             this.getStock(id);
+             });*/
         },
         methods: {
+            onchange(newVal, oldVal){
+                if (newVal === undefined || oldVal === undefined)
+                    return '';
 
+                if (newVal > oldVal) {
+                    return 'onchange-up';
+                }
+                else if (newVal < oldVal) {
+                    return 'onchange-down';
+                }
+                else {
+                    return 'onchange';
+                }
+            }
         },
         computed: {
             spotTime (){
@@ -131,5 +152,27 @@
         border-width: 5px;
         border-style: solid;
         border-color: transparent transparent black transparent;
+    }
+
+    .onchange-enter-active, .onchange-up-enter-active, .onchange-down-enter-active {
+        transition: color 2s, font-weight .1s, transform .3s cubic-bezier(1.000, -0.500, 0.000, 1.500);
+    }
+
+    .onchange-enter, .onchange-leave-to {
+        color: #0000ff;
+        font-weight: bold;
+        /*transform: scale(1.01) translate(1%, 0);*/
+    }
+
+    .onchange-up-enter, .onchange-leave-to {
+        color: #00ff00;
+        font-weight: bold;
+        /*transform: scale(1.01) translate(1%, 0);*/
+    }
+
+    .onchange-down-enter, .onchange-leave-to {
+        color: #ff0000;
+        font-weight: bold;
+        /*transform: scale(1.01) translate(1%, 0);*/
     }
 </style>
