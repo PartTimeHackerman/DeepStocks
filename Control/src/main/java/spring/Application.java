@@ -1,22 +1,18 @@
 package spring;
 
-import com.google.gson.Gson;
-import model.binaryAPI.BinaryAPI;
-import model.binaryAPI.commands.ticks_history.TicksHistorySend;
 import model.connection.PacketSender;
+import model.connection.consumer.CandlesDBUpdater;
+import model.connection.packetHandler.TicksHistoryHandler;
 import model.connection.proxy.ScraperManager;
 import model.connection.proxy.UnrepeatedProxyProvider;
-import model.data.Candle;
+import model.data.Stock;
 import model.dataUpdater.CandlesUpdaterDB;
 import model.dataUpdater.StocksUpdater;
 import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
 import model.jdbc.dao.*;
-import model.binaryAPI.BinaryPacketSender;
-import model.packetHandler.TicksHandler;
-import model.packetHandler.TicksHistoryHandler;
-import model.utils.MainLogger;
-import org.scraper.main.Proxy;
+import model.binaryAPI.BinaryPacketsService;
+import org.eclipse.jetty.util.DateCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,20 +20,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import spring.websocket.STOMPStocksController;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -73,7 +62,7 @@ public class Application implements CommandLineRunner {
 	private CandlesUpdaterDB candlesUpdaterDB;
 	
 	@Autowired
-	private BinaryPacketSender packetManager;
+	private BinaryPacketsService packetManager;
 	
 	@Autowired
 	private PacketSender packetSender;
@@ -84,12 +73,38 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	private ScraperManager scraperManager;
 	
+	@Autowired
+	private STOMPStocksController stompStocksController;
+	
+	@Autowired
+	private TicksHistoryHandler ticksHistoryHandler;
+	
+	@Autowired
+	private CandlesDBUpdater candlesDBUpdater;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 	
 	@Override
 	public void run(String... args) throws Exception {
+		ticksHistoryHandler.subscribe(candlesDBUpdater);
+		
+		stockRepo.getStocks().forEach(candlesUpdaterDB::updateForStock);
+		
+		/*BinaryData data = stockRepo.getStocks().get(1).getBinaryData();
+		
+		new Thread(() -> {
+			IntStream.range(0, 10000).forEach(i -> {
+				try {
+					data.setSpot((double) Math.round(Math.random()*3));
+					stompStocksController.updateStockBinaryData(data);
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		}).run();*/
 		//stockRepo.findAll();
 		//Integer i = stockRepo.getStocks().get(0).getStockCandles().size();
 		//Candle i = candleDAO.getCrudDAO().findTopByStockOrderByEpochDesc(stockRepo.getStocks().get(0));
@@ -132,9 +147,9 @@ public class Application implements CommandLineRunner {
 
 		//stockRepo.getStocks().forEach(stock -> MainLogger.log().info(stock.getStockCandles().size()));
 
-		stocksUpdater.updateStocks(stockRepo.getStocks());
+		stocksUpdater.updateForStocks(stockRepo.getStocks());
 
-		candlesUpdaterDB.updateStocks(stockRepo.getStocks());
+		candlesUpdaterDB.updateForStocks(stockRepo.getStocks());
 
 		stockDataDAO.save(stockRepo.getStocks());
 

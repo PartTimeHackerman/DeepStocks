@@ -45,6 +45,10 @@
     "highcharts":"latest",
     "highstock-release":"latest",
     "cytoscape": "latest",
+
+    "sockjs-client": "latest",
+    "webstomp-client":"latest",
+
     "webpack-dev-server": "latest",
     "webpack": "latest"
   },
