@@ -6,22 +6,22 @@ import model.connection.Packet;
 import model.data.Candle;
 import model.data.Stock;
 import model.data.StockProvider;
-import model.jdbc.dao.CandleDAOImpl;
-import model.packetHandler.TicksHistoryHandler;
+import model.connection.packetHandler.TicksHistoryHandler;
+import model.data.Symbol;
 import model.utils.EpochUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Component
 public class BinaryCandlesGather {
 	
 	private final PacketSender packetSender;
 	private final TicksHistoryHandler ticksHistoryHandler;
-	private Integer count = 1000;
+	private Integer count = 5000;
 	
 	@Autowired
 	public BinaryCandlesGather(PacketSender packetSender, TicksHistoryHandler ticksHistoryHandler) {
@@ -37,9 +37,10 @@ public class BinaryCandlesGather {
 		while (start < end) {
 			Packet packet = getPacket(stock, start, start + count);
 			start += count;
-			packetSender.sendAndGet(packet);
-			ticksHistoryHandler.handle(packet);
-			candles.addAll(ticksHistoryHandler.getCandles(packet));
+			packetSender.send(packet);
+			//packetSender.sendAndGet(packet);
+			//ticksHistoryHandler.handle(packet);
+			//candles.addAll(ticksHistoryHandler.getCandles(packet));
 		}
 		return candles;
 	}
@@ -64,7 +65,7 @@ public class BinaryCandlesGather {
 											 .filter(s ->
 															 s.getProvider() == StockProvider.BINARY)
 											 .findAny()
-											 .get()
+											 .orElse(new Symbol(null, ""))
 											 .getSymbol());
 		ticksHistory.setStart(start);
 		ticksHistory.setEnd(end.toString());

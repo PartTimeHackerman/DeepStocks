@@ -3,28 +3,32 @@ package model.binaryAPI;
 import com.google.gson.Gson;
 import model.connection.*;
 import model.connection.websocket.WebsocketClient;
+import model.exception.AuthorizationException;
+import model.exception.InvalidSymbolException;
+import model.exception.StreamingNotAllowedException;
 import model.utils.GsonService;
 import model.utils.MainLogger;
 
 import java.net.URI;
+import java.util.Optional;
 
-public class BinaryAPI implements ProviderAPI{
+public class BinaryAPI implements ProviderAPI {
 	
 	private static final URI websocketURI = URI.create("wss://ws.binaryws.com/websockets/v3?app_id=2663");
 	private static final String userToken = "QuZpbffDx7DUipF";
 	private static final Gson gson = GsonService.getGson();
 	
-	private BinaryPacketSender binaryPacketSender;
+	private BinaryPacketsService binaryPacketSender;
 	
 	private ConnectionType connectionType;
 	private WebsocketClient websocketClient;
 	private IMessagesCounter messageCounter;
 	
-	public BinaryAPI(BinaryPacketSender binaryPacketSender, WebsocketClient websocketClient) {
+	public BinaryAPI(BinaryPacketsService binaryPacketSender, WebsocketClient websocketClient) {
 		this(binaryPacketSender, websocketClient, ConnectionType.DIRECT);
 	}
 	
-	public BinaryAPI(BinaryPacketSender binaryPacketSender, WebsocketClient websocketClient, ConnectionType connectionType) {
+	public BinaryAPI(BinaryPacketsService binaryPacketSender, WebsocketClient websocketClient, ConnectionType connectionType) {
 		this.binaryPacketSender = binaryPacketSender;
 		this.connectionType = connectionType;
 		this.websocketClient = websocketClient;
@@ -62,14 +66,22 @@ public class BinaryAPI implements ProviderAPI{
 	}
 	
 	private void onMessage(String json) {
-		try {
-			Integer id = getReceivedId(json);
-			Packet packet = binaryPacketSender.getFiltered(m ->
-															  ((BinaryMessage) m.getSender()).getReqId().equals(id));
+		Response response = gson.fromJson(json, Response.class);
+		Integer id = response.req_id;
+		Optional<Packet> optionalPacket = binaryPacketSender
+				.getPendingMessages()
+				.stream()
+				.filter(m ->
+								m.getSender() instanceof BinaryMessage)
+				.filter(m ->
+								((BinaryMessage)m.getSender()).getReqId().equals(id))
+				.findFirst();
+		
+		if (optionalPacket.isPresent()){
+			Packet packet = optionalPacket.get();
+			handleResponseError(packet, response);
 			packet.setReceiver(gson.fromJson(json, packet.getTo()));
 			receive(packet);
-		} catch (Exception e) {
-			MainLogger.log().error(e);
 		}
 	}
 	
@@ -78,19 +90,24 @@ public class BinaryAPI implements ProviderAPI{
 		binaryPacketSender.receive(packet);
 	}
 	
-	private Integer getReceivedId(String json) throws Exception {
-		Response response = gson.fromJson(json, Response.class);
+	private void handleResponseError(Packet packet, Response response) {
 		if (response.error != null) {
 			MainLogger.log().error("Error: {}", response.error.code);
 			switch (response.error.code) {
 				case "AuthorizationRequired":
-					throw new Exception("Authorization required");
+					packet.setException(new AuthorizationException());
+					break;
+				case "StreamingNotAllowed":
+					packet.setException(new StreamingNotAllowedException());
+					break;
+				case "InvalidSymbol":
+					packet.setException(new InvalidSymbolException());
+					break;
 			}
 		}
-		return response.req_id;
 	}
 	
-	public boolean canSend(){
+	public boolean canSend() {
 		return messageCounter.getRemaining() > 1;
 	}
 	
