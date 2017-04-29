@@ -1,4 +1,4 @@
-rootProject.name = 'StockNNBot'
+rootProject.name = 'DeepStocks'
 include 'Model'
 include 'Control'
 
