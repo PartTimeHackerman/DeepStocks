@@ -16,27 +16,34 @@ public class WebsocketClient {
 	private MessageHandler messageHandler;
 	
 	private ClientManager client;
+	private String proxy = "";
 	
-	public WebsocketClient(URI uri) {
-		try {
-			client = ClientManager.createClient();
-			client.setDefaultMaxTextMessageBufferSize(3276800);
-			client.setDefaultMaxBinaryMessageBufferSize(3276800);
-			client.setDefaultMaxSessionIdleTimeout(0);
-			client.connectToServer(this, uri);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public WebsocketClient(URI uri) throws IOException, DeploymentException {
+		client = ClientManager.createClient();
+		setUpClient(client, uri);
 	}
 	
-	public WebsocketClient(URI uri, String ip, String port) throws Exception {
-			client = ClientManager.createClient();
-			client.getProperties().put(ClientProperties.PROXY_URI, "http://" + ip + ":" + port);
-			client.setDefaultMaxTextMessageBufferSize(3276800);
-			client.setDefaultMaxBinaryMessageBufferSize(3276800);
-			client.setDefaultMaxSessionIdleTimeout(0);
-			client.connectToServer(this, uri);
+	public WebsocketClient(URI uri, String ip, String port) throws IOException, DeploymentException {
+		MainLogger.log().debug("Creating new websocket ip: {} port: {}", ip, port);
+		Long time = System.currentTimeMillis();
 		
+		client = ClientManager.createClient();
+		setUpClient(client, uri, ip, port);
+		
+		MainLogger.log().debug("Websocket api created in {} millis.", System.currentTimeMillis() - time);
+	}
+	
+	private void setUpClient(ClientManager client, URI uri) throws IOException, DeploymentException {
+		client.setDefaultMaxTextMessageBufferSize(3276800);
+		client.setDefaultMaxBinaryMessageBufferSize(3276800);
+		client.setDefaultMaxSessionIdleTimeout(0);
+		client.connectToServer(this, uri);
+	}
+	
+	private void setUpClient(ClientManager client, URI uri, String ip, String port) throws IOException, DeploymentException {
+		proxy = "http://" + ip + ":" + port;
+		client.getProperties().put(ClientProperties.PROXY_URI, proxy);
+		setUpClient(client, uri);
 	}
 	
 	/**
