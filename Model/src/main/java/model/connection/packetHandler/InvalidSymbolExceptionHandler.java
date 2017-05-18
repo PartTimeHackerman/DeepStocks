@@ -4,6 +4,7 @@ import model.binaryAPI.commands.ticks_history.TicksHistorySend;
 import model.connection.Packet;
 import model.connection.consumer.HandlerConsumer;
 import model.data.Stock;
+import model.data.StockProvider;
 import model.data.StockRepo;
 import model.exception.InvalidSymbolException;
 import model.exception.StreamingNotAllowedException;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Predicate;
 
 @Service
-public class InvalidSymbolExceptionHandler implements PacketHandler{
+public class InvalidSymbolExceptionHandler implements PacketHandler {
 	
 	private final StockRepo stockRepo;
 	
@@ -29,11 +30,15 @@ public class InvalidSymbolExceptionHandler implements PacketHandler{
 		TicksHistorySend sender = (TicksHistorySend) packet.getSender();
 		String stockSymbol = sender.getTicksHistory();
 		Stock stock = stockRepo.findBySymbol(stockSymbol).get();
-		MainLogger.log().warn("Invalid symbol for {}", stock);
+		stock.getSymbols().stream()
+				.filter(symbol ->
+								symbol.getProvider() == StockProvider.BINARY).findAny()
+				.ifPresent(symbol ->
+								   symbol.setExcluded(true));
 	}
 	
 	@Override
-	public Predicate<Packet> getFilter(){
+	public Predicate<Packet> getFilter() {
 		return p -> p.getException() != null && p.getException() instanceof InvalidSymbolException;
 	}
 	
