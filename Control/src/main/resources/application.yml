@@ -17,7 +17,7 @@ spring:
         maximumPoolSize: 31
         minimumIdle: 21
         password: root
-        pool-name: Fuck-1
+        pool-name: HikariConnectionPool
         testWhileIdle: true
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost/stocks
@@ -52,4 +52,8 @@ spring:
                 temp:
                     use_jdbc_metadata_defaults: false
         show-sql: false
+logging:
+  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type: TRACE
 

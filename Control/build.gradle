@@ -2,7 +2,7 @@ import com.moowork.gradle.node.task.NodeTask
 
 import java.lang.reflect.Executable
 
-group 'StockNNBot'
+group 'DeepStocks'
 version '1.0'
 
 apply plugin: 'java'

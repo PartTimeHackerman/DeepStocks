@@ -88,7 +88,7 @@ function hooks () {
     return hookCallback.apply(null, arguments);
 }
 
-// This is done to register the method called with moment()
+// This is done toClass register the method called with moment()
 // without creating circular dependencies.
 function setHookCallback (callback) {
     hookCallback = callback;
@@ -160,7 +160,7 @@ function createUTC (input, format, locale, strict) {
 }
 
 function defaultParsingFlags() {
-    // We need to deep clone this object.
+    // We need toClass deep clone this object.
     return {
         empty           : false,
         unusedTokens    : [],
@@ -426,7 +426,7 @@ function set (config) {
         }
     }
     this._config = config;
-    // Lenient ordinal parsing accepts just a number in addition to
+    // Lenient ordinal parsing accepts just a number in addition toClass
     // number + (possibly) stuff coming from _dayOfMonthOrdinalParse.
     // TODO: Remove "ordinalParse" fallback in next major release.
     this._dayOfMonthOrdinalParseLenient = new RegExp(
@@ -453,7 +453,7 @@ function mergeConfigs(parentConfig, childConfig) {
         if (hasOwnProp(parentConfig, prop) &&
                 !hasOwnProp(childConfig, prop) &&
                 isObject(parentConfig[prop])) {
-            // make sure changes to properties don't modify parent config
+            // make sure changes toClass properties don't modify parent config
             res[prop] = extend({}, res[prop]);
         }
     }
@@ -1203,11 +1203,11 @@ function getIsLeapYear () {
 }
 
 function createDate (y, m, d, h, M, s, ms) {
-    // can't just apply() to create a date:
+    // can't just apply() toClass create a date:
     // https://stackoverflow.com/q/181348
     var date = new Date(y, m, d, h, M, s, ms);
 
-    // the date constructor remaps years 0-99 to 1900-1999
+    // the date constructor remaps years 0-99 toClass 1900-1999
     if (y < 100 && y >= 0 && isFinite(date.getFullYear())) {
         date.setFullYear(y);
     }
@@ -1217,7 +1217,7 @@ function createDate (y, m, d, h, M, s, ms) {
 function createUTCDate (y) {
     var date = new Date(Date.UTC.apply(null, arguments));
 
-    // the Date.UTC function remaps years 0-99 to 1900-1999
+    // the Date.UTC function remaps years 0-99 toClass 1900-1999
     if (y < 100 && y >= 0 && isFinite(date.getUTCFullYear())) {
         date.setUTCFullYear(y);
     }
@@ -1586,7 +1586,7 @@ function getSetISODayOfWeek (input) {
 
     // behaves the same as moment#day except
     // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
-    // as a setter, sunday should belong to the previous week.
+    // as a setter, sunday should belong toClass the previous week.
 
     if (input != null) {
         var weekday = parseIsoWeekday(input, this.localeData());
@@ -1827,7 +1827,7 @@ function localeMeridiem (hours, minutes, isLower) {
 // MOMENTS
 
 // Setting the hour should keep the time, because the user explicitly
-// specified which hour he wants. So trying to maintain the same hour (in
+// specified which hour he wants. So trying toClass maintain the same hour (in
 // a new timezone) makes sense. Adding/subtracting hours does not follow
 // this rule.
 var getSetHour = makeGetSet('Hours', true);
@@ -1867,7 +1867,7 @@ function normalizeLocale(key) {
 
 // pick the locale from the array
 // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-// substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+// substring from most specific toClass least, but move toClass the next array item if it's a more specific variant than the current root
 function chooseLocale(names) {
     var i = 0, j, next, locale, split;
 
@@ -1894,14 +1894,14 @@ function chooseLocale(names) {
 
 function loadLocale(name) {
     var oldLocale = null;
-    // TODO: Find a better way to register and load all the locales in Node
+    // TODO: Find a better way toClass register and load all the locales in Node
     if (!locales[name] && (typeof module !== 'undefined') &&
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
             __webpack_require__(329)("./" + name);
             // because defineLocale currently also sets the global locale, we
-            // want to undo that for lazy loaded locales
+            // want toClass undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
         } catch (e) { }
     }
@@ -1936,7 +1936,7 @@ function defineLocale (name, config) {
         config.abbr = name;
         if (locales[name] != null) {
             deprecateSimple('defineLocaleOverride',
-                    'use moment.updateLocale(localeName, config) to change ' +
+                    'use moment.updateLocale(localeName, config) toClass change ' +
                     'an existing locale. moment.defineLocale(localeName, ' +
                     'config) should only be used for creating a new locale ' +
                     'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
@@ -1992,7 +1992,7 @@ function updateLocale(name, config) {
         // backwards compat for now: also set the locale
         getSetGlobalLocale(name);
     } else {
-        // pass null for config to unupdate, useful for tests
+        // pass null for config toClass unupdate, useful for tests
         if (locales[name] != null) {
             if (locales[name].parentLocale != null) {
                 locales[name] = locales[name].parentLocale;
@@ -2251,9 +2251,9 @@ function configFromString(config) {
 }
 
 hooks.createFromInputFallback = deprecate(
-    'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
+    'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back toClass js Date(), ' +
     'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
-    'discouraged and will be removed in an upcoming major release. Please refer to ' +
+    'discouraged and will be removed in an upcoming major release. Please refer toClass ' +
     'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
     function (config) {
         config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
@@ -2280,9 +2280,9 @@ function currentDateArray(config) {
     return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
 }
 
-// convert an array to a date.
+// convert an array toClass a date.
 // the array should mirror the parameters below
-// note: all values past the year are optional and will default to the lowest possible value.
+// note: all values past the year are optional and will default toClass the lowest possible value.
 // [year, month, day , hour, minute, second, millisecond]
 function configFromArray (config) {
     var i, date, input = [], currentDate, yearToUse;
@@ -2311,8 +2311,8 @@ function configFromArray (config) {
         config._a[DATE] = date.getUTCDate();
     }
 
-    // Default to current date.
-    // * if no year, month, day of month are given, default to today
+    // Default toClass current date.
+    // * if no year, month, day of month are given, default toClass today
     // * if day of month is given, default month and year
     // * if month is given, default only year
     // * if year is given, don't default anything
@@ -2354,7 +2354,7 @@ function dayOfYearFromWeekInfo(config) {
         dow = 1;
         doy = 4;
 
-        // TODO: We need to take the current isoWeekYear, but that depends on
+        // TODO: We need toClass take the current isoWeekYear, but that depends on
         // how we interpret now (local, utc, fixed offset). So create
         // a now version of current config (take local/utc/offset flags, and
         // create now).
@@ -2372,7 +2372,7 @@ function dayOfYearFromWeekInfo(config) {
 
         weekYear = defaults(w.gg, config._a[YEAR], curWeek.year);
 
-        // Default to current week.
+        // Default toClass current week.
         week = defaults(w.w, curWeek.week);
 
         if (w.d != null) {
@@ -2388,7 +2388,7 @@ function dayOfYearFromWeekInfo(config) {
                 weekdayOverflow = true;
             }
         } else {
-            // default to begining of week
+            // default toClass begining of week
             weekday = dow;
         }
     }
@@ -2403,15 +2403,15 @@ function dayOfYearFromWeekInfo(config) {
     }
 }
 
-// constant that refers to the ISO standard
+// constant that refers toClass the ISO standard
 hooks.ISO_8601 = function () {};
 
-// constant that refers to the RFC 2822 form
+// constant that refers toClass the RFC 2822 form
 hooks.RFC_2822 = function () {};
 
 // date from string and format string
 function configFromStringAndFormat(config) {
-    // TODO: Move this to another part of the creation flow to prevent circular deps
+    // TODO: Move this toClass another part of the creation flow toClass prevent circular deps
     if (config._f === hooks.ISO_8601) {
         configFromISO(config);
         return;
@@ -2423,7 +2423,7 @@ function configFromStringAndFormat(config) {
     config._a = [];
     getParsingFlags(config).empty = true;
 
-    // This array is used to make a Date, either with `new Date` or `Date.UTC`
+    // This array is used toClass make a Date, either with `new Date` or `Date.UTC`
     var string = '' + config._i,
         i, parsedInput, tokens, token, skipped,
         stringLength = string.length,
@@ -2459,7 +2459,7 @@ function configFromStringAndFormat(config) {
         }
     }
 
-    // add remaining unparsed input length to the string
+    // add remaining unparsed input length toClass the string
     getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength;
     if (string.length > 0) {
         getParsingFlags(config).unusedInput.push(string);
@@ -2486,7 +2486,7 @@ function meridiemFixWrap (locale, hour, meridiem) {
     var isPm;
 
     if (meridiem == null) {
-        // nothing to do
+        // nothing toClass do
         return hour;
     }
     if (locale.meridiemHour != null) {
@@ -2502,7 +2502,7 @@ function meridiemFixWrap (locale, hour, meridiem) {
         }
         return hour;
     } else {
-        // this is not supposed to happen
+        // this is not supposed toClass happen
         return hour;
     }
 }
@@ -2685,7 +2685,7 @@ var prototypeMax = deprecate(
 );
 
 // Pick a moment m from moments so that m[fn](other) is true for all
-// other. This relies on the function fn to be transitive.
+// other. This relies on the function fn toClass be transitive.
 //
 // moments should either be an array of moment objects or an array, whose
 // first element is an array of moment objects.
@@ -2773,13 +2773,13 @@ function Duration (duration) {
     this._milliseconds = +milliseconds +
         seconds * 1e3 + // 1000
         minutes * 6e4 + // 1000 * 60
-        hours * 1000 * 60 * 60; //using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
+        hours * 1000 * 60 * 60; //using 1000 * 60 * 60 instead of 36e5 toClass avoid floating point rounding errors https://github.com/moment/moment/issues/2978
     // Because of dateAddRemove treats 24 hours as different from a
-    // day when working around DST, we need to store them separately
+    // day when working around DST, we need toClass store them separately
     this._days = +days +
         weeks * 7;
     // It is impossible translate months into days without knowing
-    // which months you are are talking about, so we have to store
+    // which months you are are talking about, so we have toClass store
     // it separately.
     this._months = +months +
         quarters * 3 +
@@ -2853,7 +2853,7 @@ function offsetFromString(matcher, string) {
       parts[0] === '+' ? minutes : -minutes;
 }
 
-// Return a moment from input, that is local/utc/zone equivalent to model.
+// Return a moment from input, that is local/utc/zone equivalent toClass model.
 function cloneWithOffset(input, model) {
     var res, diff;
     if (model._isUTC) {
@@ -2877,7 +2877,7 @@ function getDateOffset (m) {
 // HOOKS
 
 // This function will be called whenever a moment is mutated.
-// It is intended to keep the offset in sync with the timezone.
+// It is intended toClass keep the offset in sync with the timezone.
 hooks.updateOffset = function () {};
 
 // MOMENTS
@@ -2885,12 +2885,12 @@ hooks.updateOffset = function () {};
 // keepLocalTime = true means only change the timezone, without
 // affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
 // 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
-// +0200, so we adjust the time as needed, to be valid.
+// +0200, so we adjust the time as needed, toClass be valid.
 //
 // Keeping the time actually adds/subtracts (one hour)
 // from the actual represented time. That is why we call updateOffset
-// a second time. In case it wants us to change the offset again
-// _changeInProgress == true case, then we have to adjust, because
+// a second time. In case it wants us toClass change the offset again
+// _changeInProgress == true case, then we have toClass adjust, because
 // there is no such time in the given timezone.
 function getSetOffset (input, keepLocalTime, keepMinutes) {
     var offset = this._offset || 0,
@@ -3029,7 +3029,7 @@ var aspNetRegex = /^(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
 
 // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
 // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
-// and further modified to allow for strings containing both week and day
+// and further modified toClass allow for strings containing both week and day
 var isoRegex = /^(-)?P(?:(-?[0-9,.]*)Y)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)W)?(?:(-?[0-9,.]*)D)?(?:T(?:(-?[0-9,.]*)H)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)S)?)?$/;
 
 function createDuration (input, key) {
@@ -3098,7 +3098,7 @@ createDuration.invalid = createInvalid$1;
 
 function parseIso (inp, sign) {
     // We'd normally use ~~inp for this, but unfortunately it also
-    // converts floats to ints.
+    // converts floats toClass ints.
     // inp may be undefined, so careful calling replace on it.
     var res = inp && parseFloat(inp.replace(',', '.'));
     // apply sign while we're at it
@@ -3195,7 +3195,7 @@ function getCalendarFormat(myMoment, now) {
 }
 
 function calendar$1 (time, formats) {
-    // We want to compare the start of today, vs this.
+    // We want toClass compare the start of today, vs this.
     // Getting start-of-today depends on whether we're local/utc/offset or not.
     var now = time || createLocal(),
         sod = cloneWithOffset(now, this).startOf('day'),
@@ -3348,7 +3348,7 @@ function toISOString() {
 
 /**
  * Return a human readable representation of a moment that can
- * also be evaluated to get a new moment which is the same
+ * also be evaluated toClass get a new moment which is the same
  *
  * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
  */
@@ -3424,7 +3424,7 @@ function locale (key) {
 }
 
 var lang = deprecate(
-    'moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.',
+    'moment().lang() is deprecated. Instead, use moment().localeData() toClass get the language configuration. Use moment().locale() toClass change languages.',
     function (key) {
         if (key === undefined) {
             return this.localeData();
@@ -3441,7 +3441,7 @@ function localeData () {
 function startOf (units) {
     units = normalizeUnits(units);
     // the following switch intentionally omits break keywords
-    // to utilize falling through the cases.
+    // toClass utilize falling through the cases.
     switch (units) {
         case 'year':
             this.month(0);
@@ -4192,7 +4192,7 @@ function bubble () {
 
     days += absFloor(hours / 24);
 
-    // convert days to months
+    // convert days toClass months
     monthsFromDays = absFloor(daysToMonths(days));
     months += monthsFromDays;
     days -= absCeil(monthsToDays(monthsFromDays));
@@ -4302,12 +4302,12 @@ function weeks () {
 
 var round = Math.round;
 var thresholds = {
-    ss: 44,         // a few seconds to seconds
-    s : 45,         // seconds to minute
-    m : 45,         // minutes to hour
-    h : 22,         // hours to day
-    d : 26,         // days to month
-    M : 11          // months to year
+    ss: 44,         // a few seconds toClass seconds
+    s : 45,         // seconds toClass minute
+    m : 45,         // minutes toClass hour
+    h : 22,         // hours toClass day
+    d : 26,         // days toClass month
+    M : 11          // months toClass year
 };
 
 // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
@@ -4342,7 +4342,7 @@ function relativeTime$1 (posNegDuration, withoutSuffix, locale) {
     return substituteTimeAgo.apply(null, a);
 }
 
-// This function allows you to set the rounding function for relative time strings
+// This function allows you toClass set the rounding function for relative time strings
 function getSetRelativeTimeRounding (roundingFunction) {
     if (roundingFunction === undefined) {
         return round;
@@ -4354,7 +4354,7 @@ function getSetRelativeTimeRounding (roundingFunction) {
     return false;
 }
 
-// This function allows you to set a threshold for relative time strings
+// This function allows you toClass set a threshold for relative time strings
 function getSetRelativeTimeThreshold (threshold, limit) {
     if (thresholds[threshold] === undefined) {
         return false;
@@ -4693,7 +4693,7 @@ var is = {
   },
 
   khtml: function(){
-    return navigator && navigator.vendor.match( /kde/i ); // probably a better way to detect this...
+    return navigator && navigator.vendor.match( /kde/i ); // probably a better way toClass detect this...
   },
 
   khtmlEtc: function(){
@@ -4701,7 +4701,7 @@ var is = {
   },
 
   ms: function(){
-    return navigator && navigator.userAgent.match( /msie|trident|edge/i ); // probably a better way to detect this...
+    return navigator && navigator.userAgent.match( /msie|trident|edge/i ); // probably a better way toClass detect this...
   },
 
   windows: function(){
@@ -4787,9 +4787,9 @@ var util = {
                       ?  //  return a random number or 4
              (
                a^15      // if "a" is not 15
-                  ?      // genetate a random number from 0 to 15
+                  ?      // genetate a random number from 0 toClass 15
                8^Math.random()*
-               (a^20?16:4)  // unless "a" is 20, in which case a random number from 8 to 11
+               (a^20?16:4)  // unless "a" is 20, in which case a random number from 8 toClass 11
                   :
                4            //  otherwise 4
                ).toString(16)
@@ -4918,7 +4918,7 @@ if (typeof Object.create === 'function') {
 var process = module.exports = {};
 
 // cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
+// don't break things.  But we need toClass wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
 
@@ -5072,7 +5072,7 @@ process.title = 'browser';
 process.browser = true;
 process.env = {};
 process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
+process.version = ''; // empty string toClass avoid regexp issues
 process.versions = {};
 
 function noop() {}
@@ -5116,9 +5116,9 @@ try {
 		g = window;
 }
 
-// g can still be undefined, but nothing to do about it...
+// g can still be undefined, but nothing toClass do about it...
 // We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
+// easier toClass handle this case. if(!global) { ...}
 
 module.exports = g;
 
@@ -5160,9 +5160,9 @@ exports.colors = [
 /**
  * Currently only WebKit-based Web Inspectors, Firefox >= v31,
  * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
+ * toClass support "%c" CSS customizations.
  *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ * TODO: add a `localStorage` variable toClass explicitly enable/disable colors
  */
 
 function useColors() {
@@ -5186,7 +5186,7 @@ function useColors() {
 }
 
 /**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ * Map %j toClass `JSON.stringify()`, since no Web Inspectors do that by default.
  */
 
 exports.formatters.j = function(v) {
@@ -5220,8 +5220,8 @@ function formatArgs(args) {
   args.splice(1, 0, c, 'color: inherit')
 
   // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
+  // arguments passed either before or after the %c, so we need toClass
+  // figure out the correct index toClass insert the CSS into
   var index = 0;
   var lastC = 0;
   args[0].replace(/%[a-zA-Z%]/g, function(match) {
@@ -5282,7 +5282,7 @@ function load() {
     r = exports.storage.debug;
   } catch(e) {}
 
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  // If debug isn't set in LS, and we're in Electron, try toClass load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
     r = process.env.DEBUG;
   }
@@ -5297,11 +5297,11 @@ function load() {
 exports.enable(load());
 
 /**
- * Localstorage attempts to return the localstorage.
+ * Localstorage attempts toClass return the localstorage.
  *
  * This is necessary because safari throws
  * when a user disables cookies/localstorage
- * and you attempt to access it.
+ * and you attempt toClass access it.
  *
  * @return {LocalStorage}
  * @api private
@@ -5478,11 +5478,11 @@ math.expandBoundingBox = function( bb, padding ){
 };
 
 math.boundingBoxesIntersect = function( bb1, bb2 ){
-  // case: one bb to right of other
+  // case: one bb toClass right of other
   if( bb1.x1 > bb2.x2 ){ return false; }
   if( bb2.x1 > bb1.x2 ){ return false; }
 
-  // case: one bb to left of other
+  // case: one bb toClass left of other
   if( bb1.x2 < bb2.x1 ){ return false; }
   if( bb2.x2 < bb1.x1 ){ return false; }
 
@@ -5524,7 +5524,7 @@ math.roundRectangleIntersectLine = function(
   // Check intersections with straight line segments
   var straightLineIntersections;
 
-  // Top segment, left to right
+  // Top segment, left toClass right
   {
     var topStartX = nodeX - halfWidth + cornerRadius - padding;
     var topStartY = nodeY - halfHeight - padding;
@@ -5539,7 +5539,7 @@ math.roundRectangleIntersectLine = function(
     }
   }
 
-  // Right segment, top to bottom
+  // Right segment, top toClass bottom
   {
     var rightStartX = nodeX + halfWidth + padding;
     var rightStartY = nodeY - halfHeight + cornerRadius - padding;
@@ -5554,7 +5554,7 @@ math.roundRectangleIntersectLine = function(
     }
   }
 
-  // Bottom segment, left to right
+  // Bottom segment, left toClass right
   {
     var bottomStartX = nodeX - halfWidth + cornerRadius - padding;
     var bottomStartY = nodeY + halfHeight + padding;
@@ -5569,7 +5569,7 @@ math.roundRectangleIntersectLine = function(
     }
   }
 
-  // Left segment, top to bottom
+  // Left segment, top toClass bottom
   {
     var leftStartX = nodeX - halfWidth - padding;
     var leftStartY = nodeY - halfHeight + cornerRadius - padding;
@@ -5995,7 +5995,7 @@ math.expandPolygon = function( points, pad ){
       nextPointY = points[1];
     }
 
-    // Current line: [currentPointX, currentPointY] to [nextPointX, nextPointY]
+    // Current line: [currentPointX, currentPointY] toClass [nextPointX, nextPointY]
 
     // Assume CCW polygon winding
 
@@ -6474,7 +6474,7 @@ module.exports = {
   // strict `define` check is necessary for compatibility with `r.js`.
   var isLoader = "function" === "function" && __webpack_require__(386);
 
-  // A set of types used to distinguish objects from primitives.
+  // A set of types used toClass distinguish objects from primitives.
   var objectTypes = {
     "function": true,
     "object": true
@@ -6495,7 +6495,7 @@ module.exports = {
   }
 
   // Public: Initializes JSON 3 using the given `context` object, attaching the
-  // `stringify` and `parse` functions to the specified `exports` object.
+  // `stringify` and `parse` functions toClass the specified `exports` object.
   function runInContext(context, exports) {
     context || (context = root["Object"]());
     exports || (exports = root["Object"]());
@@ -6510,7 +6510,7 @@ module.exports = {
         Math = context["Math"] || root["Math"],
         nativeJSON = context["JSON"] || root["JSON"];
 
-    // Delegate to the native `stringify` and `parse` implementations.
+    // Delegate toClass the native `stringify` and `parse` implementations.
     if (typeof nativeJSON == "object" && nativeJSON) {
       exports.stringify = nativeJSON.stringify;
       exports.parse = nativeJSON.parse;
@@ -6528,7 +6528,7 @@ module.exports = {
       // results for certain dates in Opera >= 10.53.
       isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
         // Safari < 2.0.2 stores the internal millisecond time value correctly,
-        // but clips the values returned by the date methods to the range of
+        // but clips the values returned by the date methods toClass the range of
         // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
         isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
     } catch (exception) {}
@@ -6569,7 +6569,7 @@ module.exports = {
                 stringify(new Number()) === "0" &&
                 stringify(new String()) == '""' &&
                 // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                // does not define a canonical JSON representation (this applies to
+                // does not define a canonical JSON representation (this applies toClass
                 // objects with `toJSON` properties as well, *unless* they are nested
                 // within an object or array).
                 stringify(getClass) === undef &&
@@ -6580,7 +6580,7 @@ module.exports = {
                 // respectively, if the value is omitted entirely.
                 stringify() === undef &&
                 // FF 3.1b1, 2 throw an error if the given value is not a number,
-                // string, array, object, Boolean, or `null` literal. This applies to
+                // string, array, object, Boolean, or `null` literal. This applies toClass
                 // objects with custom `toJSON` methods as well, unless they are nested
                 // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
                 // methods entirely.
@@ -6589,7 +6589,7 @@ module.exports = {
                 // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
                 // `"[null]"`.
                 stringify([undef]) == "[null]" &&
-                // YUI 3.0.0b1 fails to serialize `null` literals.
+                // YUI 3.0.0b1 fails toClass serialize `null` literals.
                 stringify(null) == "null" &&
                 // FF 3.1b1, 2 halts serialization if an array contains a function:
                 // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
@@ -6607,7 +6607,7 @@ module.exports = {
                 stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
                 // The milliseconds are optional in ES 5, but required in 5.1.
                 stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
+                // Firefox <= 11.0 incorrectly serializes years prior toClass 0 as negative
                 // four-digit years instead of six-digit years. Credits: @Yaffle.
                 stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
                 // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
@@ -6625,8 +6625,8 @@ module.exports = {
           if (typeof parse == "function") {
             try {
               // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
-              // Conforming implementations should also coerce the initial argument to
-              // a string prior to parsing.
+              // Conforming implementations should also coerce the initial argument toClass
+              // a string prior toClass parsing.
               if (parse("0") === 0 && !parse(false)) {
                 // Simple parsing test.
                 value = parse(serialized);
@@ -6690,7 +6690,7 @@ module.exports = {
       }
 
       // Internal: Determines if a property is a direct property of the given
-      // object. Delegates to the native `Object#hasOwnProperty` method.
+      // object. Delegates toClass the native `Object#hasOwnProperty` method.
       if (!(isProperty = objectProto.hasOwnProperty)) {
         isProperty = function (property) {
           var members = {}, constructor;
@@ -6711,9 +6711,9 @@ module.exports = {
               return result;
             };
           } else {
-            // Capture a reference to the top-level `Object` constructor.
+            // Capture a reference toClass the top-level `Object` constructor.
             constructor = members.constructor;
-            // Use the `constructor` property to simulate `Object#hasOwnProperty` in
+            // Use the `constructor` property toClass simulate `Object#hasOwnProperty` in
             // other environments.
             isProperty = function (property) {
               var parent = (this.constructor || constructor).prototype;
@@ -6726,7 +6726,7 @@ module.exports = {
       }
 
       // Internal: Normalizes the `for...in` iteration algorithm across
-      // environments. Each enumerated key is yielded to a `callback` function.
+      // environments. Each enumerated key is yielded toClass a `callback` function.
       forEach = function (object, callback) {
         var size = 0, Properties, members, property;
 
@@ -6772,8 +6772,8 @@ module.exports = {
             // Create a set of iterated properties.
             var members = {}, isFunction = getClass.call(object) == functionClass, property;
             for (property in object) {
-              // Store each property name to prevent double enumeration. The
-              // `prototype` property of functions is not enumerated due to cross-
+              // Store each property name toClass prevent double enumeration. The
+              // `prototype` property of functions is not enumerated due toClass cross-
               // environment inconsistencies.
               if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
                 callback(property);
@@ -6789,7 +6789,7 @@ module.exports = {
                 callback(property);
               }
             }
-            // Manually invoke the callback for the `constructor` property due to
+            // Manually invoke the callback for the `constructor` property due toClass
             // cross-environment inconsistencies.
             if (isConstructor || isProperty.call(object, (property = "constructor"))) {
               callback(property);
@@ -6818,10 +6818,10 @@ module.exports = {
         };
 
         // Internal: Converts `value` into a zero-padded string such that its
-        // length is at least equal to `width`. The `width` must be <= 6.
+        // length is at least equal toClass `width`. The `width` must be <= 6.
         var leadingZeroes = "000000";
         var toPaddedString = function (width, value) {
-          // The `|| 0` expression is necessary to work around a bug in
+          // The `|| 0` expression is necessary toClass work around a bug in
           // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
           return (leadingZeroes + (value || 0)).slice(-width);
         };
@@ -6865,7 +6865,7 @@ module.exports = {
             className = getClass.call(value);
             if (className == dateClass && !isProperty.call(value, "toJSON")) {
               if (value > -1 / 0 && value < 1 / 0) {
-                // Dates are serialized according to the `Date#toJSON` method
+                // Dates are serialized according toClass the `Date#toJSON` method
                 // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
                 // for the ISO 8601 date time string format.
                 if (getDay) {
@@ -6878,8 +6878,8 @@ module.exports = {
                   date = 1 + date - getDay(year, month);
                   // The `time` value specifies the time within the day (see ES
                   // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
-                  // to compute `A modulo B`, as the `%` operator does not
-                  // correspond to the `modulo` operation for negative numbers.
+                  // toClass compute `A modulo B`, as the `%` operator does not
+                  // correspond toClass the `modulo` operation for negative numbers.
                   time = (value % 864e5 + 864e5) % 864e5;
                   // The hours, minutes, seconds, and milliseconds are obtained by
                   // decomposing the time within the day. See section 15.9.1.10.
@@ -6908,7 +6908,7 @@ module.exports = {
                 value = null;
               }
             } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
-              // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
+              // Prototype <= 1.6.1 adds non-standard `toJSON` methods toClass the
               // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
               // ignores all `toJSON` methods on these objects unless they are
               // defined directly on an instance.
@@ -6916,7 +6916,7 @@ module.exports = {
             }
           }
           if (callback) {
-            // If a replacement function was provided, call it to obtain the value
+            // If a replacement function was provided, call it toClass obtain the value
             // for serialization.
             value = callback.call(object, property, value);
           }
@@ -6938,14 +6938,14 @@ module.exports = {
           // Recursively serialize objects and arrays.
           if (typeof value == "object") {
             // Check for cyclic structures. This is a linear search; performance
-            // is inversely proportional to the number of unique nested objects.
+            // is inversely proportional toClass the number of unique nested objects.
             for (length = stack.length; length--;) {
               if (stack[length] === value) {
                 // Cyclic structures cannot be serialized by `JSON.stringify`.
                 throw TypeError();
               }
             }
-            // Add the object to the stack of traversed objects.
+            // Add the object toClass the stack of traversed objects.
             stack.push(value);
             results = [];
             // Save the current indentation level and indent one additional level.
@@ -6965,11 +6965,11 @@ module.exports = {
               forEach(properties || value, function (property) {
                 var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
                 if (element !== undef) {
-                  // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
+                  // According toClass ES 5.1 section 15.12.3: "If `gap` {whitespace}
                   // is not the empty string, let `member` {quote(property) + ":"}
                   // be the concatenation of `member` and the `space` character."
-                  // The "`space` character" refers to the literal space
-                  // character, not the `space` {width} argument provided to
+                  // The "`space` character" refers toClass the literal space
+                  // character, not the `space` {width} argument provided toClass
                   // `JSON.stringify`.
                   results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
                 }
@@ -6996,7 +6996,7 @@ module.exports = {
           }
           if (width) {
             if ((className = getClass.call(width)) == numberClass) {
-              // Convert the `width` to an integer and create a string containing
+              // Convert the `width` toClass an integer and create a string containing
               // `width` number of space characters.
               if ((width -= width % 1) > 0) {
                 for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
@@ -7058,9 +7058,9 @@ module.exports = {
                 Index++;
                 return value;
               case 34:
-                // `"` delimits a JSON string; advance to the next character and
+                // `"` delimits a JSON string; advance toClass the next character and
                 // begin parsing the string. String tokens are prefixed with the
-                // sentinel `@` character to distinguish them from punctuators and
+                // sentinel `@` character toClass distinguish them from punctuators and
                 // end-of-string tokens.
                 for (value = "@", Index++; Index < length;) {
                   charCode = source.charCodeAt(Index);
@@ -7081,7 +7081,7 @@ module.exports = {
                         break;
                       case 117:
                         // `\u` marks the beginning of a Unicode escape sequence.
-                        // Advance to the first character and validate the
+                        // Advance toClass the first character and validate the
                         // four-digit code point.
                         begin = ++Index;
                         for (position = Index + 4; Index < position; Index++) {
@@ -7117,7 +7117,7 @@ module.exports = {
                   }
                 }
                 if (source.charCodeAt(Index) == 34) {
-                  // Advance to the next character and return the revived string.
+                  // Advance toClass the next character and return the revived string.
                   Index++;
                   return value;
                 }
@@ -7171,7 +7171,7 @@ module.exports = {
                     }
                     Index = position;
                   }
-                  // Coerce the parsed value to a JavaScript number.
+                  // Coerce the parsed value toClass a JavaScript number.
                   return +source.slice(begin, Index);
                 }
                 // A negative sign may only precede numbers.
@@ -7297,7 +7297,7 @@ module.exports = {
         var walk = function (source, property, callback) {
           var value = source[property], length;
           if (typeof value == "object" && value) {
-            // `forEach` can't be used to traverse an array in Opera <= 8.54
+            // `forEach` can't be used toClass traverse an array in Opera <= 8.54
             // because its `Object#hasOwnProperty` implementation returns `false`
             // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
             if (getClass.call(value) == arrayClass) {
@@ -7345,7 +7345,7 @@ module.exports = {
 
     var JSON3 = runInContext(root, (root["JSON3"] = {
       // Public: Restores the original value of the global `JSON` object and
-      // returns a reference to the `JSON3` object.
+      // returns a reference toClass the `JSON3` object.
       "noConflict": function () {
         if (!isRestored) {
           isRestored = true;
@@ -7463,7 +7463,7 @@ function toComment(sourceMap) {
 "use strict";
 
 
-// use this module to cherry pick functions into your prototype
+// use this module toClass cherry pick functions into your prototype
 // (useful for functions shared between the core and collections, for example)
 
 // e.g.
@@ -7570,7 +7570,7 @@ var define = {
         }
 
       // .data(function(){ ... })
-      } else if( p.allowBinding && is.fn( name ) ){ // bind to event
+      } else if( p.allowBinding && is.fn( name ) ){ // bind toClass event
         var fn = name;
         self.on( p.bindingEvent, fn );
 
@@ -7685,7 +7685,7 @@ var define = {
         return self; // maintain chaining
       }
 
-      if( eventsIsString ){ // then convert to map
+      if( eventsIsString ){ // then convert toClass map
         var map = {};
         map[ events ] = callback;
         events = map;
@@ -7715,10 +7715,10 @@ var define = {
             var namespace = match[2] ? match[2] : undefined;
 
             var listener = {
-              callback: callback, // callback to run
+              callback: callback, // callback toClass run
               delegated: selector ? true : false, // whether the evt is delegated
-              selector: selector, // the selector to match for delegated events
-              selObj: new Selector( selector ), // cached selector object to save rebuilding
+              selector: selector, // the selector toClass match for delegated events
+              selObj: new Selector( selector ), // cached selector object toClass save rebuilding
               type: type, // the event type (e.g. 'click')
               namespace: namespace, // the event namespace (e.g. ".foo")
               unbindSelfOnTrigger: p.unbindSelfOnTrigger,
@@ -7794,7 +7794,7 @@ var define = {
         selector = undefined;
       }
 
-      if( eventsIsString ){ // then convert to map
+      if( eventsIsString ){ // then convert toClass map
         var map = {};
         map[ events ] = callback;
         events = map;
@@ -7913,7 +7913,7 @@ var define = {
             evt.target = evt.target || triggerer;
             evt.cy = evt.cy || cy;
 
-          } else { // then we have to make one
+          } else { // then we have toClass make one
             evt = new Event( evtObj, {
               target: triggerer,
               cy: cy,
@@ -7955,12 +7955,12 @@ var define = {
             var lis = listeners[ k ];
             var nsMatches = !lis.namespace || lis.namespace === evt.namespace || lis.namespace === define.event.universalNamespace;
             var typeMatches = lis.type === evt.type;
-            var targetMatches = lis.delegated ? ( triggerer !== evt.target && is.element( evt.target ) && lis.selObj.matches( evt.target ) ) : (true); // we're not going to validate the hierarchy; that's too expensive
+            var targetMatches = lis.delegated ? ( triggerer !== evt.target && is.element( evt.target ) && lis.selObj.matches( evt.target ) ) : (true); // we're not going toClass validate the hierarchy; that's too expensive
             var listenerMatches = nsMatches && typeMatches && targetMatches;
 
             if( listenerMatches ){ // then trigger it
               var args = [ evt ];
-              args = args.concat( extraParams ); // add extra params to args list
+              args = args.concat( extraParams ); // add extra params toClass args list
 
               if( lis.unbindSelfOnTrigger || lis.unbindAllBindersOnTrigger ){ // then remove listener
                 listeners.splice( k, 1 );
@@ -8007,10 +8007,10 @@ var define = {
             var parent = hasCompounds ? triggerer._private.parent : null;
             var hasParent = parent != null && parent.length !== 0;
 
-            if( hasParent ){ // then bubble up to parent
+            if( hasParent ){ // then bubble up toClass parent
               parent = parent[0];
               parent.trigger( evt );
-            } else { // otherwise, bubble up to the core
+            } else { // otherwise, bubble up toClass the core
               cy.trigger( evt );
             }
           }
@@ -8131,7 +8131,7 @@ var define = {
       var propertiesEmpty = Object.keys( properties ).length === 0;
 
       if( propertiesEmpty ){
-        return new Animation( all[0], properties ); // nothing to animate
+        return new Animation( all[0], properties ); // nothing toClass animate
       }
 
       if( isEles ){
@@ -8240,7 +8240,7 @@ var define = {
 
           if( jumpToEnd ){
             // next iteration of the animation loop, the animation
-            // will go straight to the end and be removed
+            // will go straight toClass the end and be removed
             ani_p.duration = 0;
           }
         }
@@ -8255,7 +8255,7 @@ var define = {
         }
       }
 
-      // we have to notify (the animation loop doesn't do it for us on `stop`)
+      // we have toClass notify (the animation loop doesn't do it for us on `stop`)
       cy.notify( {
         eles: this,
         type: 'draw'
@@ -8298,8 +8298,8 @@ module.exports = {
       global.addEventListener(event, listener, false);
     } else if (global.document && global.attachEvent) {
       // IE quirks.
-      // According to: http://stevesouders.com/misc/test-postmessage.php
-      // the message gets delivered only to 'document', not 'window'.
+      // According toClass: http://stevesouders.com/misc/test-postmessage.php
+      // the message gets delivered only toClass 'document', not 'window'.
       global.document.attachEvent('on' + event, listener);
       // I get 'window' for ie8.
       global.attachEvent('on' + event, listener);
@@ -8431,7 +8431,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   if (!hasDocument) {
     throw new Error(
     'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+    "Use { target: 'node' } in your Webpack config toClass indicate a server-rendering environment."
   ) }
 }
 
@@ -8757,7 +8757,7 @@ var idFactory = {
 // represents a set of nodes, edges, or both together
 var Collection = function( cy, elements, options ){
   if( cy === undefined || !is.core( cy ) ){
-    util.error( 'A collection must have a reference to the core' );
+    util.error( 'A collection must have a reference toClass the core' );
     return;
   }
 
@@ -8831,7 +8831,7 @@ var Collection = function( cy, elements, options ){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // keep the prototypes in sync (an element has the same functions as a collection)
-// and use elefn and elesfn as shorthands to the prototypes
+// and use elefn and elesfn as shorthands toClass the prototypes
 var elesfn = Element.prototype = Collection.prototype;
 
 elesfn.instanceString = function(){
@@ -8895,7 +8895,7 @@ elesfn.json = function( obj ){
   var ele = this.element();
   var cy = this.cy();
 
-  if( ele == null && obj ){ return this; } // can't set to no eles
+  if( ele == null && obj ){ return this; } // can't set toClass no eles
 
   if( ele == null ){ return undefined; } // can't get from no eles
 
@@ -9005,7 +9005,7 @@ elesfn.restore = function( notifyRenderer ){
     notifyRenderer = true;
   }
 
-  // create arrays of nodes and edges, since we need to
+  // create arrays of nodes and edges, since we need toClass
   // restore the nodes first
   var nodes = [];
   var edges = [];
@@ -9014,14 +9014,14 @@ elesfn.restore = function( notifyRenderer ){
     var ele = self[ i ];
 
     if( !ele.removed() ){
-      // don't need to handle this ele
+      // don't need toClass handle this ele
       continue;
     }
 
     // keep nodes first in the array and edges after
-    if( ele.isNode() ){ // put to front of array if node
+    if( ele.isNode() ){ // put toClass front of array if node
       nodes.push( ele );
-    } else { // put to end of array if edge
+    } else { // put toClass end of array if edge
       edges.push( ele );
     }
   }
@@ -9273,8 +9273,8 @@ elesfn.remove = function( notifyRenderer ){
     }
   }
 
-  // make the list of elements to remove
-  // (may be removing more than specified due to connected edges etc)
+  // make the list of elements toClass remove
+  // (may be removing more than specified due toClass connected edges etc)
 
   for( var i = 0, l = self.length; i < l; i++ ){
     var ele = self[ i ];
@@ -9326,10 +9326,10 @@ elesfn.remove = function( notifyRenderer ){
     // mark as removed
     ele._private.removed = true;
 
-    // add to list of removed elements
+    // add toClass list of removed elements
     removed.push( ele );
 
-    if( ele.isEdge() ){ // remove references to this edge in its connected nodes
+    if( ele.isEdge() ){ // remove references toClass this edge in its connected nodes
       var src = ele.source()[0];
       var tgt = ele.target()[0];
 
@@ -9337,7 +9337,7 @@ elesfn.remove = function( notifyRenderer ){
       removeEdgeRef( tgt, ele );
       removeParallelRefs( ele );
 
-    } else { // remove reference to parent
+    } else { // remove reference toClass parent
       var parent = ele.parent();
 
       if( parent.length !== 0 ){
@@ -9346,7 +9346,7 @@ elesfn.remove = function( notifyRenderer ){
     }
   }
 
-  // check to see if we have a compound graph or not
+  // check toClass see if we have a compound graph or not
   var elesStillInside = cy._private.elements;
   cy._private.hasCompoundNodes = false;
   for( var i = 0; i < elesStillInside.length; i++ ){
@@ -9414,7 +9414,7 @@ elesfn.move = function( struct ){
       return cy.add( jsons );
     }
 
-  } else if( struct.parent !== undefined ){ // move node to new parent
+  } else if( struct.parent !== undefined ){ // move node toClass new parent
     var parentId = struct.parent;
     var parentExists = parentId === null || cy.hasElementWithId( parentId );
 
@@ -9597,7 +9597,7 @@ var resolve = function( promise, x ){
   }
 
   /*  surgically check for a "then" method
-    (mainly to just call the "getter" of "then" only once)  */
+    (mainly toClass just call the "getter" of "then" only once)  */
   var then;
   if( (typeof x === 'object' && x !== null) || typeof x === 'function' ){
     try { then = x.then; }                                   /*  [Promises/A+ 2.3.3.1, 3.5]  */
@@ -9806,7 +9806,7 @@ module.exports = {
       if (iframe) {
         unattach();
         // This timeout makes chrome fire onbeforeunload event
-        // within iframe. Without the timeout it goes straight to
+        // within iframe. Without the timeout it goes straight toClass
         // onunload.
         setTimeout(function() {
           if (iframe) {
@@ -9848,7 +9848,7 @@ module.exports = {
     iframe.onload = function() {
       debug('onload');
       // `onload` is triggered before scripts on the iframe are
-      // executed. Give it few seconds to actually load stuff.
+      // executed. Give it few seconds toClass actually load stuff.
       clearTimeout(tref);
       tref = setTimeout(function() {
         onerror('onload timeout');
@@ -9969,13 +9969,13 @@ Ported by Xueqiao Xu <xueqiaoxu@gmail.com>;
 PSF LICENSE AGREEMENT FOR PYTHON 2.7.2
 
 1. This LICENSE AGREEMENT is between the Python Software Foundation (“PSF”), and the Individual or Organization (“Licensee”) accessing and otherwise using Python 2.7.2 software in source or binary form and its associated documentation.
-2. Subject to the terms and conditions of this License Agreement, PSF hereby grants Licensee a nonexclusive, royalty-free, world-wide license to reproduce, analyze, test, perform and/or display publicly, prepare derivative works, distribute, and otherwise use Python 2.7.2 alone or in any derivative version, provided, however, that PSF’s License Agreement and PSF’s notice of copyright, i.e., “Copyright © 2001-2012 Python Software Foundation; All Rights Reserved” are retained in Python 2.7.2 alone or in any derivative version prepared by Licensee.
-3. In the event Licensee prepares a derivative work that is based on or incorporates Python 2.7.2 or any part thereof, and wants to make the derivative work available to others as provided herein, then Licensee hereby agrees to include in any such work a brief summary of the changes made to Python 2.7.2.
-4. PSF is making Python 2.7.2 available to Licensee on an “AS IS” basis. PSF MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT LIMITATION, PSF MAKES NO AND DISCLAIMS ANY REPRESENTATION OR WARRANTY OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF PYTHON 2.7.2 WILL NOT INFRINGE ANY THIRD PARTY RIGHTS.
+2. Subject toClass the terms and conditions of this License Agreement, PSF hereby grants Licensee a nonexclusive, royalty-free, world-wide license toClass reproduce, analyze, test, perform and/or display publicly, prepare derivative works, distribute, and otherwise use Python 2.7.2 alone or in any derivative version, provided, however, that PSF’s License Agreement and PSF’s notice of copyright, i.e., “Copyright © 2001-2012 Python Software Foundation; All Rights Reserved” are retained in Python 2.7.2 alone or in any derivative version prepared by Licensee.
+3. In the event Licensee prepares a derivative work that is based on or incorporates Python 2.7.2 or any part thereof, and wants toClass make the derivative work available toClass others as provided herein, then Licensee hereby agrees toClass include in any such work a brief summary of the changes made toClass Python 2.7.2.
+4. PSF is making Python 2.7.2 available toClass Licensee on an “AS IS” basis. PSF MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT LIMITATION, PSF MAKES NO AND DISCLAIMS ANY REPRESENTATION OR WARRANTY OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF PYTHON 2.7.2 WILL NOT INFRINGE ANY THIRD PARTY RIGHTS.
 5. PSF SHALL NOT BE LIABLE TO LICENSEE OR ANY OTHER USERS OF PYTHON 2.7.2 FOR ANY INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES OR LOSS AS A RESULT OF MODIFYING, DISTRIBUTING, OR OTHERWISE USING PYTHON 2.7.2, OR ANY DERIVATIVE THEREOF, EVEN IF ADVISED OF THE POSSIBILITY THEREOF.
 6. This License Agreement will automatically terminate upon a material breach of its terms and conditions.
-7. Nothing in this License Agreement shall be deemed to create any relationship of agency, partnership, or joint venture between PSF and Licensee. This License Agreement does not grant permission to use PSF trademarks or trade name in a trademark sense to endorse or promote products or services of Licensee, or any third party.
-8. By copying, installing or otherwise using Python 2.7.2, Licensee agrees to be bound by the terms and conditions of this License Agreement.
+7. Nothing in this License Agreement shall be deemed toClass create any relationship of agency, partnership, or joint venture between PSF and Licensee. This License Agreement does not grant permission toClass use PSF trademarks or trade name in a trademark sense toClass endorse or promote products or services of Licensee, or any third party.
+8. By copying, installing or otherwise using Python 2.7.2, Licensee agrees toClass be bound by the terms and conditions of this License Agreement.
 */
 
 
@@ -9987,7 +9987,7 @@ floor = Math.floor, min = Math.min;
 
 
 /*
-Default comparison function to be used
+Default comparison function toClass be used
  */
 
 defaultCmp = function( x, y ){
@@ -10004,10 +10004,10 @@ defaultCmp = function( x, y ){
 /*
 Insert item x in list a, and keep it sorted assuming a is sorted.
 
-If x is already in a, insert it to the right of the rightmost x.
+If x is already in a, insert it toClass the right of the rightmost x.
 
 Optional args lo (default 0) and hi (default a.length) bound the slice
-of a to be searched.
+of a toClass be searched.
  */
 
 insort = function( a, x, lo, hi, cmp ){
@@ -10378,14 +10378,14 @@ var Selector = function( selector ){
       meta: [],
 
       // fake selectors
-      collection: null, // a collection to match against
+      collection: null, // a collection toClass match against
       filter: null, // filter function
 
       // these are defined in the upward direction rather than down (e.g. child)
-      // because we need to go up in Selector.filter()
+      // because we need toClass go up in Selector.filter()
       parent: null, // parent query obj
       ancestor: null, // ancestor query obj
-      subject: null, // defines subject in compound query (subject query obj; points to self if subject)
+      subject: null, // defines subject in compound query (subject query obj; points toClass self if subject)
 
       // use these only when subject has been defined
       child: null,
@@ -10399,7 +10399,7 @@ var Selector = function( selector ){
 
   } else if( selector === '*' || selector === 'edge' || selector === 'node' ){
 
-    // make single, group-only selectors cheap to make and cheap to filter
+    // make single, group-only selectors cheap toClass make and cheap toClass filter
 
     self[0] = newQuery();
     self[0].group = selector === '*' ? selector : selector + 's';
@@ -10429,12 +10429,12 @@ var Selector = function( selector ){
 
     // tokens in the query language
     var tokens = {
-      metaChar: '[\\!\\"\\#\\$\\%\\&\\\'\\(\\)\\*\\+\\,\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\]\\^\\`\\{\\|\\}\\~]', // chars we need to escape in var names, etc
+      metaChar: '[\\!\\"\\#\\$\\%\\&\\\'\\(\\)\\*\\+\\,\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\]\\^\\`\\{\\|\\}\\~]', // chars we need toClass escape in var names, etc
       comparatorOp: '=|\\!=|>|>=|<|<=|\\$=|\\^=|\\*=', // binary comparison op (used in data selectors)
       boolOp: '\\?|\\!|\\^', // boolean (unary) operators (used in data selectors)
       string: '"(?:\\\\"|[^"])*"' + '|' + "'(?:\\\\'|[^'])*'", // string literals (used in data selectors) -- doublequotes | singlequotes
       number: util.regex.number, // number literal (used in data selectors) --- e.g. 0.1234, 1234, 12e123
-      meta: 'degree|indegree|outdegree', // allowed metadata fields (i.e. allowed functions to use from Collection)
+      meta: 'degree|indegree|outdegree', // allowed metadata fields (i.e. allowed functions toClass use from Collection)
       separator: '\\s*,\\s*', // queries are separated by commas, e.g. edge[foo = 'bar'], node.someClass
       descendant: '\\s+',
       child: '\\s+>\\s+',
@@ -10445,7 +10445,7 @@ var Selector = function( selector ){
     tokens.className = tokens.variable; // a class name (follows variable conventions)
     tokens.id = tokens.variable; // an element id (follows variable conventions)
 
-    // when a token like a variable has escaped meta characters, we need to clean the backslashes out
+    // when a token like a variable has escaped meta characters, we need toClass clean the backslashes out
     // so that values get compared properly in Selector.filter()
     var cleanMetaChars = function( str ){
       return str.replace( new RegExp( '\\\\(' + tokens.metaChar + ')', 'g' ), function( match, $1, offset, original ){
@@ -10453,14 +10453,14 @@ var Selector = function( selector ){
       } );
     };
 
-    // add @ variants to comparatorOp
+    // add @ variants toClass comparatorOp
     var ops = tokens.comparatorOp.split( '|' );
     for( var i = 0; i < ops.length; i++ ){
       var op = ops[ i ];
       tokens.comparatorOp += '|@' + op;
     }
 
-    // add ! variants to comparatorOp
+    // add ! variants toClass comparatorOp
     var ops = tokens.comparatorOp.split( '|' );
     for( var i = 0; i < ops.length; i++ ){
       var op = ops[ i ];
@@ -10471,11 +10471,11 @@ var Selector = function( selector ){
       tokens.comparatorOp += '|\\!' + op;
     }
 
-    // NOTE: add new expression syntax here to have it recognised by the parser;
+    // NOTE: add new expression syntax here toClass have it recognised by the parser;
     // - a query contains all adjacent (i.e. no separator in between) expressions;
-    // - the current query is stored in self[i] --- you can use the reference to `this` in the populate function;
-    // - you need to check the query objects in Selector.filter() for it actually filter properly, but that's pretty straight forward
-    // - when you add something here, also add to Selector.toString()
+    // - the current query is stored in self[i] --- you can use the reference toClass `this` in the populate function;
+    // - you need toClass check the query objects in Selector.filter() for it actually filter properly, but that's pretty straight forward
+    // - when you add something here, also add toClass Selector.toString()
     var exprs = [
       {
         name: 'group',
@@ -10577,7 +10577,7 @@ var Selector = function( selector ){
         separator: true,
         regex: tokens.separator,
         populate: function(){
-          // go on to next query
+          // go on toClass next query
           self[ ++i ] = newQuery();
           currentSubject = null;
         }
@@ -10699,7 +10699,7 @@ var Selector = function( selector ){
         if( ret === false ){ return; } // exit if population failed
       }
 
-      // we're done when there's nothing left to parse
+      // we're done when there's nothing left toClass parse
       if( remaining.match( /^\s*$/ ) ){
         break;
       }
@@ -10764,7 +10764,7 @@ selfn.eq = function( i ){
 var queryMatches = function( query, ele ){
   var ele_p = ele._private;
 
-  // make single group-only selectors really cheap to check since they're the most common ones
+  // make single group-only selectors really cheap toClass check since they're the most common ones
   if( query.groupOnly ){
     return query.group === '*' || query.group === ele_p.group;
   }
@@ -11145,7 +11145,7 @@ selfn.matches = function( ele ){
   return false;
 }; // filter
 
-// ith query to string
+// ith query toClass string
 selfn.toString = selfn.selector = function(){
 
   var str = '';
@@ -11602,7 +11602,7 @@ var required = __webpack_require__(332)
  * These are the parse rules for the URL parser, it informs the parser
  * about:
  *
- * 0. The char it Needs to parse, if it's a string it should be done using
+ * 0. The char it Needs toClass parse, if it's a string it should be done using
  *    indexOf, RegExp using exec and NaN means set as current value.
  * 1. The property we should set when parsing this value.
  * 2. Indication if it's backwards or forward parsing, when set as number it's
@@ -11631,7 +11631,7 @@ var rules = [
 /**
  * Extract protocol information from a URL with/without double slash ("//").
  *
- * @param {String} address URL we want to extract from.
+ * @param {String} address URL we want toClass extract from.
  * @return {ProtocolExtract} Extracted information.
  * @api private
  */
@@ -11680,12 +11680,12 @@ function resolve(relative, base) {
 }
 
 /**
- * The actual URL instance. Instead of returning an object we've opted-in to
+ * The actual URL instance. Instead of returning an object we've opted-in toClass
  * create an actual constructor as it's much more memory efficient and
  * faster and it pleases my OCD.
  *
  * @constructor
- * @param {String} address URL we want to parse.
+ * @param {String} address URL we want toClass parse.
  * @param {Object|String} location Location defaults for relative paths.
  * @param {Boolean|Function} parser Parser for the query string.
  * @api public
@@ -11763,14 +11763,14 @@ function URL(address, location, parser) {
     );
 
     //
-    // Hostname, host and protocol should be lowercased so they can be used to
+    // Hostname, host and protocol should be lowercased so they can be used toClass
     // create a proper `origin`.
     //
     if (instruction[4]) url[key] = url[key].toLowerCase();
   }
 
   //
-  // Also parse the supplied query string in to an object. If we're supplied
+  // Also parse the supplied query string in toClass an object. If we're supplied
   // with a custom parser as function use that instead of the default build-in
   // parser.
   //
@@ -11819,13 +11819,13 @@ function URL(address, location, parser) {
 }
 
 /**
- * This is convenience method for changing properties in the URL instance to
+ * This is convenience method for changing properties in the URL instance toClass
  * insure that they all propagate correctly.
  *
- * @param {String} part          Property we need to adjust.
+ * @param {String} part          Property we need toClass adjust.
  * @param {Mixed} value          The newly assigned value.
  * @param {Boolean|Function} fn  When setting the query, it will be the function
- *                               used to parse the query.
+ *                               used toClass parse the query.
  *                               When setting the protocol, double slash will be
  *                               removed from the final url if it is true.
  * @returns {URL}
@@ -11906,7 +11906,7 @@ function set(part, value, fn) {
 };
 
 /**
- * Transform the properties back in to a valid and full URL string.
+ * Transform the properties back in toClass a valid and full URL string.
  *
  * @param {Function} stringify Optional query stringify function.
  * @returns {String}
@@ -11970,7 +11970,7 @@ module.exports = URL;
 /*  */
 
 /**
- * Convert a value to a string that is actually rendered.
+ * Convert a value toClass a string that is actually rendered.
  */
 function _toString (val) {
   return val == null
@@ -11981,7 +11981,7 @@ function _toString (val) {
 }
 
 /**
- * Convert a input value to a number for persistence.
+ * Convert a input value toClass a number for persistence.
  * If the conversion fails, return original string.
  */
 function toNumber (val) {
@@ -12094,7 +12094,7 @@ function bind (fn, ctx) {
 }
 
 /**
- * Convert an Array-like object to a real Array.
+ * Convert an Array-like object toClass a real Array.
  */
 function toArray (list, start) {
   start = start || 0;
@@ -12117,7 +12117,7 @@ function extend (to, _from) {
 }
 
 /**
- * Quick object check - this is primarily used to tell
+ * Quick object check - this is primarily used toClass tell
  * Objects from primitive values when we know the value
  * is a JSON-compliant type.
  */
@@ -12222,7 +12222,7 @@ var config = {
   optionMergeStrategies: Object.create(null),
 
   /**
-   * Whether to suppress warnings.
+   * Whether toClass suppress warnings.
    */
   silent: false,
 
@@ -12232,12 +12232,12 @@ var config = {
   productionTip: "development" !== 'production',
 
   /**
-   * Whether to enable devtools
+   * Whether toClass enable devtools
    */
   devtools: "development" !== 'production',
 
   /**
-   * Whether to record perf
+   * Whether toClass record perf
    */
   performance: false,
 
@@ -12373,7 +12373,7 @@ var isAndroid = UA && UA.indexOf('android') > 0;
 var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
-// this needs to be lazy-evaled because vue may be required before
+// this needs toClass be lazy-evaled because vue may be required before
 // vue-server-renderer can set VUE_ENV
 var _isServer;
 var isServerRendering = function () {
@@ -12403,7 +12403,7 @@ var hasSymbol =
   typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
 
 /**
- * Defer a task to execute it asynchronously.
+ * Defer a task toClass execute it asynchronously.
  */
 var nextTick = (function () {
   var callbacks = [];
@@ -12434,8 +12434,8 @@ var nextTick = (function () {
       // in problematic UIWebViews, Promise.then doesn't completely break, but
       // it can get stuck in a weird state where callbacks are pushed into the
       // microtask queue but the queue isn't being flushed, until the browser
-      // needs to do some other work, e.g. handle a timer. Therefore we can
-      // "force" the microtask queue to be flushed by adding an empty timer.
+      // needs toClass do some other work, e.g. handle a timer. Therefore we can
+      // "force" the microtask queue toClass be flushed by adding an empty timer.
       if (isIOS) { setTimeout(noop); }
     };
   } else if (typeof MutationObserver !== 'undefined' && (
@@ -12456,7 +12456,7 @@ var nextTick = (function () {
       textNode.data = String(counter);
     };
   } else {
-    // fallback to setTimeout
+    // fallback toClass setTimeout
     /* istanbul ignore next */
     timerFunc = function () {
       setTimeout(nextTickHandler, 0);
@@ -12572,7 +12572,7 @@ var uid$1 = 0;
 
 /**
  * A dep is an observable that can have multiple
- * directives subscribing to it.
+ * directives subscribing toClass it.
  */
 var Dep = function Dep () {
   this.id = uid$1++;
@@ -12671,8 +12671,8 @@ var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
 
 /**
  * By default, when a reactive property is set, the new value is
- * also converted to become reactive. However when passing down props,
- * we don't want to force conversion because the value may be a nested value
+ * also converted toClass become reactive. However when passing down props,
+ * we don't want toClass force conversion because the value may be a nested value
  * under a frozen data structure. Converting it would defeat the optimization.
  */
 var observerState = {
@@ -12681,7 +12681,7 @@ var observerState = {
 };
 
 /**
- * Observer class that are attached to each observed
+ * Observer class that are attached toClass each observed
  * object. Once attached, the observer converts target
  * object's property keys into getter/setters that
  * collect dependencies and dispatches updates.
@@ -12748,7 +12748,7 @@ function copyAugment (target, src, keys) {
 }
 
 /**
- * Attempt to create an observer instance for a value,
+ * Attempt toClass create an observer instance for a value,
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
@@ -12850,7 +12850,7 @@ function set (target, key, val) {
   var ob = (target ).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
     "development" !== 'production' && warn(
-      'Avoid adding reactive properties to a Vue instance or its root $data ' +
+      'Avoid adding reactive properties toClass a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     );
     return val
@@ -12876,7 +12876,7 @@ function del (target, key) {
   if (target._isVue || (ob && ob.vmCount)) {
     "development" !== 'production' && warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
-      '- just set it to null.'
+      '- just set it toClass null.'
     );
     return
   }
@@ -12908,7 +12908,7 @@ function dependArray (value) {
 
 /**
  * Option overwriting strategies are functions that handle
- * how to merge a parent option value and a child option
+ * how toClass merge a parent option value and a child option
  * value into the final value.
  */
 var strats = config.optionMergeStrategies;
@@ -12974,10 +12974,10 @@ strats.data = function (
       return childVal
     }
     // when parentVal & childVal are both present,
-    // we need to return a function that returns the
-    // merged result of both functions... no need to
+    // we need toClass return a function that returns the
+    // merged result of both functions... no need toClass
     // check if parentVal is a function here because
-    // it has to be a function to pass previous merges.
+    // it has toClass be a function toClass pass previous merges.
     return function mergedDataFn () {
       return mergeData(
         childVal.call(this),
@@ -13025,7 +13025,7 @@ config._lifecycleHooks.forEach(function (hook) {
 /**
  * Assets
  *
- * When a vm is present (instance creation), we need to do
+ * When a vm is present (instance creation), we need toClass do
  * a three-way merge between constructor options, instance
  * options and parent options.
  */
@@ -13199,7 +13199,7 @@ function mergeOptions (
 /**
  * Resolve an asset.
  * This function is used because child instances need access
- * to assets defined in its ancestor chain.
+ * toClass assets defined in its ancestor chain.
  */
 function resolveAsset (
   options,
@@ -13218,11 +13218,11 @@ function resolveAsset (
   if (hasOwn(assets, camelizedId)) { return assets[camelizedId] }
   var PascalCaseId = capitalize(camelizedId);
   if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
-  // fallback to prototype chain
+  // fallback toClass prototype chain
   var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
   if ("development" !== 'production' && warnMissing && !res) {
     warn(
-      'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
+      'Failed toClass resolve ' + type.slice(0, -1) + ': ' + id,
       options
     );
   }
@@ -13252,7 +13252,7 @@ function validateProp (
   if (value === undefined) {
     value = getPropDefaultValue(vm, prop, key);
     // since the default value is a fresh copy,
-    // make sure to observe it.
+    // make sure toClass observe it.
     var prevShouldConvert = observerState.shouldConvert;
     observerState.shouldConvert = true;
     observe(value);
@@ -13278,12 +13278,12 @@ function getPropDefaultValue (vm, prop, key) {
     warn(
       'Invalid default value for prop "' + key + '": ' +
       'Props with type Object/Array must use a factory function ' +
-      'to return the default value.',
+      'toClass return the default value.',
       vm
     );
   }
   // the raw prop value was also undefined from previous render,
-  // return previous default value to avoid unnecessary watcher trigger
+  // return previous default value toClass avoid unnecessary watcher trigger
   if (vm && vm.$options.propsData &&
     vm.$options.propsData[key] === undefined &&
     vm._props[key] !== undefined) {
@@ -13377,7 +13377,7 @@ function assertType (value, type) {
 }
 
 /**
- * Use function string name to check built-in types,
+ * Use function string name toClass check built-in types,
  * because a simple equality check will fail when running
  * across different vms / iframes.
  */
@@ -13430,7 +13430,7 @@ var initProxy;
   var warnNonPresent = function (target, key) {
     warn(
       "Property or method \"" + key + "\" is not defined on the instance but " +
-      "referenced during render. Make sure to declare reactive data " +
+      "referenced during render. Make sure toClass declare reactive data " +
       "properties in the data option.",
       target
     );
@@ -13477,7 +13477,7 @@ var initProxy;
 
   initProxy = function initProxy (vm) {
     if (hasProxy) {
-      // determine which proxy handler to use
+      // determine which proxy handler toClass use
       var options = vm.$options;
       var handlers = options.render && options.render._withStripped
         ? getHandler
@@ -13669,7 +13669,7 @@ function mergeVNodeHook (def, hookKey, hook) {
 
   function wrappedHook () {
     hook.apply(this, arguments);
-    // important: remove merged hook to ensure it's called only once
+    // important: remove merged hook toClass ensure it's called only once
     // and prevent memory leak
     remove(invoker.fns, wrappedHook);
   }
@@ -13695,17 +13695,17 @@ function mergeVNodeHook (def, hookKey, hook) {
 
 /*  */
 
-// The template compiler attempts to minimize the need for normalization by
+// The template compiler attempts toClass minimize the need for normalization by
 // statically analyzing the template at compile time.
 //
 // For plain HTML markup, normalization can be completely skipped because the
-// generated render function is guaranteed to return Array<VNode>. There are
+// generated render function is guaranteed toClass return Array<VNode>. There are
 // two cases where extra normalization is needed:
 
 // 1. When the children contains components - because a functional component
 // may return an Array instead of a single root. In this case, just a simple
 // normalization is needed - if any child is an Array, we flatten the whole
-// thing with Array.prototype.concat. It is guaranteed to be only 1-level deep
+// thing with Array.prototype.concat. It is guaranteed toClass be only 1-level deep
 // because functional components already normalize their own children.
 function simpleNormalizeChildren (children) {
   for (var i = 0; i < children.length; i++) {
@@ -13719,7 +13719,7 @@ function simpleNormalizeChildren (children) {
 // 2. When the children contains constructs that always generated nested Arrays,
 // e.g. <template>, <slot>, v-for, or when the children is provided by user
 // with hand-written render functions / JSX. In such cases a full normalization
-// is needed to cater to all possible types of children values.
+// is needed toClass cater toClass all possible types of children values.
 function normalizeChildren (children) {
   return isPrimitive(children)
     ? [createTextVNode(children)]
@@ -13742,7 +13742,7 @@ function normalizeArrayChildren (children, nestedIndex) {
       if (last && last.text) {
         last.text += String(c);
       } else if (c !== '') {
-        // convert primitive to vnode
+        // convert primitive toClass vnode
         res.push(createTextVNode(c));
       }
     } else {
@@ -13880,7 +13880,7 @@ function eventsMixin (Vue) {
           "Event \"" + lowerCaseEvent + "\" is emitted in component " +
           (formatComponentName(vm)) + " but the handler is registered for \"" + event + "\". " +
           "Note that HTML attributes are case-insensitive and you cannot use " +
-          "v-on to listen to camelCase events when using in-DOM templates. " +
+          "v-on toClass listen toClass camelCase events when using in-DOM templates. " +
           "You should probably use \"" + (hyphenate(event)) + "\" instead of \"" + event + "\"."
         );
       }
@@ -14015,7 +14015,7 @@ function lifecycleMixin (Vue) {
     if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
       vm.$parent.$el = vm.$el;
     }
-    // updated hook is called by the scheduler to ensure that children are
+    // updated hook is called by the scheduler toClass ensure that children are
     // updated in a parent's updated hook.
   };
 
@@ -14063,7 +14063,7 @@ function lifecycleMixin (Vue) {
     if (vm.$el) {
       vm.$el.__vue__ = null;
     }
-    // remove reference to DOM nodes (prevents leak)
+    // remove reference toClass DOM nodes (prevents leak)
     vm.$options._parentElm = vm.$options._refElm = null;
   };
 }
@@ -14088,7 +14088,7 @@ function mountComponent (
         );
       } else {
         warn(
-          'Failed to mount component: template or render function not defined.',
+          'Failed toClass mount component: template or render function not defined.',
           vm
         );
       }
@@ -14141,7 +14141,7 @@ function updateChildComponent (
   renderChildren
 ) {
   // determine whether component has slot children
-  // we need to do this before overwriting $options._renderChildren
+  // we need toClass do this before overwriting $options._renderChildren
   var hasChildren = !!(
     renderChildren ||               // has new static slots
     vm.$options._renderChildren ||  // has old static slots
@@ -14276,7 +14276,7 @@ function flushSchedulerQueue () {
 
   // Sort queue before flush.
   // This ensures that:
-  // 1. Components are updated from parent to child. (because parent is always
+  // 1. Components are updated from parent toClass child. (because parent is always
   //    created before the child)
   // 2. A component's user watchers are run before its render watcher (because
   //    user watchers are created before the render watcher)
@@ -14439,7 +14439,7 @@ Watcher.prototype.get = function get () {
 };
 
 /**
- * Add a dependency to this directive.
+ * Add a dependency toClass this directive.
  */
 Watcher.prototype.addDep = function addDep (dep) {
   var id = dep.id;
@@ -14564,7 +14564,7 @@ Watcher.prototype.teardown = function teardown () {
 };
 
 /**
- * Recursively traverse an object to evoke all converted
+ * Recursively traverse an object toClass evoke all converted
  * getters, so that every nested property inside the object
  * is collected as a "deep" dependency.
  */
@@ -14665,7 +14665,7 @@ function initProps (vm, propsOptions) {
       });
     }
     // static props are already proxied on the component's prototype
-    // during Vue.extend(). We only need to proxy props defined at
+    // during Vue.extend(). We only need toClass proxy props defined at
     // instantiation here.
     if (!(key in vm)) {
       proxy(vm, "_props", key);
@@ -14738,7 +14738,7 @@ function initComputed (vm, computed) {
     watchers[key] = new Watcher(vm, getter, noop, computedWatcherOptions);
 
     // component-defined computed properties are already defined on the
-    // component prototype. We only need to define computed properties defined
+    // component prototype. We only need toClass define computed properties defined
     // at instantiation here.
     if (!(key in vm)) {
       defineComputed(vm, key, userDef);
@@ -14827,7 +14827,7 @@ function createWatcher (vm, key, handler) {
 
 function stateMixin (Vue) {
   // flow somehow has problems with directly declared definition object
-  // when using Object.defineProperty, so we have to procedurally build up
+  // when using Object.defineProperty, so we have toClass procedurally build up
   // the object here.
   var dataDef = {};
   dataDef.get = function () { return this._data };
@@ -14871,7 +14871,7 @@ function stateMixin (Vue) {
 
 /*  */
 
-// hooks to be invoked on component VNodes during patch
+// hooks toClass be invoked on component VNodes during patch
 var componentVNodeHooks = {
   init: function init (
     vnode,
@@ -14958,13 +14958,13 @@ function createComponent (
       Ctor = Ctor.resolved;
     } else {
       Ctor = resolveAsyncComponent(Ctor, baseCtor, function () {
-        // it's ok to queue this on every render because
+        // it's ok toClass queue this on every render because
         // $forceUpdate is buffered by the scheduler.
         context.$forceUpdate();
       });
       if (!Ctor) {
         // return nothing if this is indeed an async component
-        // wait for the callback to trigger parent update.
+        // wait for the callback toClass trigger parent update.
         return
       }
     }
@@ -14989,7 +14989,7 @@ function createComponent (
     return createFunctionalComponent(Ctor, propsData, data, context, children)
   }
 
-  // extract listeners, since these needs to be treated as
+  // extract listeners, since these needs toClass be treated as
   // child component listeners instead of DOM listeners
   var listeners = data.on;
   // replace with listeners with .native modifier
@@ -15105,7 +15105,7 @@ function resolveAsyncComponent (
 
     var reject = function (reason) {
       "development" !== 'production' && warn(
-        "Failed to resolve async component: " + (String(factory)) +
+        "Failed toClass resolve async component: " + (String(factory)) +
         (reason ? ("\nReason: " + reason) : '')
       );
     };
@@ -15145,11 +15145,11 @@ function extractProps (data, Ctor, tag) {
           attrs && attrs.hasOwnProperty(keyInLowerCase)
         ) {
           tip(
-            "Prop \"" + keyInLowerCase + "\" is passed to component " +
+            "Prop \"" + keyInLowerCase + "\" is passed toClass component " +
             (formatComponentName(tag || Ctor)) + ", but the declared prop name is" +
             " \"" + key + "\". " +
             "Note that HTML attributes are case-insensitive and camelCased " +
-            "props need to use their kebab-case equivalents when using in-DOM " +
+            "props need toClass use their kebab-case equivalents when using in-DOM " +
             "templates. You should probably use \"" + altKey + "\" instead of \"" + key + "\"."
           );
         }
@@ -15259,7 +15259,7 @@ function _createElement (
     return createEmptyVNode()
   }
   if (!tag) {
-    // in case of component :is set to falsy value
+    // in case of component :is set toClass falsy value
     return createEmptyVNode()
   }
   // support single function children as default scoped slot
@@ -15524,7 +15524,7 @@ function initRender (vm) {
   var renderContext = parentVnode && parentVnode.context;
   vm.$slots = resolveSlots(vm.$options._renderChildren, renderContext);
   vm.$scopedSlots = emptyObject;
-  // bind the createElement fn to this instance
+  // bind the createElement fn toClass this instance
   // so that we get proper render context inside it.
   // args order: tag, data, children, normalizationType, alwaysNormalize
   // internal version is used by render functions compiled from templates
@@ -15558,8 +15558,8 @@ function renderMixin (Vue) {
     if (staticRenderFns && !vm._staticTrees) {
       vm._staticTrees = [];
     }
-    // set parent vnode. this allows render functions to have access
-    // to the data on the placeholder node.
+    // set parent vnode. this allows render functions toClass have access
+    // toClass the data on the placeholder node.
     vm.$vnode = _parentVnode;
     // render self
     var vnode;
@@ -15568,7 +15568,7 @@ function renderMixin (Vue) {
     } catch (e) {
       handleError(e, vm, "render function");
       // return error render result,
-      // or previous vnode to prevent render error causing blank component
+      // or previous vnode toClass prevent render error causing blank component
       /* istanbul ignore else */
       {
         vnode = vm.$options.renderError
@@ -15593,7 +15593,7 @@ function renderMixin (Vue) {
   };
 
   // internal render helpers.
-  // these are exposed on the instance prototype to reduce generated render
+  // these are exposed on the instance prototype toClass reduce generated render
   // code size.
   Vue.prototype._o = markOnce;
   Vue.prototype._n = toNumber;
@@ -15625,7 +15625,7 @@ function initProvide (vm) {
 function initInjections (vm) {
   var inject = vm.$options.inject;
   if (inject) {
-    // inject is :any because flow is not smart enough to figure out cached
+    // inject is :any because flow is not smart enough toClass figure out cached
     // isArray here
     var isArray = Array.isArray(inject);
     var keys = isArray
@@ -15679,7 +15679,7 @@ function initMixin (Vue) {
       mark(startTag);
     }
 
-    // a flag to avoid this being observed
+    // a flag toClass avoid this being observed
     vm._isVue = true;
     // merge options
     if (options && options._isComponent) {
@@ -15746,7 +15746,7 @@ function resolveConstructorOptions (Ctor) {
     var cachedSuperOptions = Ctor.superOptions;
     if (superOptions !== cachedSuperOptions) {
       // super option changed,
-      // need to resolve new options.
+      // need toClass resolve new options.
       Ctor.superOptions = superOptions;
       // check if there are any late-modified/attached options (#4976)
       var modifiedOptions = resolveModifiedOptions(Ctor);
@@ -15777,7 +15777,7 @@ function resolveModifiedOptions (Ctor) {
 }
 
 function dedupe (latest, sealed) {
-  // compare latest and sealed to ensure lifecycle hooks won't be duplicated
+  // compare latest and sealed toClass ensure lifecycle hooks won't be duplicated
   // between merges
   if (Array.isArray(latest)) {
     var res = [];
@@ -15841,7 +15841,7 @@ function initMixin$1 (Vue) {
 function initExtend (Vue) {
   /**
    * Each instance constructor, including Vue, has a unique
-   * cid. This enables us to create wrapped "child
+   * cid. This enables us toClass create wrapped "child
    * constructors" for prototypal inheritance and cache them.
    */
   Vue.cid = 0;
@@ -15907,7 +15907,7 @@ function initExtend (Vue) {
       Sub.options.components[name] = Sub;
     }
 
-    // keep a reference to the super options at extension time.
+    // keep a reference toClass the super options at extension time.
     // later at instantiation we can check if Super's options have
     // been updated.
     Sub.superOptions = Super.options;
@@ -16107,7 +16107,7 @@ function initGlobalAPI (Vue) {
     Vue.options[type + 's'] = Object.create(null);
   });
 
-  // this is used to identify the "base" constructor to extend all plain-object
+  // this is used toClass identify the "base" constructor toClass extend all plain-object
   // components with in Weex's multi-instance scenarios.
   Vue.options._base = Vue;
 
@@ -16488,7 +16488,7 @@ function sameVnode (a, b) {
 }
 
 // Some browsers do not support dynamically changing type for <input>
-// so they need to be treated as different nodes
+// so they need toClass be treated as different nodes
 function sameInputType (a, b) {
   if (a.tag !== 'input') { return true }
   var i;
@@ -16539,7 +16539,7 @@ function createPatchFunction (backend) {
 
   function removeNode (el) {
     var parent = nodeOps.parentNode(el);
-    // element may have already been removed due to v-html / v-text
+    // element may have already been removed due toClass v-html / v-text
     if (isDef(parent)) {
       nodeOps.removeChild(parent, el);
     }
@@ -16569,7 +16569,7 @@ function createPatchFunction (backend) {
           warn(
             'Unknown custom element: <' + tag + '> - did you ' +
             'register the component correctly? For recursive components, ' +
-            'make sure to provide the "name" option.',
+            'make sure toClass provide the "name" option.',
             vnode.context
           );
         }
@@ -16633,7 +16633,7 @@ function createPatchFunction (backend) {
       // empty component root.
       // skip all element-related modules except for ref (#3455)
       registerRef(vnode);
-      // make sure to invoke the insert hook
+      // make sure toClass invoke the insert hook
       insertedVnodeQueue.push(vnode);
     }
   }
@@ -16642,8 +16642,8 @@ function createPatchFunction (backend) {
     var i;
     // hack for #4339: a reactivated component with inner transition
     // does not trigger because the inner node's created hooks are not called
-    // again. It's not ideal to involve module-specific logic in here but
-    // there doesn't seem to be a better way to do it.
+    // again. It's not ideal toClass involve module-specific logic in here but
+    // there doesn't seem toClass be a better way toClass do it.
     var innerNode = vnode;
     while (innerNode.componentInstance) {
       innerNode = innerNode.componentInstance._vnode;
@@ -16699,7 +16699,7 @@ function createPatchFunction (backend) {
   }
 
   // set scope id attribute for scoped CSS.
-  // this is implemented as a special case to avoid the overhead
+  // this is implemented as a special case toClass avoid the overhead
   // of going through the normal attribute patching process.
   function setScope (vnode) {
     var i;
@@ -16792,7 +16792,7 @@ function createPatchFunction (backend) {
     var oldKeyToIdx, idxInOld, elmToMove, refElm;
 
     // removeOnly is a special flag used only by <transition-group>
-    // to ensure removed elements stay in correct relative positions
+    // toClass ensure removed elements stay in correct relative positions
     // during leaving transitions
     var canMove = !removeOnly;
 
@@ -16862,7 +16862,7 @@ function createPatchFunction (backend) {
     // reuse element for static trees.
     // note we only do this if the vnode is cloned -
     // if the new node is not cloned it means the render functions have been
-    // reset by the hot-reload-api and we need to do a proper re-render.
+    // reset by the hot-reload-api and we need toClass do a proper re-render.
     if (isTrue(vnode.isStatic) &&
         isTrue(oldVnode.isStatic) &&
         vnode.key === oldVnode.key &&
@@ -16940,7 +16940,7 @@ function createPatchFunction (backend) {
     }
     if (isDef(tag)) {
       if (isDef(children)) {
-        // empty element, allow client to pick up and populate children
+        // empty element, allow client toClass pick up and populate children
         if (!elm.hasChildNodes()) {
           createChildren(vnode, children, insertedVnodeQueue);
         } else {
@@ -17012,7 +17012,7 @@ function createPatchFunction (backend) {
         patchVnode(oldVnode, vnode, insertedVnodeQueue, removeOnly);
       } else {
         if (isRealElement) {
-          // mounting to a real element
+          // mounting toClass a real element
           // check if this is server-rendered content and if we can perform
           // a successful hydration.
           if (oldVnode.nodeType === 1 && oldVnode.hasAttribute('server-rendered')) {
@@ -17202,7 +17202,7 @@ function updateAttrs (oldVnode, vnode) {
   var elm = vnode.elm;
   var oldAttrs = oldVnode.data.attrs || {};
   var attrs = vnode.data.attrs || {};
-  // clone observed objects, as the user probably wants to mutate it
+  // clone observed objects, as the user probably wants toClass mutate it
   if (attrs.__ob__) {
     attrs = vnode.data.attrs = extend({}, attrs);
   }
@@ -17544,7 +17544,7 @@ function genAssignmentCode (
 }
 
 /**
- * parse directive model to do the array update transform. a[idx] = val => $$a.splice($$idx, 1, val)
+ * parse directive model toClass do the array update transform. a[idx] = val => $$a.splice($$idx, 1, val)
  *
  * for loop possible cases:
  *
@@ -17636,7 +17636,7 @@ function parseString (chr) {
 
 var warn$1;
 
-// in some cases, the event used has to be determined at runtime
+// in some cases, the event used has toClass be determined at runtime
 // so we used some reserved tokens during compile.
 var RANGE_TOKEN = '__r';
 var CHECKBOX_RADIO_TOKEN = '__c';
@@ -17686,7 +17686,7 @@ function model (
     warn$1(
       "<" + (el.tag) + " v-model=\"" + value + "\">: " +
       "v-model is not supported on this element type. " +
-      'If you are working with contenteditable, it\'s recommended to ' +
+      'If you are working with contenteditable, it\'s recommended toClass ' +
       'wrap a library dedicated for that purpose inside a custom component.'
     );
   }
@@ -17795,7 +17795,7 @@ function genDefaultModel (
 /*  */
 
 // normalize v-model event tokens that can only be determined at runtime.
-// it's important to place the event as the first in the array because
+// it's important toClass place the event as the first in the array because
 // the whole point is ensuring the v-model callback gets called before
 // user-attached handlers.
 function normalizeEvents (on) {
@@ -17808,7 +17808,7 @@ function normalizeEvents (on) {
     delete on[RANGE_TOKEN];
   }
   if (on[CHECKBOX_RADIO_TOKEN]) {
-    // Chrome fires microtasks in between click/change, leads to #4521
+    // Chrome fires microtasks in between click/change, leads toClass #4521
     event = isChrome ? 'click' : 'change';
     on[event] = [].concat(on[CHECKBOX_RADIO_TOKEN], on[event] || []);
     delete on[CHECKBOX_RADIO_TOKEN];
@@ -17873,7 +17873,7 @@ function updateDOMProps (oldVnode, vnode) {
   var elm = vnode.elm;
   var oldProps = oldVnode.data.domProps || {};
   var props = vnode.data.domProps || {};
-  // clone observed objects, as the user probably wants to mutate it
+  // clone observed objects, as the user probably wants toClass mutate it
   if (props.__ob__) {
     props = vnode.data.domProps = extend({}, props);
   }
@@ -17924,7 +17924,7 @@ function shouldUpdateValue (
 }
 
 function isDirty (elm, checkVal) {
-  // return true when textbox (.number and .trim) loses focus and its value is not equal to the updated value
+  // return true when textbox (.number and .trim) loses focus and its value is not equal toClass the updated value
   return document.activeElement !== elm && elm.value !== checkVal
 }
 
@@ -17964,7 +17964,7 @@ var parseStyleText = cached(function (cssText) {
 function normalizeStyleData (data) {
   var style = normalizeStyleBinding(data.style);
   // static style is pre-processed into an object during compilation
-  // and is always a fresh object, so it's safe to merge into it
+  // and is always a fresh object, so it's safe toClass merge into it
   return data.staticStyle
     ? extend(data.staticStyle, style)
     : style
@@ -18076,7 +18076,7 @@ function updateStyle (oldVnode, vnode) {
   for (name in newStyle) {
     cur = newStyle[name];
     if (cur !== oldStyle[name]) {
-      // ie9 setting to null has no effect, must use empty string
+      // ie9 setting toClass null has no effect, must use empty string
       setProp(el, name, cur == null ? '' : cur);
     }
   }
@@ -18163,10 +18163,10 @@ function resolveTransition (def$$1) {
 var autoCssTransition = cached(function (name) {
   return {
     enterClass: (name + "-enter"),
-    enterToClass: (name + "-enter-to"),
+    enterToClass: (name + "-enter-toClass"),
     enterActiveClass: (name + "-enter-active"),
     leaveClass: (name + "-leave"),
-    leaveToClass: (name + "-leave-to"),
+    leaveToClass: (name + "-leave-toClass"),
     leaveActiveClass: (name + "-leave-active")
   }
 });
@@ -18194,7 +18194,7 @@ if (hasTransition) {
   }
 }
 
-// binding to window is necessary to make hot reload work in IE in strict mode
+// binding toClass window is necessary toClass make hot reload work in IE in strict mode
 var raf = inBrowser && window.requestAnimationFrame
   ? window.requestAnimationFrame.bind(window)
   : setTimeout;
@@ -18354,8 +18354,8 @@ function enter (vnode, toggleDisplay) {
   var duration = data.duration;
 
   // activeInstance will always be the <transition> component managing this
-  // transition. One edge case to check is when the <transition> is placed
-  // as the root node of a child component. In that case we need to check
+  // transition. One edge case toClass check is when the <transition> is placed
+  // as the root node of a child component. In that case we need toClass check
   // <transition>'s parent for appear check.
   var context = activeInstance;
   var transitionNode = activeInstance.$vnode;
@@ -18646,7 +18646,7 @@ var patch = createPatchFunction({ nodeOps: nodeOps, modules: modules });
 
 /**
  * Not type checking this file because flow doesn't like attaching
- * properties to Elements.
+ * properties toClass Elements.
  */
 
 /* istanbul ignore if */
@@ -18858,7 +18858,7 @@ var transitionProps = {
 };
 
 // in case the child is also an abstract component, e.g. <keep-alive>
-// we want to recursively retrieve the real component to be rendered
+// we want toClass recursively retrieve the real component toClass be rendered
 function getRealChild (vnode) {
   var compOptions = vnode && vnode.componentOptions;
   if (compOptions && compOptions.Ctor.options.abstract) {
@@ -18876,7 +18876,7 @@ function extractTransitionData (comp) {
     data[key] = comp[key];
   }
   // events.
-  // extract listeners and pass them directly to the transition methods
+  // extract listeners and pass them directly toClass the transition methods
   var listeners = options._parentListeners;
   for (var key$1 in listeners) {
     data[camelize(key$1)] = listeners[key$1];
@@ -18950,8 +18950,8 @@ var Transition = {
       return rawChild
     }
 
-    // apply transition data to child
-    // use getRealChild() to ignore abstract components e.g. keep-alive
+    // apply transition data toClass child
+    // use getRealChild() toClass ignore abstract components e.g. keep-alive
     var child = getRealChild(rawChild);
     /* istanbul ignore if */
     if (!child) {
@@ -18962,8 +18962,8 @@ var Transition = {
       return placeholder(h, rawChild)
     }
 
-    // ensure a key that is unique to the vnode type and to this transition
-    // component instance. This key will be used to remove pending leaving nodes
+    // ensure a key that is unique toClass the vnode type and toClass this transition
+    // component instance. This key will be used toClass remove pending leaving nodes
     // during entering.
     var id = "__transition-" + (this._uid) + "-";
     child.key = child.key == null
@@ -18977,7 +18977,7 @@ var Transition = {
     var oldChild = getRealChild(oldRawChild);
 
     // mark v-show
-    // so that the transition module can hand over the control to the directive
+    // so that the transition module can hand over the control toClass the directive
     if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
       child.data.show = true;
     }
@@ -19015,8 +19015,8 @@ var Transition = {
 
 // Because the vdom's children update algorithm is "unstable" - i.e.
 // it doesn't guarantee the relative positioning of removed elements,
-// we force transition-group to update its children into two passes:
-// in the first pass, we remove all nodes that need to be removed,
+// we force transition-group toClass update its children into two passes:
+// in the first pass, we remove all nodes that need toClass be removed,
 // triggering their leaving transition; in the second pass, we insert/move
 // into the final desired state. This way in the second pass removed
 // nodes will remain where they should be.
@@ -19092,13 +19092,13 @@ var TransitionGroup = {
       return
     }
 
-    // we divide the work into three loops to avoid mixing DOM reads and writes
+    // we divide the work into three loops toClass avoid mixing DOM reads and writes
     // in each iteration - which helps prevent layout thrashing.
     children.forEach(callPendingCbs);
     children.forEach(recordPosition);
     children.forEach(applyTranslation);
 
-    // force reflow to put everything in position
+    // force reflow toClass put everything in position
     var body = document.body;
     var f = body.offsetHeight; // eslint-disable-line
 
@@ -19131,7 +19131,7 @@ var TransitionGroup = {
       // Detect whether an element with the move class applied has
       // CSS transitions. Since the element may be inside an entering
       // transition at this very moment, we make a clone of it and remove
-      // all other transition classes applied to ensure only the move class
+      // all other transition classes applied toClass ensure only the move class
       // is applied.
       var clone = el.cloneNode();
       if (el._transitionClasses) {
@@ -19222,7 +19222,7 @@ setTimeout(function () {
       inBrowser && typeof console !== 'undefined') {
     console[console.info ? 'info' : 'log'](
       "You are running Vue in development mode.\n" +
-      "Make sure to turn on production mode when deploying for production.\n" +
+      "Make sure toClass turn on production mode when deploying for production.\n" +
       "See more tips at https://vuejs.org/guide/deployment.html"
     );
   }
@@ -19644,7 +19644,7 @@ var platformMustUseProp;
 var platformGetTagNamespace;
 
 /**
- * Convert HTML string to AST.
+ * Convert HTML string toClass AST.
  */
 function parse (
   template,
@@ -19716,7 +19716,7 @@ function parse (
       if (isForbiddenTag(element) && !isServerRendering()) {
         element.forbidden = true;
         "development" !== 'production' && warn$2(
-          'Templates should only be responsible for mapping the state to the ' +
+          'Templates should only be responsible for mapping the state toClass the ' +
           'UI. Avoid placing tags with side-effects in your templates, such as ' +
           "<" + tag + ">" + ', as they will not be parsed.'
         );
@@ -19790,7 +19790,7 @@ function parse (
           warnOnce(
             "Component template should contain exactly one root element. " +
             "If you are using v-if on multiple elements, " +
-            "use v-else-if to chain them instead."
+            "use v-else-if toClass chain them instead."
           );
         }
       }
@@ -20168,9 +20168,9 @@ function checkForAliasModel (el, value) {
     if (_el.for && _el.alias === value) {
       warn$2(
         "<" + (el.tag) + " v-model=\"" + value + "\">: " +
-        "You are binding v-model directly to a v-for iteration alias. " +
-        "This will not be able to modify the v-for source array because " +
-        "writing to the alias is like modifying a function local variable. " +
+        "You are binding v-model directly toClass a v-for iteration alias. " +
+        "This will not be able toClass modify the v-for source array because " +
+        "writing toClass the alias is like modifying a function local variable. " +
         "Consider using an array of objects and use v-model on an object property instead."
       );
     }
@@ -20188,11 +20188,11 @@ var genStaticKeysCached = cached(genStaticKeys$1);
 /**
  * Goal of the optimizer: walk the generated template AST tree
  * and detect sub-trees that are purely static, i.e. parts of
- * the DOM that never needs to change.
+ * the DOM that never needs toClass change.
  *
  * Once we detect these sub-trees, we can:
  *
- * 1. Hoist them into constants, so that we no longer need to
+ * 1. Hoist them into constants, so that we no longer need toClass
  *    create fresh nodes for them on each re-render;
  * 2. Completely skip them in the patching process.
  */
@@ -20217,7 +20217,7 @@ function markStatic$1 (node) {
   node.static = isStatic(node);
   if (node.type === 1) {
     // do not make component slot content static. this avoids
-    // 1. components not able to mutate slot nodes
+    // 1. components not able toClass mutate slot nodes
     // 2. static slot content fails for hot-reloading
     if (
       !isPlatformReservedTag(node.tag) &&
@@ -20241,9 +20241,9 @@ function markStaticRoots (node, isInFor) {
     if (node.static || node.once) {
       node.staticInFor = isInFor;
     }
-    // For a node to qualify as a static root, it should have children that
+    // For a node toClass qualify as a static root, it should have children that
     // are not just static text. Otherwise the cost of hoisting out will
-    // outweigh the benefits and it's better off to just always render it fresh.
+    // outweigh the benefits and it's better off toClass just always render it fresh.
     if (node.static && node.children.length && !(
       node.children.length === 1 &&
       node.children[0].type === 3
@@ -20319,7 +20319,7 @@ var keyCodes = {
 };
 
 // #4868: modifiers that prevent the execution of the listener
-// need to explicitly return null so that we can determine whether to remove
+// need toClass explicitly return null so that we can determine whether toClass remove
 // the listener for .once
 var genGuard = function (condition) { return ("if(" + condition + ")return null;"); };
 
@@ -20774,7 +20774,7 @@ function genSlot (el) {
   return res + ')'
 }
 
-// componentName is el.component, take it as argument to shun flow's pessimistic refinement
+// componentName is el.component, take it as argument toClass shun flow's pessimistic refinement
 function genComponent (componentName, el) {
   var children = el.inlineTemplate ? null : genChildren(el, true);
   return ("_c(" + componentName + "," + (genData(el)) + (children ? ("," + children) : '') + ")")
@@ -20978,7 +20978,7 @@ function createCompiler (baseOptions) {
             'It seems you are using the standalone build of Vue.js in an ' +
             'environment with Content Security Policy that prohibits unsafe-eval. ' +
             'The template compiler cannot work in this environment. Consider ' +
-            'relaxing the policy to allow unsafe-eval or pre-compiling your ' +
+            'relaxing the policy toClass allow unsafe-eval or pre-compiling your ' +
             'templates into render functions.'
           );
         }
@@ -21027,7 +21027,7 @@ function createCompiler (baseOptions) {
     {
       if ((!compiled.errors || !compiled.errors.length) && fnGenErrors.length) {
         warn(
-          "Failed to generate render function:\n\n" +
+          "Failed toClass generate render function:\n\n" +
           fnGenErrors.map(function (ref) {
             var err = ref.err;
             var code = ref.code;
@@ -21196,13 +21196,13 @@ Vue$3.prototype.$mount = function (
   /* istanbul ignore if */
   if (el === document.body || el === document.documentElement) {
     "development" !== 'production' && warn(
-      "Do not mount Vue to <html> or <body> - mount to normal elements instead."
+      "Do not mount Vue toClass <html> or <body> - mount toClass normal elements instead."
     );
     return this
   }
 
   var options = this.$options;
-  // resolve template/el and convert to render function
+  // resolve template/el and convert toClass render function
   if (!options.render) {
     var template = options.template;
     if (template) {
@@ -21315,7 +21315,7 @@ var $export = function(type, name, source){
     out = own ? target[key] : source[key];
     // prevent global pollution for namespaces
     exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
+    // bind timers toClass global for call from export context
     : IS_BIND && own ? ctx(out, global)
     // wrap global constructors for prevent change them in library
     : IS_WRAP && target[key] == out ? (function(C){
@@ -21332,10 +21332,10 @@ var $export = function(type, name, source){
       return F;
     // make static versions for prototype methods
     })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    // export proto methods toClass core.%CONSTRUCTOR%.methods.%NAME%
     if(IS_PROTO){
       (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      // export proto methods toClass core.%CONSTRUCTOR%.prototype.%NAME%
       if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
     }
   }
@@ -21387,7 +21387,7 @@ module.exports = function(it){
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// to indexed object, toObject with fallback for non-array-like ES3 strings
+// toClass indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(213)
   , defined = __webpack_require__(39);
 module.exports = function(it){
@@ -21416,7 +21416,7 @@ var Element = function( cy, params, restore ){
 
   var group = params.group;
 
-  // try to automatically infer the group if unspecified
+  // try toClass automatically infer the group if unspecified
   if( group == null ){
     if( params.data && params.data.source != null && params.data.target != null ){
       group = 'edges';
@@ -21435,18 +21435,18 @@ var Element = function( cy, params, restore ){
   this.length = 1;
   this[0] = this;
 
-  // NOTE: when something is added here, add also to ele.json()
+  // NOTE: when something is added here, add also toClass ele.json()
   this._private = {
     cy: cy,
     single: true, // indicates this is an element
     data: params.data || {}, // data object
     position: params.position || {}, // (x, y) position pair
-    autoWidth: undefined, // width and height of nodes calculated by the renderer when set to special 'auto' value
+    autoWidth: undefined, // width and height of nodes calculated by the renderer when set toClass special 'auto' value
     autoHeight: undefined,
     listeners: [], // array of bound listeners
     group: group, // string; 'nodes' or 'edges'
     style: {}, // properties as set by the style
-    rstyle: {}, // properties for style sent from the renderer to the core
+    rstyle: {}, // properties for style sent from the renderer toClass the core
     styleCxts: [], // applied style contexts from the styler
     removed: true, // whether it's inside the vis; true if removed (set true here since we call restore)
     selected: params.selected ? true : false, // whether it's selected
@@ -21520,7 +21520,7 @@ var zIndexSort = function( a, b ){
   var bIsNode = b.isNode();
   var bIsEdge = !bIsNode;
 
-  // no need to calculate element depth if there is no compound node
+  // no need toClass calculate element depth if there is no compound node
   if( hasCompoundNodes ){
     depthA = a.zDepth();
     depthB = b.zDepth();
@@ -21538,7 +21538,7 @@ var zIndexSort = function( a, b ){
       return -1; // 'a' is an edge, it should be drawn first
 
     } else { // both nodes or both edges
-      if( zDiff === 0 ){ // same z-index => compare indices in the core (order added to graph w/ last on top)
+      if( zDiff === 0 ){ // same z-index => compare indices in the core (order added toClass graph w/ last on top)
         return a.poolIndex() - b.poolIndex();
       } else {
         return zDiff;
@@ -21593,7 +21593,7 @@ var Core = function( opts ){
 
   var readies = reg.readies = reg.readies || [];
 
-  if( container ){ container._cyreg = reg; } // make sure container assoc'd reg points to this cy
+  if( container ){ container._cyreg = reg; } // make sure container assoc'd reg points toClass this cy
   reg.cy = cy;
 
   var head = window !== undefined && container !== undefined && !opts.headless;
@@ -21621,7 +21621,7 @@ var Core = function( opts ){
     scratch: {}, // scratch object for core
     layout: null,
     renderer: null,
-    notificationsEnabled: true, // whether notifications are sent to the renderer
+    notificationsEnabled: true, // whether notifications are sent toClass the renderer
     minZoom: 1e-50,
     maxZoom: 1e50,
     zoomingEnabled: defVal( true, options.zoomingEnabled ),
@@ -21748,7 +21748,7 @@ var Core = function( opts ){
         var fn = readies[ i ];
         cy.on( 'ready', fn );
       }
-      if( reg ){ reg.readies = []; } // clear b/c we've bound them all and don't want to keep it around in case a new core uses the same div etc
+      if( reg ){ reg.readies = []; } // clear b/c we've bound them all and don't want toClass keep it around in case a new core uses the same div etc
 
       cy.trigger( 'ready' );
     }, options.done );
@@ -22030,7 +22030,7 @@ var Event = function( src, props ){
   if( props ){
     // util.extend( this, props );
 
-    // more efficient to manually copy fields we use
+    // more efficient toClass manually copy fields we use
     this.type = props.type !== undefined ? props.type : this.type;
     this.cy = props.cy;
     this.target = props.target;
@@ -22258,7 +22258,7 @@ styfn.core = function(){
   return this._private.coreStyle;
 };
 
-// create a new context from the specified selector string and switch to that context
+// create a new context from the specified selector string and switch toClass that context
 styfn.selector = function( selectorStr ){
   // 'core' is a special case and does not need a selector
   var selector = selectorStr === 'core' ? null : new Selector( selectorStr );
@@ -22274,7 +22274,7 @@ styfn.selector = function( selectorStr ){
   return this; // chaining
 };
 
-// add one or many css rules to the current context
+// add one or many css rules toClass the current context
 styfn.css = function(){
   var self = this;
   var args = arguments;
@@ -22310,12 +22310,12 @@ styfn.css = function(){
 };
 styfn.style = styfn.css;
 
-// add a single css rule to the current context
+// add a single css rule toClass the current context
 styfn.cssRule = function( name, value ){
   // name-value pair
   var property = this.parse( name, value );
 
-  // add property to current context if valid
+  // add property toClass current context if valid
   if( property ){
     var i = this.length - 1;
     this[ i ].properties.push( property );
@@ -22329,7 +22329,7 @@ styfn.cssRule = function( name, value ){
       this[ i ].mappedProperties.push( property );
     }
 
-    // add to core style if necessary
+    // add toClass core style if necessary
     var currentSelectorIsCore = !this[ i ].selector;
     if( currentSelectorIsCore ){
       this._private.coreStyle[ property.name ] = property;
@@ -22483,7 +22483,7 @@ var af = moment.defineLocale('af', {
     },
     dayOfMonthOrdinalParse: /\d{1,2}(ste|de)/,
     ordinal : function (number) {
-        return number + ((number === 1 || number === 8 || number >= 20) ? 'ste' : 'de'); // Thanks to Joris Röling : https://github.com/jjupiter
+        return number + ((number === 1 || number === 8 || number >= 20) ? 'ste' : 'de'); // Thanks toClass Joris Röling : https://github.com/jjupiter
     },
     week : {
         dow : 1, // Maandag is die eerste dag van die week.
@@ -24166,7 +24166,7 @@ var cs = moment.defineLocale('cs', {
     monthsParse : (function (months, monthsShort) {
         var i, _monthsParse = [];
         for (i = 0; i < 12; i++) {
-            // use custom parser to solve problem with July (červenec)
+            // use custom parser toClass solve problem with July (červenec)
             _monthsParse[i] = new RegExp('^' + months[i] + '$|^' + monthsShort[i] + '$', 'i');
         }
         return _monthsParse;
@@ -24393,8 +24393,8 @@ var cy = moment.defineLocale('cy', {
         var b = number,
             output = '',
             lookup = [
-                '', 'af', 'il', 'ydd', 'ydd', 'ed', 'ed', 'ed', 'fed', 'fed', 'fed', // 1af to 10fed
-                'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'fed' // 11eg to 20fed
+                '', 'af', 'il', 'ydd', 'ydd', 'ed', 'ed', 'ed', 'fed', 'fed', 'fed', // 1af toClass 10fed
+                'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'fed' // 11eg toClass 20fed
             ];
         if (b > 20) {
             if (b === 40 || b === 50 || b === 60 || b === 80 || b === 100) {
@@ -26542,7 +26542,7 @@ var gomLatn = moment.defineLocale('gom-latn', {
     calendar : {
         sameDay: '[Aiz] LT',
         nextDay: '[Faleam] LT',
-        nextWeek: '[Ieta to] dddd[,] LT',
+        nextWeek: '[Ieta toClass] dddd[,] LT',
         lastDay: '[Kal] LT',
         lastWeek: '[Fatlo] dddd[,] LT',
         sameElse: 'L'
@@ -26565,7 +26565,7 @@ var gomLatn = moment.defineLocale('gom-latn', {
     dayOfMonthOrdinalParse : /\d{1,2}(er)/,
     ordinal : function (number, period) {
         switch (period) {
-            // the ordinal 'er' only applies to day of the month
+            // the ordinal 'er' only applies toClass day of the month
             case 'D':
                 return number + 'er';
             default:
@@ -28333,7 +28333,7 @@ var lb = moment.defineLocale('lb', {
         nextWeek: 'dddd [um] LT',
         lastDay: '[Gëschter um] LT',
         lastWeek: function () {
-            // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday) due to phonological rule
+            // Different date string for 'Dënschdeg' (Tuesday) and 'Donneschdeg' (Thursday) due toClass phonological rule
             switch (this.day()) {
                 case 2:
                 case 4:
@@ -30095,7 +30095,7 @@ var pl = moment.defineLocale('pl', {
         if (!momentToFormat) {
             return monthsNominative;
         } else if (format === '') {
-            // Hack: if format empty we know this is used to generate
+            // Hack: if format empty we know this is used toClass generate
             // RegExp by moment. Give then back both valid forms of months
             // in RegExp ready format.
             return '(' + monthsSubjective[momentToFormat.month()] + '|' + monthsNominative[momentToFormat.month()] + ')';
@@ -32350,7 +32350,7 @@ return tr;
 
 
 // After the year there should be a slash and the amount of years since December 26, 1979 in Roman numerals.
-// This is currently too difficult (maybe even impossible) to add.
+// This is currently too difficult (maybe even impossible) toClass add.
 var tzl = moment.defineLocale('tzl', {
     months : 'Januar_Fevraglh_Març_Avrïu_Mai_Gün_Julia_Guscht_Setemvar_Listopäts_Noemvar_Zecemvar'.split('_'),
     monthsShort : 'Jan_Fev_Mar_Avr_Mai_Gün_Jul_Gus_Set_Lis_Noe_Zec'.split('_'),
@@ -32669,7 +32669,7 @@ var uk = moment.defineLocale('uk', {
         y : 'рік',
         yy : relativeTimeWithPlural
     },
-    // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
+    // M. E.: those two are virtually unused but a user might want toClass implement them for his/her website for some reason
     meridiemParse: /ночі|ранку|дня|вечора/,
     isPM: function (input) {
         return /^(дня|вечора)$/.test(input);
@@ -33520,7 +33520,7 @@ EventTarget.prototype.addEventListener = function(eventType, listener) {
   var arr = this._listeners[eventType];
   // #4
   if (arr.indexOf(listener) === -1) {
-    // Make a copy so as not to interfere with a current dispatchEvent.
+    // Make a copy so as not toClass interfere with a current dispatchEvent.
     arr = arr.concat([listener]);
   }
   this._listeners[eventType] = arr;
@@ -33534,7 +33534,7 @@ EventTarget.prototype.removeEventListener = function(eventType, listener) {
   var idx = arr.indexOf(listener);
   if (idx !== -1) {
     if (arr.length > 1) {
-      // Make a copy so as not to interfere with a current dispatchEvent.
+      // Make a copy so as not toClass interfere with a current dispatchEvent.
       this._listeners[eventType] = arr.slice(0, idx).concat(arr.slice(idx + 1));
     } else {
       delete this._listeners[eventType];
@@ -33550,13 +33550,13 @@ EventTarget.prototype.dispatchEvent = function() {
   var args = arguments.length === 1 ? [event] : Array.apply(null, arguments);
   // TODO: This doesn't match the real behavior; per spec, onfoo get
   // their place in line from the /first/ time they're set from
-  // non-null. Although WebKit bumps it to the end every time it's
+  // non-null. Although WebKit bumps it toClass the end every time it's
   // set.
   if (this['on' + t]) {
     this['on' + t].apply(this, args);
   }
   if (t in this._listeners) {
-    // Grab a reference to the listeners list. removeEventListener may alter the list.
+    // Grab a reference toClass the listeners list. removeEventListener may alter the list.
     var listeners = this._listeners[t];
     for (var i = 0; i < listeners.length; i++) {
       listeners[i].apply(this, args);
@@ -33732,7 +33732,7 @@ AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
   // several browsers cache POSTs
   url = urlUtils.addQuery(url, 't=' + (+new Date()));
 
-  // Explorer tends to keep connection open, even after the
+  // Explorer tends toClass keep connection open, even after the
   // tab gets closed: http://bugs.jquery.com/ticket/5280
   this.unloadRef = utils.unloadAdd(function() {
     debug('unload cleanup');
@@ -33833,7 +33833,7 @@ AbstractXHRObject.prototype._cleanup = function(abort) {
   this.removeAllListeners();
   utils.unloadDel(this.unloadRef);
 
-  // IE needs this field to be a function
+  // IE needs this field toClass be a function
   this.xhr.onreadystatechange = function() {};
   if (this.xhr.ontimeout) {
     this.xhr.ontimeout = null;
@@ -33856,7 +33856,7 @@ AbstractXHRObject.prototype.close = function() {
 
 AbstractXHRObject.enabled = !!XHR;
 // override XMLHttpRequest for IE6/7
-// obfuscate to avoid firewalls
+// obfuscate toClass avoid firewalls
 var axo = ['Active'].concat('Object').join('X');
 if (!AbstractXHRObject.enabled && (axo in global)) {
   debug('overriding xmlhttprequest');
@@ -33964,9 +33964,9 @@ module.exports = HtmlFileTransport;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-// Few cool transports do work only for same-origin. In order to make
+// Few cool transports do work only for same-origin. In order toClass make
 // them work cross-domain we shall use iframe, served from the
-// remote domain. New browsers have capabilities to communicate with
+// remote domain. New browsers have capabilities toClass communicate with
 // cross domain iframe using postMessage(). In IE it was implemented
 // from IE 8+, but of course, IE got some details wrong:
 //    http://msdn.microsoft.com/en-us/library/cc197015(v=VS.85).aspx
@@ -34005,7 +34005,7 @@ function IframeTransport(transport, transUrl, baseUrl) {
 
   this.iframeObj = iframeUtils.createIframe(iframeUrl, function(r) {
     debug('err callback');
-    self.emit('close', 1006, 'Unable to load an iframe (' + r + ')');
+    self.emit('close', 1006, 'Unable toClass load an iframe (' + r + ')');
     self.close();
   });
 
@@ -34172,7 +34172,7 @@ var inherits = __webpack_require__(3)
   , XDRObject = __webpack_require__(35)
   ;
 
-// According to:
+// According toClass:
 //   http://stackoverflow.com/questions/1641507/detect-browser-support-for-cross-domain-xmlhttprequests
 //   http://hacks.mozilla.org/2009/07/cross-site-xmlhttprequest-with-cors/
 
@@ -34309,7 +34309,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\App.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\App.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] App.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -35623,7 +35623,7 @@ function opts(action, args) {
 
         default:
 
-            throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
+            throw 'Expected up toClass 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
     }
 
     options.data = data;
@@ -35749,7 +35749,7 @@ var View = {
     var route = parent.$route;
     var cache = parent._routerViewCache || (parent._routerViewCache = {});
 
-    // determine current view depth, also check to see if the tree
+    // determine current view depth, also check toClass see if the tree
     // has been toggled inactive but kept-alive.
     var depth = 0;
     var inactive = false;
@@ -35821,7 +35821,7 @@ var encodeReserveRE = /[!'()*]/g;
 var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
 var commaRE = /%2C/g;
 
-// fixed encodeURIComponent which is more conformant to RFC3986:
+// fixed encodeURIComponent which is more conformant toClass RFC3986:
 // - escapes [!'()*]
 // - preserve commas
 var encode = function (str) { return encodeURIComponent(str)
@@ -36108,7 +36108,7 @@ var Link = {
         var aAttrs = a.data.attrs = extend({}, a.data.attrs);
         aAttrs.href = href;
       } else {
-        // doesn't have <a> child, apply listener to self
+        // doesn't have <a> child, apply listener toClass self
         data.on = on;
       }
     }
@@ -36222,7 +36222,7 @@ function resolvePath (
 
   // remove trailing segment if:
   // - not appending
-  // - appending to trailing slash (last segment is empty)
+  // - appending toClass trailing slash (last segment is empty)
   if (!append || !stack[stack.length - 1]) {
     stack.pop();
   }
@@ -36330,14 +36330,14 @@ function addRouteRecord (
 
   if (route.children) {
     // Warn if route is named and has a default child route.
-    // If users navigate to this route by name, the default child will
+    // If users navigate toClass this route by name, the default child will
     // not be rendered (GH Issue #629)
     if (process.env.NODE_ENV !== 'production') {
       if (route.name && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
         warn(
           false,
           "Named Route '" + (route.name) + "' has a default child route. " +
-          "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
+          "When navigating toClass this named route (:toClass=\"{name: '" + (route.name) + "'\"), " +
           "the default child route will not be rendered. Remove the name from " +
           "this route and use the name of the default child route for named " +
           "links instead."
@@ -36416,7 +36416,7 @@ var tokensToRegExp_1 = tokensToRegExp;
  */
 var PATH_REGEXP = new RegExp([
   // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
+  // This allows the user toClass escape special characters that won't transform.
   '(\\\\.)',
   // Match Express-style parameters and un-named parameters with a prefix
   // and optional suffixes. Matches appear as:
@@ -36501,7 +36501,7 @@ function parse (str, options) {
 }
 
 /**
- * Compile a string to a template function for the path.
+ * Compile a string toClass a template function for the path.
  *
  * @param  {string}             str
  * @param  {Object=}            options
@@ -36524,7 +36524,7 @@ function encodeURIComponentPretty (str) {
 }
 
 /**
- * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+ * Encode the asterisk parameter. Similar toClass `pretty`, but allows slashes.
  *
  * @param  {string}
  * @return {string}
@@ -36576,20 +36576,20 @@ function tokensToFunction (tokens) {
 
           continue
         } else {
-          throw new TypeError('Expected "' + token.name + '" to be defined')
+          throw new TypeError('Expected "' + token.name + '" toClass be defined')
         }
       }
 
       if (isarray(value)) {
         if (!token.repeat) {
-          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+          throw new TypeError('Expected "' + token.name + '" toClass not repeat, but received `' + JSON.stringify(value) + '`')
         }
 
         if (value.length === 0) {
           if (token.optional) {
             continue
           } else {
-            throw new TypeError('Expected "' + token.name + '" to not be empty')
+            throw new TypeError('Expected "' + token.name + '" toClass not be empty')
           }
         }
 
@@ -36597,7 +36597,7 @@ function tokensToFunction (tokens) {
           segment = encode(value[j]);
 
           if (!matches[i].test(segment)) {
-            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+            throw new TypeError('Expected all "' + token.name + '" toClass match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
           }
 
           path += (j === 0 ? token.prefix : token.delimiter) + segment;
@@ -36609,7 +36609,7 @@ function tokensToFunction (tokens) {
       segment = token.asterisk ? encodeAsterisk(value) : encode(value);
 
       if (!matches[i].test(segment)) {
-        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+        throw new TypeError('Expected "' + token.name + '" toClass match "' + token.pattern + '", but received "' + segment + '"')
       }
 
       path += token.prefix + segment;
@@ -36669,7 +36669,7 @@ function flags (options) {
  * @return {!RegExp}
  */
 function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
+  // Use a negative lookahead toClass match only capturing groups.
   var groups = path.source.match(/\((?!\?)/g);
 
   if (groups) {
@@ -36775,7 +36775,7 @@ function tokensToRegExp (tokens, keys, options) {
   var delimiter = escapeString(options.delimiter || '/');
   var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
 
-  // In non-strict mode we allow a slash at the end of match. If the path to
+  // In non-strict mode we allow a slash at the end of match. If the path toClass
   // match already ends with a slash, we remove it for consistency. The slash
   // is valid at the end of a path match, not in the middle. This is important
   // in non-ending mode, where "/test/" shouldn't match "/test//route".
@@ -36786,8 +36786,8 @@ function tokensToRegExp (tokens, keys, options) {
   if (end) {
     route += '$';
   } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
+    // In non-ending mode, we need the capturing groups toClass match as much as
+    // possible by using a positive lookahead toClass the end or next path segment.
     route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
   }
 
@@ -37265,8 +37265,8 @@ function setStateKey (key) {
 
 function pushState (url, replace) {
   saveScrollPosition();
-  // try...catch the pushState call to get around Safari
-  // DOM Exception 18 where it limits to 100 pushState calls
+  // try...catch the pushState call toClass get around Safari
+  // DOM Exception 18 where it limits toClass 100 pushState calls
   var history = window.history;
   try {
     if (replace) {
@@ -37373,7 +37373,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
   };
   if (
     isSameRoute(route, current) &&
-    // in the case the route map has been dynamically appended to
+    // in the case the route map has been dynamically appended toClass
     route.matched.length === current.matched.length
   ) {
     this.ensureURL();
@@ -37560,7 +37560,7 @@ function bindEnterGuard (
           // #750
           // if a router-view is wrapped with an out-in transition,
           // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
+          // we will need toClass poll for registration until current route
           // is no longer valid.
           poll(cb, match.instances, key, isValid);
         });
@@ -37593,7 +37593,7 @@ function resolveAsyncComponents (matched) {
     // if it's a function and doesn't have cid attached,
     // assume it's an async component resolve function.
     // we are not using Vue's default async resolving mechanism because
-    // we want to halt the navigation until the incoming component has been
+    // we want toClass halt the navigation until the incoming component has been
     // resolved.
     if (typeof def === 'function' && def.cid === undefined) {
       pending++;
@@ -37611,7 +37611,7 @@ function resolveAsyncComponents (matched) {
       });
 
       var reject = once(function (reason) {
-        var msg = "Failed to resolve async component " + key + ": " + reason;
+        var msg = "Failed toClass resolve async component " + key + ": " + reason;
         process.env.NODE_ENV !== 'production' && warn(false, msg);
         if (!error) {
           error = reason instanceof Error
@@ -37671,7 +37671,7 @@ function flatten (arr) {
 
 // in Webpack 2, require.ensure now also returns a Promise
 // so the resolve/reject functions may get called an extra time
-// if the user uses an arrow function shorthand that happens to
+// if the user uses an arrow function shorthand that happens toClass
 // return that Promise.
 function once (fn) {
   var called = false;
@@ -37778,7 +37778,7 @@ var HashHistory = (function (History$$1) {
   HashHistory.prototype.constructor = HashHistory;
 
   // this is delayed until the app mounts
-  // to avoid the hashchange listener being fired too early
+  // toClass avoid the hashchange listener being fired too early
   HashHistory.prototype.setupListeners = function setupListeners () {
     var this$1 = this;
 
@@ -37979,7 +37979,7 @@ VueRouter.prototype.init = function init (app /* Vue component instance */) {
 
   process.env.NODE_ENV !== 'production' && assert(
     install.installed,
-    "not installed. Make sure to call `Vue.use(VueRouter)` " +
+    "not installed. Make sure toClass call `Vue.use(VueRouter)` " +
     "before creating root instance."
   );
 
@@ -38233,7 +38233,7 @@ var BYTES = exports.BYTES = {
     NULL: '\x00'
 };
 
-// utility function to trim any whitespace before and after a string
+// utility function toClass trim any whitespace before and after a string
 var trim = exports.trim = function trim(str) {
     return str.replace(/^\s+|\s+$/g, '');
 };
@@ -38281,7 +38281,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt toClass destructure non-iterable instance"); } }; }();
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -38318,12 +38318,12 @@ var Client = function () {
         this.ws.binaryType = 'arraybuffer';
         this.isBinary = !!binary;
         this.hasDebug = !!debug;
-        // used to index subscribers
+        // used toClass index subscribers
         this.counter = 0;
         this.connected = false;
         // Heartbeat properties of the client
         // outgoing: send heartbeat every 10s by default (value is in ms)
-        // incoming: expect to receive server heartbeat at least every 10s by default
+        // incoming: expect toClass receive server heartbeat at least every 10s by default
         // falsy value means no heartbeat hence 0,0
         this.heartbeat = heartbeat || { outgoing: 0, incoming: 0 };
         // maximum *WebSocket* frame size sent by the client. If the STOMP frame
@@ -38341,11 +38341,11 @@ var Client = function () {
     // This method is called for every actual transmission of the STOMP frames over the
     // WebSocket.
     //
-    // It is possible to set a `debug(message)` method
-    // on a client instance to handle differently the debug messages:
+    // It is possible toClass set a `debug(message)` method
+    // on a client instance toClass handle differently the debug messages:
     //
     //     client.debug = function(str) {
-    //         // append the debug log to a #debug div
+    //         // append the debug log toClass a #debug div
     //         $("#debug").append(str + "\n");
     //     };
 
@@ -38368,8 +38368,8 @@ var Client = function () {
         // * `connect(login, passcode, connectCallback, errorCallback)`
         // * `connect(login, passcode, connectCallback, errorCallback, host)`
         //
-        // The errorCallback is optional and the 2 first forms allow to pass other
-        // headers in addition to `client`, `passcode` and `host`.
+        // The errorCallback is optional and the 2 first forms allow toClass pass other
+        // headers in addition toClass `client`, `passcode` and `host`.
 
     }, {
         key: 'connect',
@@ -38405,7 +38405,7 @@ var Client = function () {
                     switch (frame.command) {
                         // [CONNECTED Frame](http://stomp.github.com/stomp-specification-1.1.html#CONNECTED_Frame)
                         case 'CONNECTED':
-                            _this.debug('connected to server ' + frame.headers.server);
+                            _this.debug('connected toClass server ' + frame.headers.server);
                             _this.connected = true;
                             _this.version = frame.headers.version;
                             _this._setupHeartbeat(frame.headers);
@@ -38423,11 +38423,11 @@ var Client = function () {
                             var subscription = frame.headers.subscription;
                             var onreceive = _this.subscriptions[subscription] || _this.onreceive;
                             if (onreceive) {
-                                // 1.2 define ack header if ack is set to client
+                                // 1.2 define ack header if ack is set toClass client
                                 // and this header must be used for ack/nack
                                 var messageID = _this.version === _utils.VERSIONS.V1_2 && frame.headers.ack || frame.headers['message-id'];
-                                // add `ack()` and `nack()` methods directly to the returned frame
-                                // so that a simple call to `message.ack()` can acknowledge the message.
+                                // add `ack()` and `nack()` methods directly toClass the returned frame
+                                // so that a simple call toClass `message.ack()` can acknowledge the message.
                                 frame.ack = _this.ack.bind(_this, messageID, subscription);
                                 frame.nack = _this.nack.bind(_this, messageID, subscription);
                                 onreceive(frame);
@@ -38437,7 +38437,7 @@ var Client = function () {
                             break;
                         // [RECEIPT Frame](http://stomp.github.com/stomp-specification-1.1.html#RECEIPT)
                         //
-                        // The client instance can set its `onreceipt` field to a function taking
+                        // The client instance can set its `onreceipt` field toClass a function taking
                         // a frame argument that will be called when a receipt is received from
                         // the server:
                         //
@@ -38458,7 +38458,7 @@ var Client = function () {
                 });
             };
             this.ws.onclose = function (ev) {
-                _this.debug('Whoops! Lost connection to ' + _this.ws.url + ':', ev);
+                _this.debug('Whoops! Lost connection toClass ' + _this.ws.url + ':', ev);
                 _this._cleanUp();
                 if (errorCallback) errorCallback(ev);
             };
@@ -38481,7 +38481,7 @@ var Client = function () {
             var headers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
             this._transmit('DISCONNECT', headers);
-            // Discard the onclose callback to avoid calling the errorCallback when
+            // Discard the onclose callback toClass avoid calling the errorCallback when
             // the client is properly disconnected.
             this.ws.onclose = null;
             this.ws.close();
@@ -38525,7 +38525,7 @@ var Client = function () {
         //
         // * `transaction` is MANDATORY.
         //
-        // It is preferable to commit a transaction by calling `commit()` directly on
+        // It is preferable toClass commit a transaction by calling `commit()` directly on
         // the object returned by `client.begin()`:
         //
         //     var tx = client.begin(txid);
@@ -38542,7 +38542,7 @@ var Client = function () {
         //
         // * `transaction` is MANDATORY.
         //
-        // It is preferable to abort a transaction by calling `abort()` directly on
+        // It is preferable toClass abort a transaction by calling `abort()` directly on
         // the object returned by `client.begin()`:
         //
         //     var tx = client.begin(txid);
@@ -38559,7 +38559,7 @@ var Client = function () {
         //
         // * `messageID` & `subscription` are MANDATORY.
         //
-        // It is preferable to acknowledge a message by calling `ack()` directly
+        // It is preferable toClass acknowledge a message by calling `ack()` directly
         // on the message handled by a subscription callback:
         //
         //     client.subscribe(destination,
@@ -38576,7 +38576,7 @@ var Client = function () {
         value: function ack(messageID, subscription) {
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-            // 1.2 change id header name from message-id to id
+            // 1.2 change id header name from message-id toClass id
             var idAttr = this.version === _utils.VERSIONS.V1_2 ? 'id' : 'message-id';
             headers[idAttr] = messageID;
             headers.subscription = subscription;
@@ -38587,7 +38587,7 @@ var Client = function () {
         //
         // * `messageID` & `subscription` are MANDATORY.
         //
-        // It is preferable to nack a message by calling `nack()` directly on the
+        // It is preferable toClass nack a message by calling `nack()` directly on the
         // message handled by a subscription callback:
         //
         //     client.subscribe(destination,
@@ -38604,7 +38604,7 @@ var Client = function () {
         value: function nack(messageID, subscription) {
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-            // 1.2 change id header name from message-id to id
+            // 1.2 change id header name from message-id toClass id
             var idAttr = this.version === _utils.VERSIONS.V1_2 ? 'id' : 'message-id';
             headers[idAttr] = messageID;
             headers.subscription = subscription;
@@ -38619,7 +38619,7 @@ var Client = function () {
             var headers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
             // for convenience if the `id` header is not set, we create a new one for this client
-            // that will be returned to be able to unsubscribe this subscription
+            // that will be returned toClass be able toClass unsubscribe this subscription
             if (!headers.id) headers.id = 'sub-' + this.counter++;
             headers.destination = destination;
             this.subscriptions[headers.id] = callback;
@@ -38634,7 +38634,7 @@ var Client = function () {
         //
         // * `id` is MANDATORY.
         //
-        // It is preferable to unsubscribe from a subscription by calling
+        // It is preferable toClass unsubscribe from a subscription by calling
         // `unsubscribe()` directly on the object returned by `client.subscribe()`:
         //
         //     var subscription = client.subscribe(destination, onmessage);
@@ -38662,7 +38662,7 @@ var Client = function () {
             clearInterval(this.ponger);
         }
 
-        // Base method to transmit any stomp frame
+        // Base method toClass transmit any stomp frame
 
     }, {
         key: '_transmit',
@@ -38676,7 +38676,7 @@ var Client = function () {
         value: function _wsSend(data) {
             if (this.isBinary) data = (0, _utils.unicodeStringToTypedArray)(data);
             this.debug('>>> length ' + data.length);
-            // if necessary, split the *STOMP* frame to send it on many smaller
+            // if necessary, split the *STOMP* frame toClass send it on many smaller
             // *WebSocket* frames
             while (true) {
                 if (data.length > this.maxWebSocketFrameSize) {
@@ -38724,7 +38724,7 @@ var Client = function () {
                     _this2.debug('check PONG every ' + ttl + 'ms');
                     _this2.ponger = setInterval(function () {
                         var delta = Date.now() - _this2.serverActivity;
-                        // We wait twice the TTL to be flexible on window's setInterval calls
+                        // We wait twice the TTL toClass be flexible on window's setInterval calls
                         if (delta > ttl * 2) {
                             _this2.debug('did not receive server activity for the last ' + delta + 'ms');
                             _this2.ws.close();
@@ -38734,7 +38734,7 @@ var Client = function () {
             }
         }
 
-        // parse the arguments number and type to find the headers, connectCallback and
+        // parse the arguments number and type toClass find the headers, connectCallback and
         // (eventually undefined) errorCallback
 
     }, {
@@ -38824,7 +38824,7 @@ var Frame = function () {
     }
 
     // Provides a textual representation of the frame
-    // suitable to be sent to the server
+    // suitable toClass be sent toClass the server
 
 
     _createClass(Frame, [{
@@ -38855,7 +38855,7 @@ var Frame = function () {
     }], [{
         key: 'unmarshallSingle',
         value: function unmarshallSingle(data) {
-            // search for 2 consecutives LF byte to split the command
+            // search for 2 consecutives LF byte toClass split the command
             // and headers from the body
             var divider = data.search(new RegExp(_utils.BYTES.LF + _utils.BYTES.LF)),
                 headerLines = data.substring(0, divider).split(_utils.BYTES.LF),
@@ -38937,7 +38937,7 @@ var Frame = function () {
 
             // If this contains a final full message or just a acknowledgement of a PING
             // without any other content, process this frame, otherwise return the
-            // contents of the buffer to the caller.
+            // contents of the buffer toClass the caller.
             if (lastFrame === _utils.BYTES.LF || lastFrame.search(RegExp(_utils.BYTES.NULL + _utils.BYTES.LF + '*$')) !== -1) {
                 r.frames.push(Frame.unmarshallSingle(lastFrame));
             } else {
@@ -38985,7 +38985,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // The `webstomp` Object
 var webstomp = {
     VERSIONS: _utils.VERSIONS,
-    // This method creates a WebSocket client that is connected to
+    // This method creates a WebSocket client that is connected toClass
     // the STOMP server located at the url.
     client: function client(url) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { protocols: _utils.VERSIONS.supportedProtocols() };
@@ -38993,8 +38993,8 @@ var webstomp = {
         var ws = new WebSocket(url, options.protocols);
         return new _client2.default(ws, options);
     },
-    // This method is an alternative to `webstomp.client()` to let the user
-    // specify the WebSocket to use (either a standard HTML5 WebSocket or
+    // This method is an alternative toClass `webstomp.client()` toClass let the user
+    // specify the WebSocket toClass use (either a standard HTML5 WebSocket or
     // a similar object).
     over: function over() {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -39328,7 +39328,7 @@ exports.default = {
     created: function created() {
         var id = this.$route.params.id;
 
-        //TODO this is created with first entry to graph, bug
+        //TODO this is created with first entry toClass graph, bug
         console.log("Created stock", id);
         this.getStock(id);
     },
@@ -39359,8 +39359,8 @@ exports.default = {
     },
     watch: {
         '$route': function $route(to, from) {
-            //this.getStock(to.params.id);
-            //console.log(to);
+            //this.getStock(toClass.params.id);
+            //console.log(toClass);
         }
     }
 };
@@ -40450,7 +40450,7 @@ module.exports = function(it, S){
   if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
   if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
   if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  throw TypeError("Can't convert object to primitive value");
+  throw TypeError("Can't convert object toClass primitive value");
 };
 
 /***/ }),
@@ -40519,12 +40519,12 @@ function placeHoldersCount (b64) {
   // if there are two placeholders, than the two characters before it
   // represent one byte
   // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
+  // this is just a cheap hack toClass not do indexOf twice
   return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
 }
 
 function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
+  // base64 is 4/3 + up toClass two characters of the original data
   return b64.length * 3 / 4 - placeHoldersCount(b64)
 }
 
@@ -40535,7 +40535,7 @@ function toByteArray (b64) {
 
   arr = new Arr(len * 3 / 4 - placeHolders)
 
-  // if there are placeholders, only get up to the last complete 4 chars
+  // if there are placeholders, only get up toClass the last complete 4 chars
   l = placeHolders > 0 ? len - 4 : len
 
   var L = 0
@@ -40586,7 +40586,7 @@ function fromByteArray (uint8) {
     parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
   }
 
-  // pad the end with zeros, but make sure to not forget the extra bytes
+  // pad the end with zeros, but make sure toClass not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
     output += lookup[tmp >> 2]
@@ -40637,12 +40637,12 @@ exports.INSPECT_MAX_BYTES = 50
  * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
  * Opera 11.6+, iOS 4.2+.
  *
- * Due to various browser bugs, sometimes the Object implementation will be used even
+ * Due toClass various browser bugs, sometimes the Object implementation will be used even
  * when the browser supports typed arrays.
  *
  * Note:
  *
- *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *   - Firefox 4-29 lacks support for adding new properties toClass `Uint8Array` instances,
  *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
  *
  *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
@@ -40650,7 +40650,7 @@ exports.INSPECT_MAX_BYTES = 50
  *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
  *     incorrect length in some situations.
 
- * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` toClass `false` so they
  * get the Object implementation, which is slower but behaves correctly.
  */
 Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
@@ -40701,7 +40701,7 @@ function createBuffer (that, length) {
 
 /**
  * The Buffer constructor returns instances of `Uint8Array` that have their
- * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * prototype changed toClass `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
  * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
  * and the `Uint8Array` methods. Square bracket notation works as expected -- it
  * returns a single octet.
@@ -40751,7 +40751,7 @@ function from (that, value, encodingOrOffset, length) {
 }
 
 /**
- * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * Functionally equivalent toClass Buffer(arg, encoding) but throws a TypeError
  * if value is a number.
  * Buffer.from(str[, encoding])
  * Buffer.from(array)
@@ -40789,7 +40789,7 @@ function alloc (that, size, fill, encoding) {
     return createBuffer(that, size)
   }
   if (fill !== undefined) {
-    // Only pay attention to encoding if it's a string. This
+    // Only pay attention toClass encoding if it's a string. This
     // prevents accidentally sending in a number that would
     // be interpretted as a start offset.
     return typeof encoding === 'string'
@@ -40819,13 +40819,13 @@ function allocUnsafe (that, size) {
 }
 
 /**
- * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * Equivalent toClass Buffer(num), by default creates a non-zero-filled Buffer instance.
  * */
 Buffer.allocUnsafe = function (size) {
   return allocUnsafe(null, size)
 }
 /**
- * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ * Equivalent toClass SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
  */
 Buffer.allocUnsafeSlow = function (size) {
   return allocUnsafe(null, size)
@@ -40847,7 +40847,7 @@ function fromString (that, string, encoding) {
 
   if (actual !== length) {
     // Writing a hex string, for example, that contains invalid characters will
-    // cause everything after the first invalid character to be ignored. (e.g.
+    // cause everything after the first invalid character toClass be ignored. (e.g.
     // 'abxxcd' will be treated as 'ab')
     that = that.slice(0, actual)
   }
@@ -40926,9 +40926,9 @@ function fromObject (that, obj) {
 
 function checked (length) {
   // Note: cannot use `length < kMaxLength()` here because that fails when
-  // length is NaN (which is otherwise coerced to zero.)
+  // length is NaN (which is otherwise coerced toClass zero.)
   if (length >= kMaxLength()) {
-    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+    throw new RangeError('Attempt toClass allocate Buffer larger than maximum ' +
                          'size: 0x' + kMaxLength().toString(16) + ' bytes')
   }
   return length | 0
@@ -41032,7 +41032,7 @@ function byteLength (string, encoding) {
   var len = string.length
   if (len === 0) return 0
 
-  // Use a for loop to avoid recursion
+  // Use a for loop toClass avoid recursion
   var loweredCase = false
   for (;;) {
     switch (encoding) {
@@ -41065,17 +41065,17 @@ Buffer.byteLength = byteLength
 function slowToString (encoding, start, end) {
   var loweredCase = false
 
-  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // No need toClass verify that "this.length <= MAX_UINT32" since it's a read-only
   // property of a typed array.
 
   // This behaves neither like String nor Uint8Array in that we set start/end
-  // to their upper/lower bounds if the value passed is out of range.
+  // toClass their upper/lower bounds if the value passed is out of range.
   // undefined is handled specially as per ECMA-262 6th Edition,
   // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
   if (start === undefined || start < 0) {
     start = 0
   }
-  // Return early if start > this.length. Done here to prevent potential uint32
+  // Return early if start > this.length. Done here toClass prevent potential uint32
   // coercion fail below.
   if (start > this.length) {
     return ''
@@ -41089,7 +41089,7 @@ function slowToString (encoding, start, end) {
     return ''
   }
 
-  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  // Force coersion toClass uint32. This will also coerce falsey/NaN values toClass 0.
   end >>>= 0
   start >>>= 0
 
@@ -41132,7 +41132,7 @@ function slowToString (encoding, start, end) {
   }
 }
 
-// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) toClass detect
 // Buffer instances.
 Buffer.prototype._isBuffer = true
 
@@ -41265,9 +41265,9 @@ Buffer.prototype.compare = function compare (target, start, end, thisStart, this
 // OR the last index of `val` in `buffer` at offset <= `byteOffset`.
 //
 // Arguments:
-// - buffer - a Buffer to search
+// - buffer - a Buffer toClass search
 // - val - a string, Buffer, or number
-// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - byteOffset - an index into `buffer`; will be clamped toClass an int32
 // - encoding - an optional encoding, relevant is val is a string
 // - dir - true for indexOf, false for lastIndexOf
 function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
@@ -41283,7 +41283,7 @@ function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
   } else if (byteOffset < -0x80000000) {
     byteOffset = -0x80000000
   }
-  byteOffset = +byteOffset  // Coerce to Number.
+  byteOffset = +byteOffset  // Coerce toClass Number.
   if (isNaN(byteOffset)) {
     // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
     byteOffset = dir ? 0 : (buffer.length - 1)
@@ -41474,7 +41474,7 @@ Buffer.prototype.write = function write (string, offset, length, encoding) {
   if (length === undefined || length > remaining) length = remaining
 
   if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
-    throw new RangeError('Attempt to write outside buffer bounds')
+    throw new RangeError('Attempt toClass write outside buffer bounds')
   }
 
   if (!encoding) encoding = 'utf8'
@@ -41589,7 +41589,7 @@ function utf8Slice (buf, start, end) {
       codePoint = 0xFFFD
       bytesPerSequence = 1
     } else if (codePoint > 0xFFFF) {
-      // encode to utf16 (surrogate pair dance)
+      // encode toClass utf16 (surrogate pair dance)
       codePoint -= 0x10000
       res.push(codePoint >>> 10 & 0x3FF | 0xD800)
       codePoint = 0xDC00 | codePoint & 0x3FF
@@ -41613,7 +41613,7 @@ function decodeCodePointsArray (codePoints) {
     return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
   }
 
-  // Decode in chunks to avoid "call stack size exceeded".
+  // Decode in chunks toClass avoid "call stack size exceeded".
   var res = ''
   var i = 0
   while (i < len) {
@@ -41704,11 +41704,11 @@ Buffer.prototype.slice = function slice (start, end) {
 }
 
 /*
- * Need to make sure that buffer isn't trying to write out of bounds.
+ * Need toClass make sure that buffer isn't trying toClass write out of bounds.
  */
 function checkOffset (offset, ext, length) {
   if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
-  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+  if (offset + ext > length) throw new RangeError('Trying toClass access beyond buffer length')
 }
 
 Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
@@ -42221,7 +42221,7 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
     val = val & 255
   }
 
-  // Invalid ranges are not set to a default, so can range check early.
+  // Invalid ranges are not set toClass a default, so can range check early.
   if (start < 0 || this.length < start || this.length < end) {
     throw new RangeError('Out of range index')
   }
@@ -42261,7 +42261,7 @@ var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
 function base64clean (str) {
   // Node strips out invalid characters like \n and \t from the string, base64-js does not
   str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-  // Node converts strings with length < 2 to ''
+  // Node converts strings with length < 2 toClass ''
   if (str.length < 2) return ''
   // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
   while (str.length % 4 !== 0) {
@@ -42363,7 +42363,7 @@ function utf8ToBytes (string, units) {
 function asciiToBytes (str) {
   var byteArray = []
   for (var i = 0; i < str.length; ++i) {
-    // Node's code seems to be doing this and not & 0x7F..
+    // Node's code seems toClass be doing this and not & 0x7F..
     byteArray.push(str.charCodeAt(i) & 0xFF)
   }
   return byteArray
@@ -42412,7 +42412,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#stocksContent {\n    display: flex;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/StocksContent.vue?1eda353c"],"names":[],"mappings":";AA6BA;IACA,cAAA;IACA,QAAA;CACA","file":"StocksContent.vue","sourcesContent":["<template>\r\n    <div id=\"stocksContent\">\r\n        <stocks-list></stocks-list>\r\n        <!--<transition name=\"fade\" mode=\"in\">-->\r\n        <keep-alive>\r\n            <router-view :key=\"$route.path\"></router-view>\r\n        </keep-alive>\r\n        <!--</transition>-->\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import StocksList from './StocksList.vue'\r\n    import StockContainer from './StockContainer.vue'\r\n\r\n    const routes = [\r\n        {path: ':id', component: StockContainer},\r\n        {path: 'undefined', component: {}}\r\n    ];\r\n\r\n    export default {\r\n        routes,\r\n        components: {\r\n            'stocks-list': StocksList\r\n        }\r\n    };\r\n</script>\r\n\r\n<style>\r\n    #stocksContent {\r\n        display: flex;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#stocksContent {\n    display: flex;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/StocksContent.vue?1eda353c"],"names":[],"mappings":";AA6BA;IACA,cAAA;IACA,QAAA;CACA","file":"StocksContent.vue","sourcesContent":["<template>\r\n    <div id=\"stocksContent\">\r\n        <stocks-list></stocks-list>\r\n        <!--<transition name=\"fade\" mode=\"in\">-->\r\n        <keep-alive>\r\n            <router-view :key=\"$route.path\"></router-view>\r\n        </keep-alive>\r\n        <!--</transition>-->\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import StocksList from './StocksList.vue'\r\n    import StockContainer from './StockContainer.vue'\r\n\r\n    const routes = [\r\n        {path: ':id', component: StockContainer},\r\n        {path: 'undefined', component: {}}\r\n    ];\r\n\r\n    export default {\r\n        routes,\r\n        components: {\r\n            'stocks-list': StocksList\r\n        }\r\n    };\r\n</script>\r\n\r\n<style>\r\n    #stocksContent {\r\n        display: flex;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42426,7 +42426,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n.menuContainer {\n    height: 100%;\n    margin-right: 5px;\n    padding-right: 30px;\n    border-style: solid;\n    border-width: 0px 10px 1px 0px;\n    border-color: #000 #535353 #000 #000;\n    background-image: -webkit-linear-gradient(270deg, #3d3d3d, #3d3d3d);\n    background-image: linear-gradient(180deg, #3d3d3d, #3d3d3d);\n    box-shadow: 0 0 16px 0 #000;\n}\n.menu-list {\n    display: flex;\n    -ms-flex-pack: end;\n    font-style: normal;\n    flex-direction: column;\n    padding-left: 0px;\n}\n.menu-item {\n    display: flex;\n    -webkit-box-pack: end;\n    -webkit-justify-content: flex-end;\n    -ms-flex-pack: end;\n    justify-content: flex-end;\n    border-bottom: 3px solid #bebebe;\n}\n.menu-text {\n    font-style: normal;\n    color: white;\n    padding-left: 10%;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/App.vue?02486b61"],"names":[],"mappings":";AAmDA;IACA,aAAA;IACA,kBAAA;IACA,oBAAA;IACA,oBAAA;IACA,+BAAA;IACA,qCAAA;IACA,oEAAA;IACA,4DAAA;IACA,4BAAA;CACA;AAEA;IACA,cAAA;IACA,mBAAA;IACA,mBAAA;IACA,uBAAA;IACA,kBAAA;CACA;AAEA;IACA,cAAA;IACA,sBAAA;IACA,kCAAA;IACA,mBAAA;IACA,0BAAA;IACA,iCAAA;CACA;AAEA;IACA,mBAAA;IACA,aAAA;IACA,kBAAA;CACA","file":"App.vue","sourcesContent":["<template>\r\n    <div id=\"app\">\r\n        <div class=\"menuContainer\">\r\n            <ul class=\"menu-list w-list-unstyled\">\r\n                <router-link to=\"/stocks\">\r\n                    <li class=\"menu-item\">\r\n                        <h1 class=\"menu-text\">Stocks</h1>\r\n                    </li>\r\n                </router-link>\r\n                <router-link to=\"/graph\">\r\n                    <li class=\"menu-item\">\r\n                        <h1 class=\"menu-text\">Graph</h1>\r\n                    </li>\r\n                </router-link>\r\n            </ul>\r\n        </div>\r\n        <!--<transition name=\"fade\" mode=\"in\">-->\r\n        <keep-alive>\r\n            <router-view></router-view>\r\n        </keep-alive>\r\n        <!--</transition>-->\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n\r\n\r\n    import store from '../store/index.js'\r\n\r\n    import StocksContent from './StocksContent.vue'\r\n    import GraphContent from './graph/GraphContent.vue'\r\n\r\n    const routes = [\r\n        {\r\n            path: '/stocks', component: StocksContent,\r\n            children: StocksContent.routes\r\n        },\r\n        {path: '/', redirect: '/stocks'},\r\n        {path: '/graph', component: GraphContent}\r\n    ];\r\n\r\n\r\n    export default {\r\n        name: 'app',\r\n        routes,\r\n        store\r\n    }\r\n\r\n</script>\r\n\r\n<style>\r\n    .menuContainer {\r\n        height: 100%;\r\n        margin-right: 5px;\r\n        padding-right: 30px;\r\n        border-style: solid;\r\n        border-width: 0px 10px 1px 0px;\r\n        border-color: #000 #535353 #000 #000;\r\n        background-image: -webkit-linear-gradient(270deg, #3d3d3d, #3d3d3d);\r\n        background-image: linear-gradient(180deg, #3d3d3d, #3d3d3d);\r\n        box-shadow: 0 0 16px 0 #000;\r\n    }\r\n\r\n    .menu-list {\r\n        display: flex;\r\n        -ms-flex-pack: end;\r\n        font-style: normal;\r\n        flex-direction: column;\r\n        padding-left: 0px;\r\n    }\r\n\r\n    .menu-item {\r\n        display: flex;\r\n        -webkit-box-pack: end;\r\n        -webkit-justify-content: flex-end;\r\n        -ms-flex-pack: end;\r\n        justify-content: flex-end;\r\n        border-bottom: 3px solid #bebebe;\r\n    }\r\n\r\n    .menu-text {\r\n        font-style: normal;\r\n        color: white;\r\n        padding-left: 10%;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.menuContainer {\n    height: 100%;\n    margin-right: 5px;\n    padding-right: 30px;\n    border-style: solid;\n    border-width: 0px 10px 1px 0px;\n    border-color: #000 #535353 #000 #000;\n    background-image: -webkit-linear-gradient(270deg, #3d3d3d, #3d3d3d);\n    background-image: linear-gradient(180deg, #3d3d3d, #3d3d3d);\n    box-shadow: 0 0 16px 0 #000;\n}\n.menu-list {\n    display: flex;\n    -ms-flex-pack: end;\n    font-style: normal;\n    flex-direction: column;\n    padding-left: 0px;\n}\n.menu-item {\n    display: flex;\n    -webkit-box-pack: end;\n    -webkit-justify-content: flex-end;\n    -ms-flex-pack: end;\n    justify-content: flex-end;\n    border-bottom: 3px solid #bebebe;\n}\n.menu-text {\n    font-style: normal;\n    color: white;\n    padding-left: 10%;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/App.vue?02486b61"],"names":[],"mappings":";AAmDA;IACA,aAAA;IACA,kBAAA;IACA,oBAAA;IACA,oBAAA;IACA,+BAAA;IACA,qCAAA;IACA,oEAAA;IACA,4DAAA;IACA,4BAAA;CACA;AAEA;IACA,cAAA;IACA,mBAAA;IACA,mBAAA;IACA,uBAAA;IACA,kBAAA;CACA;AAEA;IACA,cAAA;IACA,sBAAA;IACA,kCAAA;IACA,mBAAA;IACA,0BAAA;IACA,iCAAA;CACA;AAEA;IACA,mBAAA;IACA,aAAA;IACA,kBAAA;CACA","file":"App.vue","sourcesContent":["<template>\r\n    <div id=\"app\">\r\n        <div class=\"menuContainer\">\r\n            <ul class=\"menu-list w-list-unstyled\">\r\n                <router-link toClass=\"/stocks\">\r\n                    <li class=\"menu-item\">\r\n                        <h1 class=\"menu-text\">Stocks</h1>\r\n                    </li>\r\n                </router-link>\r\n                <router-link toClass=\"/graph\">\r\n                    <li class=\"menu-item\">\r\n                        <h1 class=\"menu-text\">Graph</h1>\r\n                    </li>\r\n                </router-link>\r\n            </ul>\r\n        </div>\r\n        <!--<transition name=\"fade\" mode=\"in\">-->\r\n        <keep-alive>\r\n            <router-view></router-view>\r\n        </keep-alive>\r\n        <!--</transition>-->\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n\r\n\r\n    import store from '../store/index.js'\r\n\r\n    import StocksContent from './StocksContent.vue'\r\n    import GraphContent from './graph/GraphContent.vue'\r\n\r\n    const routes = [\r\n        {\r\n            path: '/stocks', component: StocksContent,\r\n            children: StocksContent.routes\r\n        },\r\n        {path: '/', redirect: '/stocks'},\r\n        {path: '/graph', component: GraphContent}\r\n    ];\r\n\r\n\r\n    export default {\r\n        name: 'app',\r\n        routes,\r\n        store\r\n    }\r\n\r\n</script>\r\n\r\n<style>\r\n    .menuContainer {\r\n        height: 100%;\r\n        margin-right: 5px;\r\n        padding-right: 30px;\r\n        border-style: solid;\r\n        border-width: 0px 10px 1px 0px;\r\n        border-color: #000 #535353 #000 #000;\r\n        background-image: -webkit-linear-gradient(270deg, #3d3d3d, #3d3d3d);\r\n        background-image: linear-gradient(180deg, #3d3d3d, #3d3d3d);\r\n        box-shadow: 0 0 16px 0 #000;\r\n    }\r\n\r\n    .menu-list {\r\n        display: flex;\r\n        -ms-flex-pack: end;\r\n        font-style: normal;\r\n        flex-direction: column;\r\n        padding-left: 0px;\r\n    }\r\n\r\n    .menu-item {\r\n        display: flex;\r\n        -webkit-box-pack: end;\r\n        -webkit-justify-content: flex-end;\r\n        -ms-flex-pack: end;\r\n        justify-content: flex-end;\r\n        border-bottom: 3px solid #bebebe;\r\n    }\r\n\r\n    .menu-text {\r\n        font-style: normal;\r\n        color: white;\r\n        padding-left: 10%;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42440,7 +42440,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\ntable {\n    table-layout: fixed;\n}\ntd {\n    max-width: 100%;\n    padding: 15px;\n    text-align: left;\n    vertical-align: middle;\n    font-weight: 300;\n    font-size: 20px;\n    border-bottom: solid 1px rgba(255, 255, 255, 0.1);\n}\n\n/* Tooltip container */\n.pip {\n    position: relative;\n    display: inline-block;\n}\n\n/* Tooltip text */\n.pip .tooltiptext {\n    visibility: hidden;\n    width: 140px;\n    background-color: black;\n    opacity: .8;\n    color: white;\n    text-align: center;\n    padding: 4px 0;\n    border-radius: 6px;\n    font-size: 12px;\n    line-height: 95%;\n    /* Position the tooltip text - see examples below! */\n    position: absolute;\n    z-index: 1;\n    margin-top: 10px;\n}\n\n/* Show the tooltip text when you mouse over the tooltip container */\n.pip:hover .tooltiptext {\n    visibility: visible;\n}\n.pip .tooltiptext::after {\n    content: \" \";\n    position: absolute;\n    bottom: 96%; /* At the top of the tooltip */\n    right: 90%;\n    margin-left: -5px;\n    border-width: 5px;\n    border-style: solid;\n    border-color: transparent transparent black transparent;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/StockInfo.vue?475f0b46"],"names":[],"mappings":";AAiFA;IACA,oBAAA;CACA;AAEA;IACA,gBAAA;IACA,cAAA;IACA,iBAAA;IACA,uBAAA;IACA,iBAAA;IACA,gBAAA;IACA,kDAAA;CACA;;AAEA,uBAAA;AACA;IACA,mBAAA;IACA,sBAAA;CACA;;AAEA,kBAAA;AACA;IACA,mBAAA;IACA,aAAA;IACA,wBAAA;IACA,YAAA;IACA,aAAA;IACA,mBAAA;IACA,eAAA;IACA,mBAAA;IACA,gBAAA;IACA,iBAAA;IACA,qDAAA;IACA,mBAAA;IACA,WAAA;IACA,iBAAA;CACA;;AAEA,qEAAA;AACA;IACA,oBAAA;CACA;AAEA;IACA,aAAA;IACA,mBAAA;IACA,YAAA,CAAA,+BAAA;IACA,WAAA;IACA,kBAAA;IACA,kBAAA;IACA,oBAAA;IACA,wDAAA;CACA","file":"StockInfo.vue","sourcesContent":["<template>\r\n    <div>\r\n        <div class=\"stockTitle\">\r\n            <h1>{{stock.meta.name}}</h1>\r\n        </div>\r\n        <h2 align=\"center\" :style=\"isOpen.style\">{{isOpen.text}}</h2>\r\n        <div class=\"stockTableContainer\" align=\"center\">\r\n            <table class=\"stockInfoTable\">\r\n                <tr>\r\n                    <td>Symbol: </td>\r\n                    <td>{{stock.data.symbol}}</td>\r\n                    <td>Market: </td>\r\n                    <td>{{stock.data.marketDisplayName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Spot: </td>\r\n                    <td>{{stock.data.spot}} {{stock.data.quotedCurrencySymbol}}</td>\r\n                    <td>Submarket: </td>\r\n                    <td>{{stock.data.submarketDisplayName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Spot time: </td>\r\n                    <td>{{spotTime}}</td>\r\n                    <td>Exchange name: </td>\r\n                    <td>{{stock.data.exchangeName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td class=\"pip\">Pip:\r\n                        <span class=\"tooltiptext\">Minimum fluctuation amount</span>\r\n                    </td>\r\n                    <td>{{stock.data.pip}}</td>\r\n                    <td>Type: </td>\r\n                    <td>{{stock.data.symbolType}}</td>\r\n                </tr>\r\n\r\n\r\n            </table>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus} from '../main.js'\r\n    import Moment from 'moment'\r\n\r\n    export default {\r\n        name: 'stock-info',\r\n        props : ['stock'],\r\n        data(){\r\n            return {\r\n            }\r\n        },\r\n        created () {\r\n            /*this.$on('showStock', id => {\r\n                this.getStock(id);\r\n            });*/\r\n        },\r\n        methods: {\r\n\r\n        },\r\n        computed: {\r\n            spotTime (){\r\n                return Moment(+this.stock.data.spotTime * 1000).format(\"DD-MM-YYYY, hh:mm A\");\r\n            },\r\n            isOpen(){\r\n                var isOpen = this.stock.data.exchangeIsOpen === 1;\r\n                return {\r\n                    style: {\r\n                        color: isOpen ? 'green' : 'red',\r\n                        align: 'center',\r\n                        marginTop: 0\r\n                    },\r\n                    text: isOpen ? 'OPEN' : 'CLOSED'\r\n                }\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    table {\r\n        table-layout: fixed;\r\n    }\r\n\r\n    td {\r\n        max-width: 100%;\r\n        padding: 15px;\r\n        text-align: left;\r\n        vertical-align: middle;\r\n        font-weight: 300;\r\n        font-size: 20px;\r\n        border-bottom: solid 1px rgba(255, 255, 255, 0.1);\r\n    }\r\n\r\n    /* Tooltip container */\r\n    .pip {\r\n        position: relative;\r\n        display: inline-block;\r\n    }\r\n\r\n    /* Tooltip text */\r\n    .pip .tooltiptext {\r\n        visibility: hidden;\r\n        width: 140px;\r\n        background-color: black;\r\n        opacity: .8;\r\n        color: white;\r\n        text-align: center;\r\n        padding: 4px 0;\r\n        border-radius: 6px;\r\n        font-size: 12px;\r\n        line-height: 95%;\r\n        /* Position the tooltip text - see examples below! */\r\n        position: absolute;\r\n        z-index: 1;\r\n        margin-top: 10px;\r\n    }\r\n\r\n    /* Show the tooltip text when you mouse over the tooltip container */\r\n    .pip:hover .tooltiptext {\r\n        visibility: visible;\r\n    }\r\n\r\n    .pip .tooltiptext::after {\r\n        content: \" \";\r\n        position: absolute;\r\n        bottom: 96%; /* At the top of the tooltip */\r\n        right: 90%;\r\n        margin-left: -5px;\r\n        border-width: 5px;\r\n        border-style: solid;\r\n        border-color: transparent transparent black transparent;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\ntable {\n    table-layout: fixed;\n}\ntd {\n    max-width: 100%;\n    padding: 15px;\n    text-align: left;\n    vertical-align: middle;\n    font-weight: 300;\n    font-size: 20px;\n    border-bottom: solid 1px rgba(255, 255, 255, 0.1);\n}\n\n/* Tooltip container */\n.pip {\n    position: relative;\n    display: inline-block;\n}\n\n/* Tooltip text */\n.pip .tooltiptext {\n    visibility: hidden;\n    width: 140px;\n    background-color: black;\n    opacity: .8;\n    color: white;\n    text-align: center;\n    padding: 4px 0;\n    border-radius: 6px;\n    font-size: 12px;\n    line-height: 95%;\n    /* Position the tooltip text - see examples below! */\n    position: absolute;\n    z-index: 1;\n    margin-top: 10px;\n}\n\n/* Show the tooltip text when you mouse over the tooltip container */\n.pip:hover .tooltiptext {\n    visibility: visible;\n}\n.pip .tooltiptext::after {\n    content: \" \";\n    position: absolute;\n    bottom: 96%; /* At the top of the tooltip */\n    right: 90%;\n    margin-left: -5px;\n    border-width: 5px;\n    border-style: solid;\n    border-color: transparent transparent black transparent;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/StockInfo.vue?475f0b46"],"names":[],"mappings":";AAiFA;IACA,oBAAA;CACA;AAEA;IACA,gBAAA;IACA,cAAA;IACA,iBAAA;IACA,uBAAA;IACA,iBAAA;IACA,gBAAA;IACA,kDAAA;CACA;;AAEA,uBAAA;AACA;IACA,mBAAA;IACA,sBAAA;CACA;;AAEA,kBAAA;AACA;IACA,mBAAA;IACA,aAAA;IACA,wBAAA;IACA,YAAA;IACA,aAAA;IACA,mBAAA;IACA,eAAA;IACA,mBAAA;IACA,gBAAA;IACA,iBAAA;IACA,qDAAA;IACA,mBAAA;IACA,WAAA;IACA,iBAAA;CACA;;AAEA,qEAAA;AACA;IACA,oBAAA;CACA;AAEA;IACA,aAAA;IACA,mBAAA;IACA,YAAA,CAAA,+BAAA;IACA,WAAA;IACA,kBAAA;IACA,kBAAA;IACA,oBAAA;IACA,wDAAA;CACA","file":"StockInfo.vue","sourcesContent":["<template>\r\n    <div>\r\n        <div class=\"stockTitle\">\r\n            <h1>{{stock.meta.name}}</h1>\r\n        </div>\r\n        <h2 align=\"center\" :style=\"isOpen.style\">{{isOpen.text}}</h2>\r\n        <div class=\"stockTableContainer\" align=\"center\">\r\n            <table class=\"stockInfoTable\">\r\n                <tr>\r\n                    <td>Symbol: </td>\r\n                    <td>{{stock.data.symbol}}</td>\r\n                    <td>Market: </td>\r\n                    <td>{{stock.data.marketDisplayName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Spot: </td>\r\n                    <td>{{stock.data.spot}} {{stock.data.quotedCurrencySymbol}}</td>\r\n                    <td>Submarket: </td>\r\n                    <td>{{stock.data.submarketDisplayName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td>Spot time: </td>\r\n                    <td>{{spotTime}}</td>\r\n                    <td>Exchange name: </td>\r\n                    <td>{{stock.data.exchangeName}}</td>\r\n                </tr>\r\n                <tr>\r\n                    <td class=\"pip\">Pip:\r\n                        <span class=\"tooltiptext\">Minimum fluctuation amount</span>\r\n                    </td>\r\n                    <td>{{stock.data.pip}}</td>\r\n                    <td>Type: </td>\r\n                    <td>{{stock.data.symbolType}}</td>\r\n                </tr>\r\n\r\n\r\n            </table>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus} from '../main.js'\r\n    import Moment from 'moment'\r\n\r\n    export default {\r\n        name: 'stock-info',\r\n        props : ['stock'],\r\n        data(){\r\n            return {\r\n            }\r\n        },\r\n        created () {\r\n            /*this.$on('showStock', id => {\r\n                this.getStock(id);\r\n            });*/\r\n        },\r\n        methods: {\r\n\r\n        },\r\n        computed: {\r\n            spotTime (){\r\n                return Moment(+this.stock.data.spotTime * 1000).format(\"DD-MM-YYYY, hh:mm A\");\r\n            },\r\n            isOpen(){\r\n                var isOpen = this.stock.data.exchangeIsOpen === 1;\r\n                return {\r\n                    style: {\r\n                        color: isOpen ? 'green' : 'red',\r\n                        align: 'center',\r\n                        marginTop: 0\r\n                    },\r\n                    text: isOpen ? 'OPEN' : 'CLOSED'\r\n                }\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    table {\r\n        table-layout: fixed;\r\n    }\r\n\r\n    td {\r\n        max-width: 100%;\r\n        padding: 15px;\r\n        text-align: left;\r\n        vertical-align: middle;\r\n        font-weight: 300;\r\n        font-size: 20px;\r\n        border-bottom: solid 1px rgba(255, 255, 255, 0.1);\r\n    }\r\n\r\n    /* Tooltip container */\r\n    .pip {\r\n        position: relative;\r\n        display: inline-block;\r\n    }\r\n\r\n    /* Tooltip text */\r\n    .pip .tooltiptext {\r\n        visibility: hidden;\r\n        width: 140px;\r\n        background-color: black;\r\n        opacity: .8;\r\n        color: white;\r\n        text-align: center;\r\n        padding: 4px 0;\r\n        border-radius: 6px;\r\n        font-size: 12px;\r\n        line-height: 95%;\r\n        /* Position the tooltip text - see examples below! */\r\n        position: absolute;\r\n        z-index: 1;\r\n        margin-top: 10px;\r\n    }\r\n\r\n    /* Show the tooltip text when you mouse over the tooltip container */\r\n    .pip:hover .tooltiptext {\r\n        visibility: visible;\r\n    }\r\n\r\n    .pip .tooltiptext::after {\r\n        content: \" \";\r\n        position: absolute;\r\n        bottom: 96%; /* At the top of the tooltip */\r\n        right: 90%;\r\n        margin-left: -5px;\r\n        border-width: 5px;\r\n        border-style: solid;\r\n        border-color: transparent transparent black transparent;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42454,7 +42454,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#felxContainer {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n\n    /*border: 2px lightskyblue solid;*/\n}\n.stockChartContainer {\n    margin: 20px;\n    display: flex;\n    flex-direction: row;\n    flex: 3;\n\n    /*border: 2px greenyellow solid;*/\n}\n.chartRangeContainer {\n    margin: 0 20px 20px;\n    display: block;\n    flex-direction: row;\n    flex: 1;\n    padding: 0 20px 0;\n    /*border: 2px #3fffda solid;*/\n}\n#stockChart {\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n#rangeSelector {\n    display: block;\n}\n.ui-rangeSlider-bar {\n    background: rgba(255, 255, 255, 0.34);\n    height: 24px;\n    margin: 1px 0;\n    -moz-border-radius: 4px;\n    border-radius: 4px;\n    cursor: move;\n    cursor: grab;\n    cursor: -moz-grab;\n    -webkit-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n    -moz-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n    box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n}\n.ui-rangeSlider-container, .ui-rangeSlider-arrow {\n    height: 25px;\n    border-top: solid 1px #232a32;\n    border-bottom: solid 1px #6a7179;\n}\n\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/StockChart.vue?2f822c4d"],"names":[],"mappings":";AAoMA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,uBAAA;IACA,QAAA;;IAEA,mCAAA;CACA;AAEA;IACA,aAAA;IACA,cAAA;IACA,oBAAA;IACA,QAAA;;IAEA,kCAAA;CACA;AAEA;IACA,oBAAA;IACA,eAAA;IACA,oBAAA;IACA,QAAA;IACA,kBAAA;IACA,8BAAA;CACA;AAEA;IACA,YAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,sCAAA;IACA,aAAA;IACA,cAAA;IACA,wBAAA;IACA,mBAAA;IACA,aAAA;IACA,aAAA;IACA,kBAAA;IACA,oDAAA;IACA,iDAAA;IACA,4CAAA;CACA;AAEA;IACA,aAAA;IACA,8BAAA;IACA,iCAAA;CACA","file":"StockChart.vue","sourcesContent":["<template>\r\n    <div id=\"felxContainer\">\r\n        <div class=\"stockChartContainer\">\r\n            <div id=\"stockChart\"></div>\r\n        </div>\r\n        <div class=\"chartRangeContainer\">\r\n            <input id=\"grain\" type=\"text\" v-model=\"grain\">\r\n            <div id=\"rangeSelector\"></div>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus, Moment} from 'main.js'\r\n    import Chart from './HighCandleChart.js'\r\n    //import VueRouter from 'vue-router'\r\n\r\n\r\n    const rangeSelector = {\r\n        min: {},\r\n        max: {}\r\n    };\r\n\r\n    const mountSelector = function () {\r\n        $('#rangeSelector').dateRangeSlider({\r\n            bounds: {min: new Date(2016, 1, 1), max: new Date()},\r\n            defaultValues: {min: new Date(2016, 1, 1), max: new Date()},\r\n            arrows: false,\r\n            range: {min: 100000 * 60},\r\n            scales: [{\r\n                first: function (value) {\r\n                    return value;\r\n                },\r\n                end: function (value) {\r\n                    return value;\r\n                },\r\n                next: function (value) {\r\n                    const next = new Date(value);\r\n                    next.setMonth(next.getMonth() + 1);\r\n                    return next;\r\n                },\r\n                label: function (value) {\r\n                    return value.getMonth() + 1;\r\n                },\r\n                format: function (tickContainer, tickStart, tickEnd) {\r\n                    tickContainer.addClass(\"myCustomClass\");\r\n                }\r\n            }]\r\n        });\r\n    };\r\n\r\n    const mountRangeScroll = function () {\r\n        $('#rangeSelector').bind('mousewheel', function (e) {\r\n            const bounds = $('#rangeSelector').dateRangeSlider(\"option\", \"bounds\");\r\n            const range = $('#rangeSelector').dateRangeSlider(\"values\");\r\n\r\n            const minBound = bounds.min.getTime();\r\n            const maxBound = bounds.max.getTime();\r\n            const minRange = range.min.getTime();\r\n            const maxRange = range.max.getTime();\r\n\r\n            let rangeZoomScale = ((maxRange - minRange) / (maxBound - minBound));\r\n            rangeZoomScale = Math.min(.5, .1 / rangeZoomScale);\r\n            const minOffset = Math.round(Math.max(minRange - minBound, 60000) * rangeZoomScale);\r\n            const maxOffset = Math.round(Math.max(maxBound - maxRange, 60000) * rangeZoomScale);\r\n\r\n            if (e.originalEvent.wheelDelta / 120 > 0) {\r\n                rangeSelector.min = new Date(minBound + minOffset);\r\n                rangeSelector.max = new Date(maxBound - maxOffset);\r\n            } else {\r\n                rangeSelector.min = (minBound + minOffset) <= new Date(2016, 1, 1).getTime() ? bounds.max : new Date(minBound - minOffset);\r\n                rangeSelector.max = (maxBound + maxOffset) >= new Date().getTime() ? bounds.max : new Date(maxBound + maxOffset);\r\n            }\r\n\r\n            $('#rangeSelector').dateRangeSlider(\r\n                \"option\",\r\n                \"bounds\",\r\n                {\r\n                    min: rangeSelector.min,\r\n                    max: rangeSelector.max\r\n                });\r\n\r\n        });\r\n    };\r\n\r\n    const getRangeVals = function () {\r\n        return $('#rangeSelector').dateRangeSlider(\"values\");\r\n    };\r\n\r\n    const setRangeVals = function (min, max) {\r\n        $('#rangeSelector').dateRangeSlider(\"values\", min, max);\r\n    };\r\n\r\n    const granularity = 100;\r\n\r\n    const pushIfDoesntExist = function (toArr, fromArray) {\r\n        for (let i = 0; i < fromArray.length; i++) {\r\n            const element = fromArray[i];\r\n            pushElementIfDoesntExist(toArr, element);\r\n        }\r\n    };\r\n\r\n    const pushElementIfDoesntExist = function (toArr, element) {\r\n        if (!toArr.includes(element))\r\n            toArr.push(element);\r\n    };\r\n\r\n    let chartVue;\r\n    export default {\r\n        name: 'stock-chart',\r\n        props: ['stock'],\r\n        data(){\r\n            return {\r\n                candles: [],\r\n                grain: 100,\r\n                chart: {},\r\n                stockId: 0\r\n            }\r\n        },\r\n        created() {\r\n            chartVue = this;\r\n\r\n\r\n        },\r\n        mounted(){\r\n            mountSelector();\r\n            mountRangeScroll();\r\n\r\n            this.chart = new Chart(\"stockChart\");\r\n            this.chart.render();\r\n\r\n            this.stockId = this.$route.params.id;\r\n\r\n            $('#rangeSelector').bind(\"valuesChanged\", function (e, data) {\r\n                chartVue.getStockCandlesGrain(parseInt(data.values.min.getTime() / 1000), parseInt(data.values.max.getTime() / 1000), chartVue.grain);\r\n            });\r\n\r\n            const today = new Date();\r\n            const lastMonth = new Date();\r\n            lastMonth.setMonth(lastMonth.getMonth() - 3);\r\n            setRangeVals(lastMonth.getTime(), today.getTime());\r\n        },\r\n        watch: {\r\n        },\r\n        methods: {\r\n            getStockCandles(start, end, size){\r\n                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '?start=' + start + '&end=' + end + '&size=' + size).then(function (response) {\r\n                    response.data.forEach(candle =>\r\n                        pushElementIfDoesntExist(this.candles, candle));\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            getStockCandlesGrain(start, end, granularity){\r\n                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '/granularity?granularity=' + granularity + '&start=' + start + '&end=' + end + '&size=' + granularity).then(function (response) {\r\n                    let resopnseBody = response.data;\r\n                    resopnseBody.forEach(candle =>\r\n                        pushElementIfDoesntExist(this.candles, candle));\r\n                    this.chart.addToAll(this.candlesDataPoints);\r\n                    this.chart.render();\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            candlesToChartData(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: [candle.open, candle.high, candle.low, candle.close]\r\n                    }\r\n                });\r\n            }\r\n        },\r\n        computed: {\r\n            linesDataPoints(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: candle.open\r\n                    }\r\n                });\r\n            },\r\n            candlesDataPoints(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: [candle.open, candle.high, candle.low, candle.close]\r\n                    }\r\n                });\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    #felxContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n        display: flex;\r\n        flex-direction: column;\r\n        flex: 1;\r\n\r\n        /*border: 2px lightskyblue solid;*/\r\n    }\r\n\r\n    .stockChartContainer {\r\n        margin: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n        flex: 3;\r\n\r\n        /*border: 2px greenyellow solid;*/\r\n    }\r\n\r\n    .chartRangeContainer {\r\n        margin: 0 20px 20px;\r\n        display: block;\r\n        flex-direction: row;\r\n        flex: 1;\r\n        padding: 0 20px 0;\r\n        /*border: 2px #3fffda solid;*/\r\n    }\r\n\r\n    #stockChart {\r\n        width: 100%;\r\n        height: 100%;\r\n        z-index: 4;\r\n    }\r\n\r\n    #rangeSelector {\r\n        display: block;\r\n    }\r\n\r\n    .ui-rangeSlider-bar {\r\n        background: rgba(255, 255, 255, 0.34);\r\n        height: 24px;\r\n        margin: 1px 0;\r\n        -moz-border-radius: 4px;\r\n        border-radius: 4px;\r\n        cursor: move;\r\n        cursor: grab;\r\n        cursor: -moz-grab;\r\n        -webkit-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n        -moz-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n        box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n    }\r\n\r\n    .ui-rangeSlider-container, .ui-rangeSlider-arrow {\r\n        height: 25px;\r\n        border-top: solid 1px #232a32;\r\n        border-bottom: solid 1px #6a7179;\r\n    }\r\n\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#felxContainer {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n\n    /*border: 2px lightskyblue solid;*/\n}\n.stockChartContainer {\n    margin: 20px;\n    display: flex;\n    flex-direction: row;\n    flex: 3;\n\n    /*border: 2px greenyellow solid;*/\n}\n.chartRangeContainer {\n    margin: 0 20px 20px;\n    display: block;\n    flex-direction: row;\n    flex: 1;\n    padding: 0 20px 0;\n    /*border: 2px #3fffda solid;*/\n}\n#stockChart {\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n#rangeSelector {\n    display: block;\n}\n.ui-rangeSlider-bar {\n    background: rgba(255, 255, 255, 0.34);\n    height: 24px;\n    margin: 1px 0;\n    -moz-border-radius: 4px;\n    border-radius: 4px;\n    cursor: move;\n    cursor: grab;\n    cursor: -moz-grab;\n    -webkit-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n    -moz-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n    box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\n}\n.ui-rangeSlider-container, .ui-rangeSlider-arrow {\n    height: 25px;\n    border-top: solid 1px #232a32;\n    border-bottom: solid 1px #6a7179;\n}\n\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/StockChart.vue?2f822c4d"],"names":[],"mappings":";AAoMA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,uBAAA;IACA,QAAA;;IAEA,mCAAA;CACA;AAEA;IACA,aAAA;IACA,cAAA;IACA,oBAAA;IACA,QAAA;;IAEA,kCAAA;CACA;AAEA;IACA,oBAAA;IACA,eAAA;IACA,oBAAA;IACA,QAAA;IACA,kBAAA;IACA,8BAAA;CACA;AAEA;IACA,YAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,sCAAA;IACA,aAAA;IACA,cAAA;IACA,wBAAA;IACA,mBAAA;IACA,aAAA;IACA,aAAA;IACA,kBAAA;IACA,oDAAA;IACA,iDAAA;IACA,4CAAA;CACA;AAEA;IACA,aAAA;IACA,8BAAA;IACA,iCAAA;CACA","file":"StockChart.vue","sourcesContent":["<template>\r\n    <div id=\"felxContainer\">\r\n        <div class=\"stockChartContainer\">\r\n            <div id=\"stockChart\"></div>\r\n        </div>\r\n        <div class=\"chartRangeContainer\">\r\n            <input id=\"grain\" type=\"text\" v-model=\"grain\">\r\n            <div id=\"rangeSelector\"></div>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus, Moment} from 'main.js'\r\n    import Chart from './HighCandleChart.js'\r\n    //import VueRouter from 'vue-router'\r\n\r\n\r\n    const rangeSelector = {\r\n        min: {},\r\n        max: {}\r\n    };\r\n\r\n    const mountSelector = function () {\r\n        $('#rangeSelector').dateRangeSlider({\r\n            bounds: {min: new Date(2016, 1, 1), max: new Date()},\r\n            defaultValues: {min: new Date(2016, 1, 1), max: new Date()},\r\n            arrows: false,\r\n            range: {min: 100000 * 60},\r\n            scales: [{\r\n                first: function (value) {\r\n                    return value;\r\n                },\r\n                end: function (value) {\r\n                    return value;\r\n                },\r\n                next: function (value) {\r\n                    const next = new Date(value);\r\n                    next.setMonth(next.getMonth() + 1);\r\n                    return next;\r\n                },\r\n                label: function (value) {\r\n                    return value.getMonth() + 1;\r\n                },\r\n                format: function (tickContainer, tickStart, tickEnd) {\r\n                    tickContainer.addClass(\"myCustomClass\");\r\n                }\r\n            }]\r\n        });\r\n    };\r\n\r\n    const mountRangeScroll = function () {\r\n        $('#rangeSelector').bind('mousewheel', function (e) {\r\n            const bounds = $('#rangeSelector').dateRangeSlider(\"option\", \"bounds\");\r\n            const range = $('#rangeSelector').dateRangeSlider(\"values\");\r\n\r\n            const minBound = bounds.min.getTime();\r\n            const maxBound = bounds.max.getTime();\r\n            const minRange = range.min.getTime();\r\n            const maxRange = range.max.getTime();\r\n\r\n            let rangeZoomScale = ((maxRange - minRange) / (maxBound - minBound));\r\n            rangeZoomScale = Math.min(.5, .1 / rangeZoomScale);\r\n            const minOffset = Math.round(Math.max(minRange - minBound, 60000) * rangeZoomScale);\r\n            const maxOffset = Math.round(Math.max(maxBound - maxRange, 60000) * rangeZoomScale);\r\n\r\n            if (e.originalEvent.wheelDelta / 120 > 0) {\r\n                rangeSelector.min = new Date(minBound + minOffset);\r\n                rangeSelector.max = new Date(maxBound - maxOffset);\r\n            } else {\r\n                rangeSelector.min = (minBound + minOffset) <= new Date(2016, 1, 1).getTime() ? bounds.max : new Date(minBound - minOffset);\r\n                rangeSelector.max = (maxBound + maxOffset) >= new Date().getTime() ? bounds.max : new Date(maxBound + maxOffset);\r\n            }\r\n\r\n            $('#rangeSelector').dateRangeSlider(\r\n                \"option\",\r\n                \"bounds\",\r\n                {\r\n                    min: rangeSelector.min,\r\n                    max: rangeSelector.max\r\n                });\r\n\r\n        });\r\n    };\r\n\r\n    const getRangeVals = function () {\r\n        return $('#rangeSelector').dateRangeSlider(\"values\");\r\n    };\r\n\r\n    const setRangeVals = function (min, max) {\r\n        $('#rangeSelector').dateRangeSlider(\"values\", min, max);\r\n    };\r\n\r\n    const granularity = 100;\r\n\r\n    const pushIfDoesntExist = function (toArr, fromArray) {\r\n        for (let i = 0; i < fromArray.length; i++) {\r\n            const element = fromArray[i];\r\n            pushElementIfDoesntExist(toArr, element);\r\n        }\r\n    };\r\n\r\n    const pushElementIfDoesntExist = function (toArr, element) {\r\n        if (!toArr.includes(element))\r\n            toArr.push(element);\r\n    };\r\n\r\n    let chartVue;\r\n    export default {\r\n        name: 'stock-chart',\r\n        props: ['stock'],\r\n        data(){\r\n            return {\r\n                candles: [],\r\n                grain: 100,\r\n                chart: {},\r\n                stockId: 0\r\n            }\r\n        },\r\n        created() {\r\n            chartVue = this;\r\n\r\n\r\n        },\r\n        mounted(){\r\n            mountSelector();\r\n            mountRangeScroll();\r\n\r\n            this.chart = new Chart(\"stockChart\");\r\n            this.chart.render();\r\n\r\n            this.stockId = this.$route.params.id;\r\n\r\n            $('#rangeSelector').bind(\"valuesChanged\", function (e, data) {\r\n                chartVue.getStockCandlesGrain(parseInt(data.values.min.getTime() / 1000), parseInt(data.values.max.getTime() / 1000), chartVue.grain);\r\n            });\r\n\r\n            const today = new Date();\r\n            const lastMonth = new Date();\r\n            lastMonth.setMonth(lastMonth.getMonth() - 3);\r\n            setRangeVals(lastMonth.getTime(), today.getTime());\r\n        },\r\n        watch: {\r\n        },\r\n        methods: {\r\n            getStockCandles(start, end, size){\r\n                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '?start=' + start + '&end=' + end + '&size=' + size).then(function (response) {\r\n                    response.data.forEach(candle =>\r\n                        pushElementIfDoesntExist(this.candles, candle));\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            getStockCandlesGrain(start, end, granularity){\r\n                this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '/granularity?granularity=' + granularity + '&start=' + start + '&end=' + end + '&size=' + granularity).then(function (response) {\r\n                    let resopnseBody = response.data;\r\n                    resopnseBody.forEach(candle =>\r\n                        pushElementIfDoesntExist(this.candles, candle));\r\n                    this.chart.addToAll(this.candlesDataPoints);\r\n                    this.chart.render();\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            candlesToChartData(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: [candle.open, candle.high, candle.low, candle.close]\r\n                    }\r\n                });\r\n            }\r\n        },\r\n        computed: {\r\n            linesDataPoints(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: candle.open\r\n                    }\r\n                });\r\n            },\r\n            candlesDataPoints(){\r\n                return this.candles.map(candle => {\r\n                    return {\r\n                        x: new Date(+candle.epoch * 1000),\r\n                        y: [candle.open, candle.high, candle.low, candle.close]\r\n                    }\r\n                });\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    #felxContainer {\r\n        width: 100%;\r\n        height: 100%;\r\n        display: flex;\r\n        flex-direction: column;\r\n        flex: 1;\r\n\r\n        /*border: 2px lightskyblue solid;*/\r\n    }\r\n\r\n    .stockChartContainer {\r\n        margin: 20px;\r\n        display: flex;\r\n        flex-direction: row;\r\n        flex: 3;\r\n\r\n        /*border: 2px greenyellow solid;*/\r\n    }\r\n\r\n    .chartRangeContainer {\r\n        margin: 0 20px 20px;\r\n        display: block;\r\n        flex-direction: row;\r\n        flex: 1;\r\n        padding: 0 20px 0;\r\n        /*border: 2px #3fffda solid;*/\r\n    }\r\n\r\n    #stockChart {\r\n        width: 100%;\r\n        height: 100%;\r\n        z-index: 4;\r\n    }\r\n\r\n    #rangeSelector {\r\n        display: block;\r\n    }\r\n\r\n    .ui-rangeSlider-bar {\r\n        background: rgba(255, 255, 255, 0.34);\r\n        height: 24px;\r\n        margin: 1px 0;\r\n        -moz-border-radius: 4px;\r\n        border-radius: 4px;\r\n        cursor: move;\r\n        cursor: grab;\r\n        cursor: -moz-grab;\r\n        -webkit-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n        -moz-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n        box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);\r\n    }\r\n\r\n    .ui-rangeSlider-container, .ui-rangeSlider-arrow {\r\n        height: 25px;\r\n        border-top: solid 1px #232a32;\r\n        border-bottom: solid 1px #6a7179;\r\n    }\r\n\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42468,7 +42468,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#graphContainer {\n    display: flex;\n    overflow: visible;\n    flex: 6;\n}\n#graph {\n    height: 100%;\n    width: 100%;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/graph/GraphContainer.vue?3da737a5"],"names":[],"mappings":";AA+GA;IACA,cAAA;IACA,kBAAA;IACA,QAAA;CACA;AAEA;IACA,aAAA;IACA,YAAA;CACA","file":"GraphContainer.vue","sourcesContent":["<template>\r\n    <div id=\"graphContainer\" class=\"bordered\">\r\n        <div id=\"graph\">\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import cytoscape from 'cytoscape'\r\n\r\n    const graphConfig = {\r\n        container: {},\r\n        elements: [],\r\n        style: cytoscape.stylesheet()\r\n            .selector('node')\r\n            .css({\r\n                'content': 'data(label)',\r\n                'text-valign': 'center',\r\n                'color': 'white',\r\n                'text-outline-width': 2,\r\n                'background-color': '#999',\r\n                'text-outline-color': '#999'\r\n            })\r\n            .selector('edge')\r\n            .css({\r\n                'curve-style': 'bezier',\r\n                'target-arrow-shape': 'triangle',\r\n                'target-arrow-color': '#ccc',\r\n                'line-color': '#ccc',\r\n                'width': 1\r\n            })\r\n            .selector(':selected')\r\n            .css({\r\n                'background-color': 'black',\r\n                'line-color': 'black',\r\n                'target-arrow-color': 'black',\r\n                'source-arrow-color': 'black'\r\n            })\r\n            .selector('.faded')\r\n            .css({\r\n                'opacity': 0.25,\r\n                'text-opacity': 0\r\n            })\r\n            .selector('.autorotate')\r\n            .css({\r\n                'edge-text-rotation': 'autorotate'\r\n            })\r\n            .selector('.multiline-manual')\r\n            .css({\r\n                'text-wrap': 'wrap'\r\n            }),\r\n\r\n        layout: {\r\n            name: 'grid',\r\n            rows: 16\r\n        }\r\n    };\r\n\r\n    let graph;\r\n\r\n    export default {\r\n        name: 'graph-container',\r\n        created(){\r\n            this.stocks.forEach(stock => graphConfig.elements.push(this.toNode(stock)))\r\n        },\r\n        computed: {\r\n            stocks() {\r\n                return this.$store.getters.getStocks;\r\n            }\r\n        },\r\n        methods: {\r\n            toNode(stock){\r\n                return {\r\n                    group: 'nodes',\r\n                    data: {\r\n                        id: stock.id,\r\n                        /*name: stock.name,\r\n                         open: 1,\r\n                         high: 2,\r\n                         low: 3,\r\n                         close: 4,*/\r\n                        label: stock.name + '\\n' +\r\n                        'Open: ' + 1 + '\\n' +\r\n                        'High: ' + 2 + '\\n' +\r\n                        'Low: ' + 3 + '\\n' +\r\n                        'Close: ' + 4 + '\\n'\r\n\r\n                    },\r\n                    classes: 'multiline-manual'\r\n                }\r\n            },\r\n            toEdge(stock1, stock2){\r\n                return {\r\n                    group: 'edges',\r\n                    id: stock1.id + stock2.id,\r\n                    source: stock1.id, // the source node id (edge comes from this node)\r\n                    target: stock2.id\r\n                }\r\n            }\r\n        },\r\n        mounted(){\r\n            console.log(\"GraphContainer mounted\");\r\n            graphConfig.container = document.getElementById('graph');\r\n            graph = cytoscape(graphConfig);\r\n        }\r\n    }\r\n\r\n</script>\r\n\r\n<style>\r\n\r\n    #graphContainer {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex: 6;\r\n    }\r\n\r\n    #graph {\r\n        height: 100%;\r\n        width: 100%;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#graphContainer {\n    display: flex;\n    overflow: visible;\n    flex: 6;\n}\n#graph {\n    height: 100%;\n    width: 100%;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/graph/GraphContainer.vue?3da737a5"],"names":[],"mappings":";AA+GA;IACA,cAAA;IACA,kBAAA;IACA,QAAA;CACA;AAEA;IACA,aAAA;IACA,YAAA;CACA","file":"GraphContainer.vue","sourcesContent":["<template>\r\n    <div id=\"graphContainer\" class=\"bordered\">\r\n        <div id=\"graph\">\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import cytoscape from 'cytoscape'\r\n\r\n    const graphConfig = {\r\n        container: {},\r\n        elements: [],\r\n        style: cytoscape.stylesheet()\r\n            .selector('node')\r\n            .css({\r\n                'content': 'data(label)',\r\n                'text-valign': 'center',\r\n                'color': 'white',\r\n                'text-outline-width': 2,\r\n                'background-color': '#999',\r\n                'text-outline-color': '#999'\r\n            })\r\n            .selector('edge')\r\n            .css({\r\n                'curve-style': 'bezier',\r\n                'target-arrow-shape': 'triangle',\r\n                'target-arrow-color': '#ccc',\r\n                'line-color': '#ccc',\r\n                'width': 1\r\n            })\r\n            .selector(':selected')\r\n            .css({\r\n                'background-color': 'black',\r\n                'line-color': 'black',\r\n                'target-arrow-color': 'black',\r\n                'source-arrow-color': 'black'\r\n            })\r\n            .selector('.faded')\r\n            .css({\r\n                'opacity': 0.25,\r\n                'text-opacity': 0\r\n            })\r\n            .selector('.autorotate')\r\n            .css({\r\n                'edge-text-rotation': 'autorotate'\r\n            })\r\n            .selector('.multiline-manual')\r\n            .css({\r\n                'text-wrap': 'wrap'\r\n            }),\r\n\r\n        layout: {\r\n            name: 'grid',\r\n            rows: 16\r\n        }\r\n    };\r\n\r\n    let graph;\r\n\r\n    export default {\r\n        name: 'graph-container',\r\n        created(){\r\n            this.stocks.forEach(stock => graphConfig.elements.push(this.toNode(stock)))\r\n        },\r\n        computed: {\r\n            stocks() {\r\n                return this.$store.getters.getStocks;\r\n            }\r\n        },\r\n        methods: {\r\n            toNode(stock){\r\n                return {\r\n                    group: 'nodes',\r\n                    data: {\r\n                        id: stock.id,\r\n                        /*name: stock.name,\r\n                         open: 1,\r\n                         high: 2,\r\n                         low: 3,\r\n                         close: 4,*/\r\n                        label: stock.name + '\\n' +\r\n                        'Open: ' + 1 + '\\n' +\r\n                        'High: ' + 2 + '\\n' +\r\n                        'Low: ' + 3 + '\\n' +\r\n                        'Close: ' + 4 + '\\n'\r\n\r\n                    },\r\n                    classes: 'multiline-manual'\r\n                }\r\n            },\r\n            toEdge(stock1, stock2){\r\n                return {\r\n                    group: 'edges',\r\n                    id: stock1.id + stock2.id,\r\n                    source: stock1.id, // the source node id (edge comes from this node)\r\n                    target: stock2.id\r\n                }\r\n            }\r\n        },\r\n        mounted(){\r\n            console.log(\"GraphContainer mounted\");\r\n            graphConfig.container = document.getElementById('graph');\r\n            graph = cytoscape(graphConfig);\r\n        }\r\n    }\r\n\r\n</script>\r\n\r\n<style>\r\n\r\n    #graphContainer {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex: 6;\r\n    }\r\n\r\n    #graph {\r\n        height: 100%;\r\n        width: 100%;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42482,7 +42482,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#stockListContainer {\n    margin: 5px 0px 5px 5px;\n    display: flex;\n    flex-direction: column;\n    flex: 0;\n}\n.searchBar {\n    border: none;\n    /* width: 100%; */\n    font-size: 130%;\n    outline-width: 0;\n    padding: 5% 5% 5% 30px;\n    display: flex;\n    margin: 4px;\n    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.03) 100%);\n}\n.stocksList {\n    height: 100%;\n    margin-top: 10px;\n    padding-bottom: 10px;\n    padding-left: 30px;\n    overflow-x: hidden;\n    overflow-y: scroll;\n    display: flex;\n    flex-direction: column;\n}\n.shadow {\n    height: 100%;\n    box-shadow: inset 0px 40px 18px -20px rgb(244, 251, 253);\n}\n.stocksList::-webkit-scrollbar {\n    width: 0;\n}\n.shadow:after {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: -15px;\n    right: -15px;\n    box-shadow: inset 0px 40px 18px -20px rgb(0, 7, 253);\n}\n.stockListItem {\n    user-select: none;\n    padding: 5% 0 5%;\n    list-style-type: none;\n    font-size: 150%;\n}\n.grow {\n    transition: all .2s ease-in-out;\n}\n.grow:hover {\n    text-shadow: -3px 3px 3px rgba(1, 1, 1, .15);\n    cursor: pointer;\n    font-weight: bold;\n    transform: scale(1.1) translate(5%, 0);\n}\n\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/StocksList.vue?3351ce57"],"names":[],"mappings":";AAiEA;IACA,wBAAA;IACA,cAAA;IACA,uBAAA;IACA,QAAA;CACA;AAEA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,iBAAA;IACA,uBAAA;IACA,cAAA;IACA,YAAA;IACA,uFAAA;CACA;AAEA;IACA,aAAA;IACA,iBAAA;IACA,qBAAA;IACA,mBAAA;IACA,mBAAA;IACA,mBAAA;IACA,cAAA;IACA,uBAAA;CAEA;AAEA;IACA,aAAA;IACA,yDAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,mBAAA;IACA,OAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,qDAAA;CACA;AAEA;IACA,kBAAA;IACA,iBAAA;IACA,sBAAA;IACA,gBAAA;CACA;AAEA;IACA,gCAAA;CACA;AAEA;IACA,6CAAA;IACA,gBAAA;IACA,kBAAA;IACA,uCAAA;CACA","file":"StocksList.vue","sourcesContent":["<template>\r\n    <div id=\"stockListContainer\" class=\"bordered\">\r\n        <input class=\"searchBar\" type=\"text\" v-model=\"searchKeyword\" placeholder=\"Search\" onfocus=\"\"/>\r\n        <ul class=\"stocksList\">\r\n            <li class=\"stockListItem grow\" @click.stop.prevent=\"selectStock(stock)\" v-for=\"stock in filteredStocks\">\r\n                {{stock.name}}\r\n\r\n\r\n\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus} from 'main.js'\r\n\r\n    export default {\r\n        name: 'stocks-list',\r\n        data(){\r\n            return {\r\n                searchKeyword: ''\r\n            }\r\n        },\r\n        created () {\r\n            this.fetchStocks();\r\n        },\r\n        methods: {\r\n            fetchStocks(){\r\n                this.$http.get('http://localhost:8080/data/stocks?size=1000').then(function (response) {\r\n                    response.data._embedded.stocks\r\n                        .forEach(stock => this.$store.commit('addStock', stock));\r\n                    this.selectStock(this.stocks[0]);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            selectStock(stock){\r\n                console.log(\"Selecting \", stock.name);\r\n                this.$store.commit('setActiveStock', stock);\r\n                this.$router.push('/stocks/' + stock.id);\r\n            }\r\n        },\r\n        computed: {\r\n            filteredStocks(){\r\n                return this.stocks.filter((stock) => {\r\n                    return stock.name.toLowerCase().includes(this.searchKeyword.toLocaleLowerCase());\r\n                });\r\n            },\r\n            stocks(){\r\n                return this.$store.getters.getStocks;\r\n            },\r\n            activeStock(){\r\n                return this.$store.getters.getActiveStock;\r\n            }\r\n        },\r\n        activated(){\r\n            if (Object.keys(this.activeStock).length !== 0)\r\n                this.selectStock(this.activeStock);\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    #stockListContainer {\r\n        margin: 5px 0px 5px 5px;\r\n        display: flex;\r\n        flex-direction: column;\r\n        flex: 0;\r\n    }\r\n\r\n    .searchBar {\r\n        border: none;\r\n        /* width: 100%; */\r\n        font-size: 130%;\r\n        outline-width: 0;\r\n        padding: 5% 5% 5% 30px;\r\n        display: flex;\r\n        margin: 4px;\r\n        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.03) 100%);\r\n    }\r\n\r\n    .stocksList {\r\n        height: 100%;\r\n        margin-top: 10px;\r\n        padding-bottom: 10px;\r\n        padding-left: 30px;\r\n        overflow-x: hidden;\r\n        overflow-y: scroll;\r\n        display: flex;\r\n        flex-direction: column;\r\n\r\n    }\r\n\r\n    .shadow {\r\n        height: 100%;\r\n        box-shadow: inset 0px 40px 18px -20px rgb(244, 251, 253);\r\n    }\r\n\r\n    .stocksList::-webkit-scrollbar {\r\n        width: 0;\r\n    }\r\n\r\n    .shadow:after {\r\n        position: absolute;\r\n        top: 0;\r\n        bottom: 0;\r\n        left: -15px;\r\n        right: -15px;\r\n        box-shadow: inset 0px 40px 18px -20px rgb(0, 7, 253);\r\n    }\r\n\r\n    .stockListItem {\r\n        user-select: none;\r\n        padding: 5% 0 5%;\r\n        list-style-type: none;\r\n        font-size: 150%;\r\n    }\r\n\r\n    .grow {\r\n        transition: all .2s ease-in-out;\r\n    }\r\n\r\n    .grow:hover {\r\n        text-shadow: -3px 3px 3px rgba(1, 1, 1, .15);\r\n        cursor: pointer;\r\n        font-weight: bold;\r\n        transform: scale(1.1) translate(5%, 0);\r\n    }\r\n\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#stockListContainer {\n    margin: 5px 0px 5px 5px;\n    display: flex;\n    flex-direction: column;\n    flex: 0;\n}\n.searchBar {\n    border: none;\n    /* width: 100%; */\n    font-size: 130%;\n    outline-width: 0;\n    padding: 5% 5% 5% 30px;\n    display: flex;\n    margin: 4px;\n    background: linear-gradient(toClass bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.03) 100%);\n}\n.stocksList {\n    height: 100%;\n    margin-top: 10px;\n    padding-bottom: 10px;\n    padding-left: 30px;\n    overflow-x: hidden;\n    overflow-y: scroll;\n    display: flex;\n    flex-direction: column;\n}\n.shadow {\n    height: 100%;\n    box-shadow: inset 0px 40px 18px -20px rgb(244, 251, 253);\n}\n.stocksList::-webkit-scrollbar {\n    width: 0;\n}\n.shadow:after {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: -15px;\n    right: -15px;\n    box-shadow: inset 0px 40px 18px -20px rgb(0, 7, 253);\n}\n.stockListItem {\n    user-select: none;\n    padding: 5% 0 5%;\n    list-style-type: none;\n    font-size: 150%;\n}\n.grow {\n    transition: all .2s ease-in-out;\n}\n.grow:hover {\n    text-shadow: -3px 3px 3px rgba(1, 1, 1, .15);\n    cursor: pointer;\n    font-weight: bold;\n    transform: scale(1.1) translate(5%, 0);\n}\n\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/StocksList.vue?3351ce57"],"names":[],"mappings":";AAiEA;IACA,wBAAA;IACA,cAAA;IACA,uBAAA;IACA,QAAA;CACA;AAEA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,iBAAA;IACA,uBAAA;IACA,cAAA;IACA,YAAA;IACA,uFAAA;CACA;AAEA;IACA,aAAA;IACA,iBAAA;IACA,qBAAA;IACA,mBAAA;IACA,mBAAA;IACA,mBAAA;IACA,cAAA;IACA,uBAAA;CAEA;AAEA;IACA,aAAA;IACA,yDAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,mBAAA;IACA,OAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,qDAAA;CACA;AAEA;IACA,kBAAA;IACA,iBAAA;IACA,sBAAA;IACA,gBAAA;CACA;AAEA;IACA,gCAAA;CACA;AAEA;IACA,6CAAA;IACA,gBAAA;IACA,kBAAA;IACA,uCAAA;CACA","file":"StocksList.vue","sourcesContent":["<template>\r\n    <div id=\"stockListContainer\" class=\"bordered\">\r\n        <input class=\"searchBar\" type=\"text\" v-model=\"searchKeyword\" placeholder=\"Search\" onfocus=\"\"/>\r\n        <ul class=\"stocksList\">\r\n            <li class=\"stockListItem grow\" @click.stop.prevent=\"selectStock(stock)\" v-for=\"stock in filteredStocks\">\r\n                {{stock.name}}\r\n\r\n\r\n\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    //import {EventBus} from 'main.js'\r\n\r\n    export default {\r\n        name: 'stocks-list',\r\n        data(){\r\n            return {\r\n                searchKeyword: ''\r\n            }\r\n        },\r\n        created () {\r\n            this.fetchStocks();\r\n        },\r\n        methods: {\r\n            fetchStocks(){\r\n                this.$http.get('http://localhost:8080/data/stocks?size=1000').then(function (response) {\r\n                    response.data._embedded.stocks\r\n                        .forEach(stock => this.$store.commit('addStock', stock));\r\n                    this.selectStock(this.stocks[0]);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            selectStock(stock){\r\n                console.log(\"Selecting \", stock.name);\r\n                this.$store.commit('setActiveStock', stock);\r\n                this.$router.push('/stocks/' + stock.id);\r\n            }\r\n        },\r\n        computed: {\r\n            filteredStocks(){\r\n                return this.stocks.filter((stock) => {\r\n                    return stock.name.toLowerCase().includes(this.searchKeyword.toLocaleLowerCase());\r\n                });\r\n            },\r\n            stocks(){\r\n                return this.$store.getters.getStocks;\r\n            },\r\n            activeStock(){\r\n                return this.$store.getters.getActiveStock;\r\n            }\r\n        },\r\n        activated(){\r\n            if (Object.keys(this.activeStock).length !== 0)\r\n                this.selectStock(this.activeStock);\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n\r\n    #stockListContainer {\r\n        margin: 5px 0px 5px 5px;\r\n        display: flex;\r\n        flex-direction: column;\r\n        flex: 0;\r\n    }\r\n\r\n    .searchBar {\r\n        border: none;\r\n        /* width: 100%; */\r\n        font-size: 130%;\r\n        outline-width: 0;\r\n        padding: 5% 5% 5% 30px;\r\n        display: flex;\r\n        margin: 4px;\r\n        background: linear-gradient(toClass bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.03) 100%);\r\n    }\r\n\r\n    .stocksList {\r\n        height: 100%;\r\n        margin-top: 10px;\r\n        padding-bottom: 10px;\r\n        padding-left: 30px;\r\n        overflow-x: hidden;\r\n        overflow-y: scroll;\r\n        display: flex;\r\n        flex-direction: column;\r\n\r\n    }\r\n\r\n    .shadow {\r\n        height: 100%;\r\n        box-shadow: inset 0px 40px 18px -20px rgb(244, 251, 253);\r\n    }\r\n\r\n    .stocksList::-webkit-scrollbar {\r\n        width: 0;\r\n    }\r\n\r\n    .shadow:after {\r\n        position: absolute;\r\n        top: 0;\r\n        bottom: 0;\r\n        left: -15px;\r\n        right: -15px;\r\n        box-shadow: inset 0px 40px 18px -20px rgb(0, 7, 253);\r\n    }\r\n\r\n    .stockListItem {\r\n        user-select: none;\r\n        padding: 5% 0 5%;\r\n        list-style-type: none;\r\n        font-size: 150%;\r\n    }\r\n\r\n    .grow {\r\n        transition: all .2s ease-in-out;\r\n    }\r\n\r\n    .grow:hover {\r\n        text-shadow: -3px 3px 3px rgba(1, 1, 1, .15);\r\n        cursor: pointer;\r\n        font-weight: bold;\r\n        transform: scale(1.1) translate(5%, 0);\r\n    }\r\n\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42496,7 +42496,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#graphContent {\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n}\n#options {\n    display: flex;\n    overflow: visible;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/graph/GraphContent.vue?6529f21c"],"names":[],"mappings":";AAqBA;IACA,cAAA;IACA,QAAA;IACA,uBAAA;CACA;AAEA;IACA,cAAA;IACA,kBAAA;IACA,QAAA;CACA","file":"GraphContent.vue","sourcesContent":["<template>\r\n    <div id=\"graphContent\">\r\n        <div id=\"options\" class=\"bordered\"></div>\r\n        <graph-container></graph-container>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n\r\n    import GraphContainer from './GraphContainer.vue'\r\n    export default {\r\n        created(){\r\n            console.log(\"Graph created\");\r\n        },\r\n        components: {\r\n            'graph-container': GraphContainer\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n    #graphContent {\r\n        display: flex;\r\n        flex: 1;\r\n        flex-direction: column;\r\n    }\r\n\r\n    #options {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#graphContent {\n    display: flex;\n    flex: 1;\n    flex-direction: column;\n}\n#options {\n    display: flex;\n    overflow: visible;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/graph/GraphContent.vue?6529f21c"],"names":[],"mappings":";AAqBA;IACA,cAAA;IACA,QAAA;IACA,uBAAA;CACA;AAEA;IACA,cAAA;IACA,kBAAA;IACA,QAAA;CACA","file":"GraphContent.vue","sourcesContent":["<template>\r\n    <div id=\"graphContent\">\r\n        <div id=\"options\" class=\"bordered\"></div>\r\n        <graph-container></graph-container>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n\r\n    import GraphContainer from './GraphContainer.vue'\r\n    export default {\r\n        created(){\r\n            console.log(\"Graph created\");\r\n        },\r\n        components: {\r\n            'graph-container': GraphContainer\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n    #graphContent {\r\n        display: flex;\r\n        flex: 1;\r\n        flex-direction: column;\r\n    }\r\n\r\n    #options {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42510,7 +42510,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n#rightContent {\n    display: flex;\n    overflow: visible;\n    flex-direction: column;\n    flex: 1;\n    /*flex-grow: 0;*/\n    /*flex-shrink: 0;*/\n}\n#bottomContent {\n    display: flex;\n    height: auto;\n    margin-top: 2px;\n    flex-direction: column;\n    align-items: center;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/StockNNBot/Control/src/main/resources/public/src/components/StockContainer.vue?f08d8a90"],"names":[],"mappings":";AAmEA;IACA,cAAA;IACA,kBAAA;IACA,uBAAA;IACA,QAAA;IACA,iBAAA;IACA,mBAAA;CACA;AAEA;IACA,cAAA;IACA,aAAA;IACA,gBAAA;IACA,uBAAA;IACA,oBAAA;IACA,QAAA;CACA","file":"StockContainer.vue","sourcesContent":["<template>\r\n    <div id=\"rightContent\">\r\n        <div class=\"bordered\" id=\"topContent\">\r\n            <stock-info :stock=\"stock\"></stock-info>\r\n        </div>\r\n        <div class=\"bordered\" id=\"bottomContent\">\r\n            <stock-chart :stock=\"stock\"></stock-chart>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import StockInfo from './StockInfo.vue'\r\n    import StockChart from './StockChart.vue'\r\n    //import * as Main from '../main.js'\r\n\r\n    export default{\r\n        name: 'stock-container',\r\n        data() {\r\n            return {\r\n                stock: {\r\n                    data: {},\r\n                    meta: {}\r\n                }\r\n            }\r\n        },\r\n        created() {\r\n            let id = this.$route.params.id;\r\n\r\n            //TODO this is created with first entry to graph, bug\r\n            console.log(\"Created stock\", id);\r\n            this.getStock(id);\r\n        },\r\n        components: {\r\n            'stock-info': StockInfo,\r\n            'stock-chart': StockChart\r\n        },\r\n        methods: {\r\n            getStock(id){\r\n                this.getStockById(id);\r\n                this.getStockBinaryDataById(id);\r\n            },\r\n            getStockBinaryDataById(id){\r\n                this.$http.get('http://localhost:8080/data/binaryDatas/' + id).then(function (response) {\r\n                    this.$set(this.stock, 'data', response.data);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            getStockById(id){\r\n                this.$http.get('http://localhost:8080/data/stocks/' + id).then(function (response) {\r\n                    this.$set(this.stock, 'meta', response.data);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            }\r\n        },\r\n        watch:{\r\n            '$route' (to, from){\r\n                //this.getStock(to.params.id);\r\n                //console.log(to);\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n    #rightContent {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex-direction: column;\r\n        flex: 1;\r\n        /*flex-grow: 0;*/\r\n        /*flex-shrink: 0;*/\r\n    }\r\n\r\n    #bottomContent {\r\n        display: flex;\r\n        height: auto;\r\n        margin-top: 2px;\r\n        flex-direction: column;\r\n        align-items: center;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n#rightContent {\n    display: flex;\n    overflow: visible;\n    flex-direction: column;\n    flex: 1;\n    /*flex-grow: 0;*/\n    /*flex-shrink: 0;*/\n}\n#bottomContent {\n    display: flex;\n    height: auto;\n    margin-top: 2px;\n    flex-direction: column;\n    align-items: center;\n    flex: 1;\n}\n", "", {"version":3,"sources":["D:/JavaProjects/DeepStocks/Control/src/main/resources/public/src/components/StockContainer.vue?f08d8a90"],"names":[],"mappings":";AAmEA;IACA,cAAA;IACA,kBAAA;IACA,uBAAA;IACA,QAAA;IACA,iBAAA;IACA,mBAAA;CACA;AAEA;IACA,cAAA;IACA,aAAA;IACA,gBAAA;IACA,uBAAA;IACA,oBAAA;IACA,QAAA;CACA","file":"StockContainer.vue","sourcesContent":["<template>\r\n    <div id=\"rightContent\">\r\n        <div class=\"bordered\" id=\"topContent\">\r\n            <stock-info :stock=\"stock\"></stock-info>\r\n        </div>\r\n        <div class=\"bordered\" id=\"bottomContent\">\r\n            <stock-chart :stock=\"stock\"></stock-chart>\r\n        </div>\r\n    </div>\r\n</template>\r\n\r\n<script>\r\n    import StockInfo from './StockInfo.vue'\r\n    import StockChart from './StockChart.vue'\r\n    //import * as Main from '../main.js'\r\n\r\n    export default{\r\n        name: 'stock-container',\r\n        data() {\r\n            return {\r\n                stock: {\r\n                    data: {},\r\n                    meta: {}\r\n                }\r\n            }\r\n        },\r\n        created() {\r\n            let id = this.$route.params.id;\r\n\r\n            //TODO this is created with first entry toClass graph, bug\r\n            console.log(\"Created stock\", id);\r\n            this.getStock(id);\r\n        },\r\n        components: {\r\n            'stock-info': StockInfo,\r\n            'stock-chart': StockChart\r\n        },\r\n        methods: {\r\n            getStock(id){\r\n                this.getStockById(id);\r\n                this.getStockBinaryDataById(id);\r\n            },\r\n            getStockBinaryDataById(id){\r\n                this.$http.get('http://localhost:8080/data/binaryDatas/' + id).then(function (response) {\r\n                    this.$set(this.stock, 'data', response.data);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            },\r\n            getStockById(id){\r\n                this.$http.get('http://localhost:8080/data/stocks/' + id).then(function (response) {\r\n                    this.$set(this.stock, 'meta', response.data);\r\n                }).catch(function (error) {\r\n                    console.log(error);\r\n                });\r\n            }\r\n        },\r\n        watch:{\r\n            '$route' (toClass, from){\r\n                //this.getStock(toClass.params.id);\r\n                //console.log(toClass);\r\n            }\r\n        }\r\n    }\r\n</script>\r\n\r\n<style>\r\n    #rightContent {\r\n        display: flex;\r\n        overflow: visible;\r\n        flex-direction: column;\r\n        flex: 1;\r\n        /*flex-grow: 0;*/\r\n        /*flex-shrink: 0;*/\r\n    }\r\n\r\n    #bottomContent {\r\n        display: flex;\r\n        height: auto;\r\n        margin-top: 2px;\r\n        flex-direction: column;\r\n        align-items: center;\r\n        flex: 1;\r\n    }\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -42527,12 +42527,12 @@ Cytoscape.js {{VERSION}} (MIT licensed)
 
 Copyright (c) The Cytoscape Consortium
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the “Software”), to deal in
-the Software without restriction, including without limitation the rights to
+Permission is hereby granted, free of charge, toClass any person obtaining a copy of
+this software and associated documentation files (the “Software”), toClass deal in
+the Software without restriction, including without limitation the rights toClass
 use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
+of the Software, and toClass permit persons toClass whom the Software is furnished toClass do
+so, subject toClass the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -42599,7 +42599,7 @@ util.extend( anifn, {
     var _p = this._private;
 
     if( !_p.hooked ){
-      // add to target's animation queue
+      // add toClass target's animation queue
       var q;
       var tAni = _p.target._private.animation;
       if( _p.queue ){
@@ -42609,7 +42609,7 @@ util.extend( anifn, {
       }
       q.push( this );
 
-      // add to the animation loop pool
+      // add toClass the animation loop pool
       if( is.elementOrCollection( _p.target ) ){
         _p.target.cy().addToAnimationPool( _p.target );
       }
@@ -42629,7 +42629,7 @@ util.extend( anifn, {
     }
 
     _p.playing = true;
-    _p.started = false; // needs to be started by animation loop
+    _p.started = false; // needs toClass be started by animation loop
     _p.stopped = false;
 
     this.hook();
@@ -42647,7 +42647,7 @@ util.extend( anifn, {
     var _p = this._private;
 
     _p.applying = true;
-    _p.started = false; // needs to be started by animation loop
+    _p.started = false; // needs toClass be started by animation loop
     _p.stopped = false;
 
     this.hook();
@@ -42675,7 +42675,7 @@ util.extend( anifn, {
 
     _p.playing = false;
     _p.started = false;
-    _p.stopped = true; // to be removed from animation queues
+    _p.stopped = true; // toClass be removed from animation queues
 
     return this;
   },
@@ -42809,7 +42809,7 @@ var elesfn = ({
 
     options = options || {};
 
-    // Reconstructs the path from Start to End, acumulating the result in pathAcum
+    // Reconstructs the path from Start toClass End, acumulating the result in pathAcum
     var reconstructPath = function( start, end, cameFromMap, pathAcum ){
       // Base case
       if( start == end ){
@@ -42932,7 +42932,7 @@ var elesfn = ({
         };
       }
 
-      // Add cMin to processed nodes
+      // Add cMin toClass processed nodes
       closedSet.push( cMin.id() );
       // Remove cMin from boundary nodes
       openSet.splice( minPos, 1 );
@@ -42964,7 +42964,7 @@ var elesfn = ({
         if( openSet.indexOf( w.id() ) == -1 ){
           gScore[ w.id() ] = tempScore;
           fScore[ w.id() ] = tempScore + heuristic( w );
-          openSet.push( w.id() ); // Add node to openSet
+          openSet.push( w.id() ); // Add node toClass openSet
           cameFrom[ w.id() ] = cMin.id();
           cameFromEdge[ w.id() ] = e.id();
           continue;
@@ -43082,7 +43082,7 @@ var elesfn = ({
           flag = true;
         }
 
-        // If undirected graph, we need to take into account the 'reverse' edge
+        // If undirected graph, we need toClass take into account the 'reverse' edge
         if( !directed ){
           var temp = cost[ targetIndex ] + weight;
           if( temp < cost[ sourceIndex ] ){
@@ -43125,10 +43125,10 @@ var elesfn = ({
     var res = {
       distanceTo: function( to ){
         if( is.string( to ) ){
-          // to is a selector string
+          // toClass is a selector string
           var toId = (cy.filter( to )[0]).id();
         } else {
-          // to is a node
+          // toClass is a node
           var toId = to.id();
         }
 
@@ -43139,7 +43139,7 @@ var elesfn = ({
 
         var reconstructPathAux = function( predecessor, fromPos, toPos, position2id, acumPath, predEdge ){
           for( ;; ){
-            // Add toId to path
+            // Add toId toClass path
             acumPath.push( cy.getElementById( position2id[ toPos ] ) );
             acumPath.push( predEdge[ toPos ] );
 
@@ -43160,10 +43160,10 @@ var elesfn = ({
         };
 
         if( is.string( to ) ){
-          // to is a selector string
+          // toClass is a selector string
           var toId = (cy.filter( to )[0]).id();
         } else {
-          // to is a node
+          // toClass is a node
           var toId = to.id();
         }
         var path = [];
@@ -43275,7 +43275,7 @@ var elesfn = ({
       }
 
       g[ sid ] = 1; // sigma
-      d[ sid ] = 0; // distance to s
+      d[ sid ] = 0; // distance toClass s
 
       Q.push( sid );
 
@@ -43638,7 +43638,7 @@ var elesfn = ({
       harmonic = true;
     }
 
-    // we need distance from this node to every other node
+    // we need distance from this node toClass every other node
     var dijkstra = this.dijkstra( {
       root: root,
       weight: weight,
@@ -43704,7 +43704,7 @@ var elesfn = ({
 
       for( var i = 0; i < numNodes; i++ ){
         var node = nodes[ i ];
-        // add current node to the current options object and call degreeCentrality
+        // add current node toClass the current options object and call degreeCentrality
         var currDegree = this.degreeCentrality( util.extend( {}, options, {root: node} ) );
         if( maxDegree < currDegree.degree )
           maxDegree = currDegree.degree;
@@ -43736,7 +43736,7 @@ var elesfn = ({
 
       for( var i = 0; i < numNodes; i++ ){
         var node = nodes[ i ];
-        // add current node to the current options object and call degreeCentrality
+        // add current node toClass the current options object and call degreeCentrality
         var currDegree = this.degreeCentrality( util.extend( {}, options, {root: node} ) );
 
         if( maxIndegree < currDegree.indegree )
@@ -44145,10 +44145,10 @@ var elesfn = ({
         }
 
         if( is.string( to ) ){
-          // to is a selector string
+          // toClass is a selector string
           var toId = (cy.filter( to )[0]).id();
         } else {
-          // to is a node
+          // toClass is a node
           var toId = to.id();
         }
 
@@ -44187,10 +44187,10 @@ var elesfn = ({
         }
 
         if( is.string( to ) ){
-          // to is a selector string
+          // toClass is a selector string
           var toId = (cy.filter( to )[0]).id();
         } else {
-          // to is a node
+          // toClass is a node
           var toId = to.id();
         }
 
@@ -44282,7 +44282,7 @@ var elesfn = ({
         return true;
       } );
 
-      // All edges pointing to partition2 should now point to partition1
+      // All edges pointing toClass partition2 should now point toClass partition1
       for( var i = 0; i < newEdges.length; i++ ){
         var edge = newEdges[ i ];
         if( edge[1] === partition2 ){ // Check source
@@ -44294,7 +44294,7 @@ var elesfn = ({
         }
       }
 
-      // Move all nodes from partition2 to partition1
+      // Move all nodes from partition2 toClass partition1
       for( var i = 0; i < nodeMap.length; i++ ){
         if( nodeMap[ i ] === partition2 ){
           nodeMap[ i ] = partition1;
@@ -44751,7 +44751,7 @@ var elesfn = ({
         for( var i = 0; i < classes.length; i++ ){
           var eleCls = classes[i];
           var eleHasClass = eleClasses[ eleCls ];
-          var specdClass = classesMap[ eleCls ]; // i.e. this class is passed to the function
+          var specdClass = classesMap[ eleCls ]; // i.e. this class is passed toClass the function
 
           if( eleHasClass && !specdClass ){
             changedEle = true;
@@ -44842,7 +44842,7 @@ var elesfn = ({
     if( duration == null ){
       duration = 250;
     } else if( duration === 0 ){
-      return self; // nothing to do really
+      return self; // nothing toClass do really
     }
 
     self.addClass( classes );
@@ -45307,7 +45307,7 @@ fn = elesfn = ({
     }
   } ),
 
-  // position but no notification to renderer
+  // position but no notification toClass renderer
   silentPosition: define.data( {
     field: 'position',
     bindingEvent: 'position',
@@ -45371,7 +45371,7 @@ fn = elesfn = ({
     var rpos = is.plainObject( dim ) ? dim : undefined;
     var setting = rpos !== undefined || ( val !== undefined && is.string( dim ) );
 
-    if( ele && ele.isNode() ){ // must have an element and must be a node to return position
+    if( ele && ele.isNode() ){ // must have an element and must be a node toClass return position
       if( setting ){
         for( var i = 0; i < this.length; i++ ){
           var ele = this[ i ];
@@ -45407,7 +45407,7 @@ fn = elesfn = ({
     return this; // chaining
   },
 
-  // get/set the position relative to the parent
+  // get/set the position relative toClass the parent
   relativePosition: function( dim, val ){
     var ele = this[0];
     var cy = this.cy();
@@ -45415,7 +45415,7 @@ fn = elesfn = ({
     var setting = ppos !== undefined || ( val !== undefined && is.string( dim ) );
     var hasCompoundNodes = cy.hasCompoundNodes();
 
-    if( ele && ele.isNode() ){ // must have an element and must be a node to return position
+    if( ele && ele.isNode() ){ // must have an element and must be a node toClass return position
       if( setting ){
         for( var i = 0; i < this.length; i++ ){
           var ele = this[ i ];
@@ -45993,7 +45993,7 @@ function filledBbOpts( options ){
 
 elesfn.boundingBox = function( options ){
   // the main usecase is ele.boundingBox() for a single element with no/def options
-  // specified s.t. the cache is used, so check for this case to make it faster by
+  // specified s.t. the cache is used, so check for this case toClass make it faster by
   // avoiding the overhead of the rest of the function
   if( this.length === 1 && this[0]._private.bbCache && (options === undefined || options.useCache === undefined || options.useCache === true) ){
     if( options === undefined ){
@@ -46151,7 +46151,7 @@ var elesfn = ({
   trigger: define.trigger(), // .trigger( events [, extraParams] )
 
   rtrigger: function( event, extraParams ){ // for internal use only
-    if( this.length === 0 ){ return; } // empty collections don't need to notify anything
+    if( this.length === 0 ){ return; } // empty collections don't need toClass notify anything
 
     // notify renderer
     this.cy().notify( {
@@ -46419,7 +46419,7 @@ var elesfn = ({
     var i = _p.indexes[ id ];
 
     if( i == null ){
-      return this; // no need to remove
+      return this; // no need toClass remove
     }
 
     // remove ele
@@ -47224,7 +47224,7 @@ function defineSwitchFunction( params ){
           if( overrideAble !== undefined ){
             able = overrideAble;
 
-            if( !overrideAble ){ return this; } // to save cycles assume not able for all on override
+            if( !overrideAble ){ return this; } // toClass save cycles assume not able for all on override
           }
         }
 
@@ -47718,7 +47718,7 @@ function defineParallelEdgesFunction( params ){
       var tgtid1 = edge1_p.data.target;
       var srcEdges1 = src1._private.edges;
 
-      // look at edges connected to the src node of this edge
+      // look at edges connected toClass the src node of this edge
       for( var j = 0; j < srcEdges1.length; j++ ){
         var edge2 = srcEdges1[ j ];
         var edge2data = edge2._private.data;
@@ -47921,7 +47921,7 @@ var corefn = ({
     if( !cy.styleEnabled() ){ return; } // save cycles when no style used
 
     // NB the animation loop will exec in headless environments if style enabled
-    // and explicit cy.destroy() is necessary to stop the loop
+    // and explicit cy.destroy() is necessary toClass stop the loop
 
     function globalAnimationStep(){
       if( !cy._private.animationsRunning ){ return; }
@@ -48131,7 +48131,7 @@ var corefn = ({
 
           if( args.length > 0 ){ // create with args
             if( name === 'spring' ){
-              args.push( ani_p.duration ); // need duration to generate spring
+              args.push( ani_p.duration ); // need duration toClass generate spring
             }
 
             ani_p.easingImpl = easings[ name ].apply( null, args );
@@ -48262,8 +48262,8 @@ var corefn = ({
     }
 
     /*! Runge-Kutta spring physics function generator. Adapted from Framer.js, copyright Koen Bok. MIT License: http://en.wikipedia.org/wiki/MIT_License */
-    /* Given a tension, friction, and duration, a simulation at 60FPS will first run without a defined duration in order to calculate the full path. A second pass
-       then adjusts the time delta -- using the relation between actual time and duration -- to calculate the path for the duration-constrained animation. */
+    /* Given a tension, friction, and duration, a simulation at 60FPS will first run without a defined duration in order toClass calculate the full path. A second pass
+       then adjusts the time delta -- using the relation between actual time and duration -- toClass calculate the path for the duration-constrained animation. */
     var generateSpringRK4 = (function(){
       function springAccelerationForState( state ){
         return (-state.tension * state.x) - (state.friction * state.v);
@@ -48320,7 +48320,7 @@ var corefn = ({
 
         have_duration = duration !== null;
 
-        /* Calculate the actual time it takes for this animation to complete with the provided conditions. */
+        /* Calculate the actual time it takes for this animation toClass complete with the provided conditions. */
         if( have_duration ){
           /* Run the simulation without a duration. */
           time_lapsed = springRK4Factory( tension, friction );
@@ -48343,7 +48343,7 @@ var corefn = ({
         }
 
         /* If duration is not defined, return the actual time required for completing this animation. Otherwise, return a closure that holds the
-           computed path and returns a snapshot of the position according to a given percentComplete. */
+           computed path and returns a snapshot of the position according toClass a given percentComplete. */
         return !have_duration ? time_lapsed : function( percentComplete ){ return path[ (percentComplete * (path.length - 1)) | 0 ]; };
       };
     }());
@@ -48399,7 +48399,7 @@ var corefn = ({
 
       'spring': function( tension, friction, duration ){
         if( duration === 0 ){ // can't get a spring w/ duration 0
-          return easings.linear; // duration 0 => jump to end so impl doesn't matter
+          return easings.linear; // duration 0 => jump toClass end so impl doesn't matter
         }
 
         var spring = generateSpringRK4( tension, friction, duration );
@@ -48539,12 +48539,12 @@ var corefn = ({
     var cy = this;
 
     if( options == null ){
-      util.error( 'Layout options must be specified to make a layout' );
+      util.error( 'Layout options must be specified toClass make a layout' );
       return;
     }
 
     if( options.name == null ){
-      util.error( 'A `name` must be specified to make a layout' );
+      util.error( 'A `name` must be specified toClass make a layout' );
       return;
     }
 
@@ -48774,7 +48774,7 @@ var corefn = ({
       }
     }
 
-    cy._private.renderer = null; // to be extra safe, remove the ref
+    cy._private.renderer = null; // toClass be extra safe, remove the ref
   },
 
   onRender: function( fn ){
@@ -49184,7 +49184,7 @@ var corefn = ({
       zoom = zoom > this._private.maxZoom ? this._private.maxZoom : zoom;
       zoom = zoom < this._private.minZoom ? this._private.minZoom : zoom;
 
-      var pan = { // now pan to middle
+      var pan = { // now pan toClass middle
         x: (w - zoom * ( bb.x1 + bb.x2 )) / 2,
         y: (h - zoom * ( bb.y1 + bb.y2 )) / 2
       };
@@ -49236,7 +49236,7 @@ var corefn = ({
         var pan = this._private.pan;
         var z = this._private.zoom;
 
-        pos = { // convert to rendered px
+        pos = { // convert toClass rendered px
           x: p.x * z + pan.x,
           y: p.y * z + pan.y
         };
@@ -49293,7 +49293,7 @@ var corefn = ({
     var _p = this._private;
     var zoomDefd = true;
     var panDefd = true;
-    var events = []; // to trigger
+    var events = []; // toClass trigger
     var zoomFailed = false;
     var panFailed = false;
 
@@ -49487,7 +49487,7 @@ var Core = __webpack_require__( 46 );
 var incExts = __webpack_require__( 277 );
 var is = __webpack_require__( 1 );
 
-// registered extensions to cytoscape, indexed by name
+// registered extensions toClass cytoscape, indexed by name
 var extensions = {};
 
 // registered modules for extensions, indexed by name
@@ -49684,7 +49684,7 @@ var extension = function(){
 
 };
 
-// allows a core instance to access extensions internally
+// allows a core instance toClass access extensions internally
 Core.prototype.extension = extension;
 
 // included extensions
@@ -49729,7 +49729,7 @@ var math = __webpack_require__( 7 );
 var is = __webpack_require__( 1 );
 
 var defaults = {
-  fit: true, // whether to fit the viewport to the graph
+  fit: true, // whether toClass fit the viewport toClass the graph
   directed: false, // whether the tree is directed downwards (or edges can point in any direction if false)
   padding: 30, // padding on fit
   circle: false, // put depths in concentric circles if true, put depths top down if false
@@ -49737,8 +49737,8 @@ var defaults = {
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
   roots: undefined, // the roots of the trees
-  maximalAdjustments: 0, // how many times to try to position the nodes in a maximal way (i.e. no backtracking)
-  animate: false, // whether to transition the node positions
+  maximalAdjustments: 0, // how many times toClass try toClass position the nodes in a maximal way (i.e. no backtracking)
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -49886,7 +49886,7 @@ BreadthFirstLayout.prototype.run = function(){
     checks++;
   }
 
-  // assign orphan nodes that are still left to the depth of their subgraph
+  // assign orphan nodes that are still left toClass the depth of their subgraph
   while( orphanNodes.length !== 0 ){
     var node = orphanNodes.shift();
     //var subgraph = graph.bfs( node ).path;
@@ -49979,7 +49979,7 @@ BreadthFirstLayout.prototype.run = function(){
 
       depths[ info.depth ].splice( info.index, 1 ); // remove from old depth & index
 
-      // add to end of new depth
+      // add toClass end of new depth
       var newDepth = intInfo.depth + 1;
       while( newDepth > depths.length - 1 ){
         depths.push( [] );
@@ -49993,7 +49993,7 @@ BreadthFirstLayout.prototype.run = function(){
     assignDepthsToEles();
   }
 
-  // find min distance we need to leave between nodes
+  // find min distance we need toClass leave between nodes
   var minDistance = 0;
   if( options.avoidOverlap ){
     for( var i = 0; i < nodes.length; i++ ){
@@ -50004,10 +50004,10 @@ BreadthFirstLayout.prototype.run = function(){
 
       minDistance = Math.max( minDistance, w, h );
     }
-    minDistance *= options.spacingFactor; // just to have some nice spacing
+    minDistance *= options.spacingFactor; // just toClass have some nice spacing
   }
 
-  // get the weighted percent for an element based on its connectivity to other levels
+  // get the weighted percent for an element based on its connectivity toClass other levels
   var cachedWeightedPercent = {};
   var getWeightedPercent = function( ele ){
     if( cachedWeightedPercent[ ele.id() ] ){
@@ -50169,16 +50169,16 @@ var math = __webpack_require__( 7 );
 var is = __webpack_require__( 1 );
 
 var defaults = {
-  fit: true, // whether to fit the viewport to the graph
+  fit: true, // whether toClass fit the viewport toClass the graph
   padding: 30, // the padding on fit
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox and radius if not enough space
   radius: undefined, // the radius of the circle
   startAngle: 3 / 2 * Math.PI, // where nodes start in radians
-  sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
+  sweep: undefined, // how many radians should be between the first and last node (defaults toClass full circle)
   clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
-  sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-  animate: false, // whether to transition the node positions
+  sort: undefined, // a sorting function toClass order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -50238,7 +50238,7 @@ CircleLayout.prototype.run = function(){
 
   // calculate the radius
   if( nodes.length > 1 && options.avoidOverlap ){ // but only if more than one node (can't overlap)
-    minDistance *= 1.75; // just to have some nice spacing
+    minDistance *= 1.75; // just toClass have some nice spacing
 
     var dcos = Math.cos( dTheta ) - Math.cos( 0 );
     var dsin = Math.sin( dTheta ) - Math.sin( 0 );
@@ -50278,10 +50278,10 @@ var util = __webpack_require__( 2 );
 var math = __webpack_require__( 7 );
 
 var defaults = {
-  fit: true, // whether to fit the viewport to the graph
+  fit: true, // whether toClass fit the viewport toClass the graph
   padding: 30, // the padding on fit
   startAngle: 3 / 2 * Math.PI, // where nodes start in radians
-  sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
+  sweep: undefined, // how many radians should be between the first and last node (defaults toClass full circle)
   clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
   equidistant: false, // whether levels have an equal radial distance betwen them, may cause bounding box overflow
   minNodeSpacing: 10, // min spacing between outside of nodes (used for radius adjustment)
@@ -50295,7 +50295,7 @@ var defaults = {
   levelWidth: function( nodes ){ // the variation of concentric values in each level
     return nodes.maxDegree() / 4;
   },
-  animate: false, // whether to transition the node positions
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -50385,7 +50385,7 @@ ConcentricLayout.prototype.run = function(){
 
   var minDist = maxNodeSize + options.minNodeSpacing; // min dist between nodes
 
-  if( !options.avoidOverlap ){ // then strictly constrain to bb
+  if( !options.avoidOverlap ){ // then strictly constrain toClass bb
     var firstLvlHasMulti = levels.length > 0 && levels[0].length > 1;
     var maxR = ( Math.min( bb.w, bb.h ) / 2 - minDist );
     var rStep = maxR / ( levels.length + firstLvlHasMulti ? 1 : 0 );
@@ -50506,7 +50506,7 @@ var defaults = {
   // Called on `layoutstop`
   stop: function(){},
 
-  // Whether to animate while running the layout
+  // Whether toClass animate while running the layout
   animate: true,
 
   // The layout animates only after this many milliseconds
@@ -50517,7 +50517,7 @@ var defaults = {
   // (0 -> only updated on the end)
   refresh: 20,
 
-  // Whether to fit the network view after when done
+  // Whether toClass fit the network view after when done
   fit: true,
 
   // Padding on fit
@@ -50541,16 +50541,16 @@ var defaults = {
   // Ideal edge (non nested) length
   idealEdgeLength: function( edge ){ return 10; },
 
-  // Divisor to compute edge forces
+  // Divisor toClass compute edge forces
   edgeElasticity: function( edge ){ return 100; },
 
-  // Nesting factor (multiplier) to compute ideal edge length for nested edges
+  // Nesting factor (multiplier) toClass compute ideal edge length for nested edges
   nestingFactor: 5,
 
   // Gravity force (constant)
   gravity: 80,
 
-  // Maximum number of iterations to perform
+  // Maximum number of iterations toClass perform
   numIter: 1000,
 
   // Initial temperature (maximum node displacement)
@@ -50562,7 +50562,7 @@ var defaults = {
   // Lower temperature threshold (below this point the layout will end)
   minTemp: 1.0,
 
-  // Pass a reference to weaver to use threads for calculations
+  // Pass a reference toClass weaver toClass use threads for calculations
   weaver: false
 };
 
@@ -50730,7 +50730,7 @@ CoseLayout.prototype.run = function(){
       calculateEdgeForces( layoutInfo, options );
       // Calculate gravity forces
       calculateGravityForces( layoutInfo, options );
-      // Propagate forces from parent to child
+      // Propagate forces from parent toClass child
       propagateForces( layoutInfo, options );
       // Update positions based on calculated forces
       updatePositions( layoutInfo, options );
@@ -50741,7 +50741,7 @@ CoseLayout.prototype.run = function(){
      */
     var calculateNodeForces = function( layoutInfo, options ){
       // Go through each of the graphs in graphSet
-      // Nodes only repel each other if they belong to the same graph
+      // Nodes only repel each other if they belong toClass the same graph
       // var s = 'calculateNodeForces';
       // logDebug(s);
       for( var i = 0; i < layoutInfo.graphSet.length; i ++ ){
@@ -50793,7 +50793,7 @@ CoseLayout.prototype.run = function(){
         // s += "\nNodes DO overlap.";
         // s += "\nOverlap: " + overlap;
         // If nodes overlap, repulsion force is proportional
-        // to the overlap
+        // toClass the overlap
         var force    = options.nodeOverlap * overlap;
 
         // Compute the module and components of the force vector
@@ -50805,13 +50805,13 @@ CoseLayout.prototype.run = function(){
       } else {
         // s += "\nNodes do NOT overlap.";
         // If there's no overlap, force is inversely proportional
-        // to squared distance
+        // toClass squared distance
 
         // Get clipping points for both nodes
         var point1 = findClippingPoint( node1, directionX, directionY );
         var point2 = findClippingPoint( node2, -1 * directionX, -1 * directionY );
 
-        // Use clipping points to compute distance
+        // Use clipping points toClass compute distance
         var distanceX   = point2.x - point1.x;
         var distanceY   = point2.y - point1.y;
         var distanceSqr = distanceX * distanceX + distanceY * distanceY;
@@ -50996,7 +50996,7 @@ CoseLayout.prototype.run = function(){
           var forceY = 0;
         }
 
-        // Add this force to target and source nodes
+        // Add this force toClass target and source nodes
         if( !source.isLocked ){
           source.offsetX += forceX;
           source.offsetY += forceY;
@@ -51042,7 +51042,7 @@ CoseLayout.prototype.run = function(){
         // s = "Center found at: " + centerX + ", " + centerY;
         // logDebug(s);
 
-        // Apply force to all nodes in graph
+        // Apply force toClass all nodes in graph
         for( var j = 0; j < numNodes; j++ ){
           var node = layoutInfo.layoutNodes[ layoutInfo.idToIndex[ graph[ j ] ] ];
           // s = "Node: " + node.id;
@@ -51059,7 +51059,7 @@ CoseLayout.prototype.run = function(){
             node.offsetY += fy;
             // s += ": Applied force: " + fx + ", " + fy;
           } else {
-            // s += ": skypped since it's too close to center";
+            // s += ": skypped since it's too close toClass center";
           }
           // logDebug(s);
         }
@@ -51068,7 +51068,7 @@ CoseLayout.prototype.run = function(){
 
     /**
      * @brief          : This function propagates the existing offsets from
-     *                   parent nodes to its descendents.
+     *                   parent nodes toClass its descendents.
      * @arg layoutInfo : layoutInfo Object
      * @arg cy         : cytoscape Object
      * @arg options    : Layout options
@@ -51076,8 +51076,8 @@ CoseLayout.prototype.run = function(){
     var propagateForces = function( layoutInfo, options ){
       // Inline implementation of a queue, used for traversing the graph in BFS order
       var queue = [];
-      var start = 0;   // Points to the start the queue
-      var end   = -1;  // Points to the end of the queue
+      var start = 0;   // Points toClass the start the queue
+      var end   = -1;  // Points toClass the end of the queue
 
       // logDebug('propagateForces');
 
@@ -51087,13 +51087,13 @@ CoseLayout.prototype.run = function(){
 
       // Traverse the graph, level by level,
       while( start <= end ){
-        // Get the node to visit and remove it from queue
+        // Get the node toClass visit and remove it from queue
         var nodeId    = queue[ start++ ];
         var nodeIndex = layoutInfo.idToIndex[ nodeId ];
         var node      = layoutInfo.layoutNodes[ nodeIndex ];
         var children  = node.children;
 
-        // We only need to process the node if it's compound
+        // We only need toClass process the node if it's compound
         if( 0 < children.length && !node.isLocked ){
           var offX = node.offsetX;
           var offY = node.offsetY;
@@ -51108,7 +51108,7 @@ CoseLayout.prototype.run = function(){
             // Propagate offset
             childNode.offsetX += offX;
             childNode.offsetY += offY;
-            // Add children to queue to be visited
+            // Add children toClass queue toClass be visited
             queue[ ++end ] = children[ i ];
           }
 
@@ -51143,14 +51143,14 @@ CoseLayout.prototype.run = function(){
       for( var i = 0; i < layoutInfo.nodeSize; i++ ){
         var n = layoutInfo.layoutNodes[ i ];
         if( 0 < n.children.length || n.isLocked ){
-          // No need to set compound or locked node position
+          // No need toClass set compound or locked node position
           // logDebug("Skipping position update of node: " + n.id);
           continue;
         }
         // s = "Node: " + n.id + " Previous position: (" +
         // n.positionX + ", " + n.positionY + ").";
 
-        // Limit displacement in order to improve stability
+        // Limit displacement in order toClass improve stability
         var tempForce = limitForce( n.offsetX, n.offsetY, layoutInfo.temperature );
         n.positionX += tempForce.x;
         n.positionY += tempForce.y;
@@ -51184,7 +51184,7 @@ CoseLayout.prototype.run = function(){
     };
 
     /**
-     * @brief : Limits a force (forceX, forceY) to be not
+     * @brief : Limits a force (forceX, forceY) toClass be not
      *          greater (in modulo) than max.
      8          Preserves force direction.
      */
@@ -51411,7 +51411,7 @@ CoseLayout.prototype.run = function(){
 
 
 /**
- * @brief : called on continuous layouts to stop them before they finish
+ * @brief : called on continuous layouts toClass stop them before they finish
  */
 CoseLayout.prototype.stop = function(){
   this.stopped = true;
@@ -51506,25 +51506,25 @@ var createLayoutInfo = function( cy, layout, options ){
 
     // Add new node
     layoutInfo.layoutNodes.push( tempNode );
-    // Add entry to id-index map
+    // Add entry toClass id-index map
     layoutInfo.idToIndex[ tempNode.id ] = i;
   }
 
   // Inline implementation of a queue, used for traversing the graph in BFS order
   var queue = [];
-  var start = 0;   // Points to the start the queue
-  var end   = -1;  // Points to the end of the queue
+  var start = 0;   // Points toClass the start the queue
+  var end   = -1;  // Points toClass the end of the queue
 
   var tempGraph = [];
 
-  // Second pass to add child information and
+  // Second pass toClass add child information and
   // initialize queue for hierarchical traversal
   for( var i = 0; i < layoutInfo.nodeSize; i++ ){
     var n = layoutInfo.layoutNodes[ i ];
     var p_id = n.parentId;
     // Check if node n has a parent node
     if( null != p_id ){
-      // Add node Id to parent's list of children
+      // Add node Id toClass parent's list of children
       layoutInfo.layoutNodes[ layoutInfo.idToIndex[ p_id ] ].children.push( n.id );
     } else {
       // If a node doesn't have a parent, then it's in the root graph
@@ -51533,20 +51533,20 @@ var createLayoutInfo = function( cy, layout, options ){
     }
   }
 
-  // Add root graph to graphSet
+  // Add root graph toClass graphSet
   layoutInfo.graphSet.push( tempGraph );
 
   // Traverse the graph, level by level,
   while( start <= end ){
-    // Get the node to visit and remove it from queue
+    // Get the node toClass visit and remove it from queue
     var node_id  = queue[ start++ ];
     var node_ix  = layoutInfo.idToIndex[ node_id ];
     var node     = layoutInfo.layoutNodes[ node_ix ];
     var children = node.children;
     if( children.length > 0 ){
-      // Add children nodes as a new graph to graph set
+      // Add children nodes as a new graph toClass graph set
       layoutInfo.graphSet.push( children );
-      // Add children to que queue to be visited
+      // Add children toClass que queue toClass be visited
       for( var i = 0; i < children.length; i++ ){
         queue[ ++end ] = children[ i ];
       }
@@ -51584,7 +51584,7 @@ var createLayoutInfo = function( cy, layout, options ){
       // Find lowest common graph ancestor
       var lca = findLCA( tempEdge.sourceId, tempEdge.targetId, layoutInfo );
 
-      // Compute sum of node depths, relative to lca graph
+      // Compute sum of node depths, relative toClass lca graph
       var lcaGraph = layoutInfo.graphSet[ lca ];
       var depth    = 0;
 
@@ -51661,7 +51661,7 @@ var findLCA = function( node1, node2, layoutInfo ){
  */
 var findLCA_aux = function( node1, node2, graphIx, layoutInfo ){
   var graph = layoutInfo.graphSet[ graphIx ];
-  // If both nodes belongs to graphIx
+  // If both nodes belongs toClass graphIx
   if( -1 < graph.indexOf( node1 ) && -1 < graph.indexOf( node2 ) ){
     return {count: 2, graph: graphIx};
   }
@@ -51687,7 +51687,7 @@ var findLCA_aux = function( node1, node2, graphIx, layoutInfo ){
       // One of (node1, node2) is present in this subgraph
       c++;
       if( 2 === c ){
-        // We've already found both nodes, no need to keep searching
+        // We've already found both nodes, no need toClass keep searching
         break;
       }
     } else {
@@ -51776,7 +51776,7 @@ var randomizePositions = function( layoutInfo, cy ){
   for( var i = 0; i < layoutInfo.nodeSize; i++ ){
     var n = layoutInfo.layoutNodes[ i ];
 
-    // No need to randomize compound nodes or locked nodes
+    // No need toClass randomize compound nodes or locked nodes
     if( 0 === n.children.length && !n.isLocked ){
       n.positionX = Math.random() * width;
       n.positionY = Math.random() * height;
@@ -51870,7 +51870,7 @@ var util = __webpack_require__( 2 );
 var math = __webpack_require__( 7 );
 
 var defaults = {
-  fit: true, // whether to fit the viewport to the graph
+  fit: true, // whether toClass fit the viewport toClass the graph
   padding: 30, // padding used on fit
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
   avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
@@ -51879,8 +51879,8 @@ var defaults = {
   rows: undefined, // force num of rows in the grid
   cols: undefined, // force num of columns in the grid
   position: function( node ){}, // returns { row, col } for element
-  sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-  animate: false, // whether to transition the node positions
+  sort: undefined, // a sorting function toClass order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -51914,7 +51914,7 @@ GridLayout.prototype.run = function(){
 
   } else {
 
-    // width/height * splits^2 = cells where splits is number of times to split width
+    // width/height * splits^2 = cells where splits is number of times toClass split width
     var cells = nodes.size();
     var splits = Math.sqrt( cells * bb.h / bb.w );
     var rows = Math.round( splits );
@@ -51981,7 +51981,7 @@ GridLayout.prototype.run = function(){
         var sm = small();
         var lg = large();
 
-        // try to add to larger side first (adds less in multiplication)
+        // try toClass add toClass larger side first (adds less in multiplication)
         if( (lg + 1) * sm >= cells ){
           large( lg + 1 );
         } else {
@@ -52029,7 +52029,7 @@ GridLayout.prototype.run = function(){
       cellUsed[ 'c-' + row + '-' + col ] = true;
     };
 
-    // to keep track of current cell position
+    // toClass keep track of current cell position
     var row = 0;
     var col = 0;
     var moveToNextCell = function(){
@@ -52154,7 +52154,7 @@ function NullLayout( options ){
 // runs the layout
 NullLayout.prototype.run = function(){
   var options = this.options;
-  var eles = options.eles; // elements to consider in the layout
+  var eles = options.eles; // elements toClass consider in the layout
   var layout = this;
 
   // cy is automatically populated for us in the constructor
@@ -52181,7 +52181,7 @@ NullLayout.prototype.run = function(){
   return this; // chaining
 };
 
-// called on continuous layouts to stop them before they finish
+// called on continuous layouts toClass stop them before they finish
 NullLayout.prototype.stop = function(){
   return this; // chaining
 };
@@ -52201,11 +52201,11 @@ var is = __webpack_require__( 1 );
 
 var defaults = {
   positions: undefined, // map of (node id) => (position obj); or function(node){ return somPos; }
-  zoom: undefined, // the zoom level to set (prob want fit = false if set)
-  pan: undefined, // the pan level to set (prob want fit = false if set)
-  fit: true, // whether to fit to viewport
+  zoom: undefined, // the zoom level toClass set (prob want fit = false if set)
+  pan: undefined, // the pan level toClass set (prob want fit = false if set)
+  fit: true, // whether toClass fit toClass viewport
   padding: 30, // padding on fit
-  animate: false, // whether to transition the node positions
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -52268,10 +52268,10 @@ var util = __webpack_require__( 2 );
 var math = __webpack_require__( 7 );
 
 var defaults = {
-  fit: true, // whether to fit to viewport
+  fit: true, // whether toClass fit toClass viewport
   padding: 30, // fit padding
   boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-  animate: false, // whether to transition the node positions
+  animate: false, // whether toClass transition the node positions
   animationDuration: 500, // duration of animation in ms if enabled
   animationEasing: undefined, // easing of animation if enabled
   ready: undefined, // callback on layoutready
@@ -52922,7 +52922,7 @@ BRp.findNearestElements = function( x, y, interactiveElementsOnly, isTouch ){
       }
     }
 
-    // if we're close to the edge but didn't hit it, maybe we hit its arrows
+    // if we're close toClass the edge but didn't hit it, maybe we hit its arrows
 
     var src = src || _p.source;
     var tgt = tgt || _p.target;
@@ -53123,7 +53123,7 @@ BRp.getAllInBox = function( x1, y1, x2, y2 ){
 
 /**
  * Returns the shape of the given node. If the height or width of the given node
- * is set to auto, the node is considered to be a compound.
+ * is set toClass auto, the node is considered toClass be a compound.
  *
  * @param node          a node
  * @return {String}     shape of the node
@@ -53325,12 +53325,12 @@ BRp.recalculateEdgeLabelProjections = function( edge ){
   };
 
   if( content.mid || content.source || content.target ){
-    // then we have to calculate...
+    // then we have toClass calculate...
   } else {
     return; // no labels => no calcs
   }
 
-  // add center point to style so bounding box calculations can use it
+  // add center point toClass style so bounding box calculations can use it
   //
   p = {
     x: rs.midX,
@@ -53647,7 +53647,7 @@ BRp.calculateLabelDimensions = function( ele, text, extraKey ){
     return cache[ cacheKey ];
   }
 
-  var sizeMult = 1; // increase the scale to increase accuracy w.r.t. zoomed text
+  var sizeMult = 1; // increase the scale toClass increase accuracy w.r.t. zoomed text
   var fStyle = ele.pstyle( 'font-style' ).strValue;
   var size = ( sizeMult * ele.pstyle( 'font-size' ).pfValue ) + 'px';
   var family = ele.pstyle( 'font-family' ).strValue;
@@ -53730,7 +53730,7 @@ BRp.findEdgeControlPoints = function( edges ){
     var curveStyle = edge.pstyle( 'curve-style' ).value;
     var edgeIsUnbundled = curveStyle === 'unbundled-bezier' || curveStyle === 'segments';
 
-    // ignore edges who are not to be displayed
+    // ignore edges who are not toClass be displayed
     // they shouldn't take up space
     if( edge.pstyle( 'display').value === 'none' ){
       continue;
@@ -53809,7 +53809,7 @@ BRp.findEdgeControlPoints = function( edges ){
 
     if( (pairEdges.length > 1 && src !== tgt) || pairEdges.hasUnbundled ){
 
-      // pt outside src shape to calc distance/displacement from src to tgt
+      // pt outside src shape toClass calc distance/displacement from src toClass tgt
       var srcOutside = srcShape.intersectLine(
         srcPos.x,
         srcPos.y,
@@ -53820,7 +53820,7 @@ BRp.findEdgeControlPoints = function( edges ){
         0
       );
 
-      // pt outside tgt shape to calc distance/displacement from src to tgt
+      // pt outside tgt shape toClass calc distance/displacement from src toClass tgt
       var tgtOutside = tgtShape.intersectLine(
         tgtPos.x,
         tgtPos.y,
@@ -53864,7 +53864,7 @@ BRp.findEdgeControlPoints = function( edges ){
       };
 
 
-      // if node shapes overlap, then no ctrl pts to draw
+      // if node shapes overlap, then no ctrl pts toClass draw
       if(
         tgtShape.checkPoint( srcOutside[0], srcOutside[1], 0, tgtW, tgtH, tgtPos.x, tgtPos.y )  &&
         srcShape.checkPoint( tgtOutside[0], tgtOutside[1], 0, srcW, srcH, srcPos.x, srcPos.y )
@@ -54153,7 +54153,7 @@ BRp.findEdgeControlPoints = function( edges ){
         if( badStart || badAStart || closeStartACp ){
           overlapping = true;
 
-          // project control point along line from src centre to outside the src shape
+          // project control point along line from src centre toClass outside the src shape
           // (otherwise intersection will yield nothing)
           var cpD = { // delta
             x: rs.ctrlpts[0] - srcPos.x,
@@ -54192,7 +54192,7 @@ BRp.findEdgeControlPoints = function( edges ){
         if( badEnd || badAEnd || closeEndACp ){
           overlapping = true;
 
-          // project control point along line from tgt centre to outside the tgt shape
+          // project control point along line from tgt centre toClass outside the tgt shape
           // (otherwise intersection will yield nothing)
           var cpD = { // delta
             x: rs.ctrlpts[0] - tgtPos.x,
@@ -54268,7 +54268,7 @@ BRp.findEdgeControlPoints = function( edges ){
         }
 
       } else if( rs.edgeType === 'straight' ){
-        // need to calc these after endpts
+        // need toClass calc these after endpts
         rs.allpts = [ rs.startX, rs.startY, rs.endX, rs.endY ];
 
         // default midpt for labels etc
@@ -54337,7 +54337,7 @@ BRp.findEdgeControlPoints = function( edges ){
     var srcH = src.height();
     var tgtH = tgt.height();
     var radius = edge.pstyle( 'haystack-radius' ).value;
-    var halfRadius = radius / 2; // b/c have to half width/height
+    var halfRadius = radius / 2; // b/c have toClass half width/height
 
     rs.haystackPts = rs.allpts = [
       rs.source.x * srcW * halfRadius + srcPos.x,
@@ -54349,7 +54349,7 @@ BRp.findEdgeControlPoints = function( edges ){
     rs.midX = (rs.allpts[0] + rs.allpts[2]) / 2;
     rs.midY = (rs.allpts[1] + rs.allpts[3]) / 2;
 
-    // always override as haystack in case set to different type previously
+    // always override as haystack in case set toClass different type previously
     rscratch.edgeType = 'haystack';
     rscratch.haystack = true;
 
@@ -54720,7 +54720,7 @@ BRp.init = function( options ){
   r.touchData = {
     start: null, capture: false,
 
-    // These 3 fields related to tap, taphold events
+    // These 3 fields related toClass tap, taphold events
     startPosition: [ null, null, null, null, null, null ],
     singleTouchStartTime: null,
     singleTouchMoved: true,
@@ -55051,14 +55051,14 @@ BRp.load = function(){
     }
   };
 
-  // helper function to determine which child nodes and inner edges
-  // of a compound node to be dragged as well as the grabbed and selected nodes
+  // helper function toClass determine which child nodes and inner edges
+  // of a compound node toClass be dragged as well as the grabbed and selected nodes
   var addDescendantsToDrag = function( node, opts ){
     if( !node.cy().hasCompoundNodes() ){
       return;
     }
 
-    if( opts.inDragLayer == null && opts.addToList == null ){ return; } // nothing to do
+    if( opts.inDragLayer == null && opts.addToList == null ){ return; } // nothing toClass do
 
     var innerNodes = node.descendants();
 
@@ -55074,7 +55074,7 @@ BRp.load = function(){
     }
   };
 
-  // adds the given nodes and its neighbourhood to the drag layer
+  // adds the given nodes and its neighbourhood toClass the drag layer
   var addNodesToDrag = function( nodes, opts ){
     opts = opts || {};
 
@@ -55094,9 +55094,9 @@ BRp.load = function(){
       });
     }
 
-    addDescendantsToDrag( nodes, opts ); // always add to drag
+    addDescendantsToDrag( nodes, opts ); // always add toClass drag
 
-    // also add nodes and edges related to the topmost ancestor
+    // also add nodes and edges related toClass the topmost ancestor
     updateAncestorsInDragLayer( nodes, {
       inDragLayer: opts.inDragLayer
     } );
@@ -55121,11 +55121,11 @@ BRp.load = function(){
     r.updateCachedGrabbedEles();
   };
 
-  // helper function to determine which ancestor nodes and edges should go
-  // to the drag layer (or should be removed from drag layer).
+  // helper function toClass determine which ancestor nodes and edges should go
+  // toClass the drag layer (or should be removed from drag layer).
   var updateAncestorsInDragLayer = function( node, opts ){
 
-    if( opts.inDragLayer == null && opts.addToList == null ){ return; } // nothing to do
+    if( opts.inDragLayer == null && opts.addToList == null ){ return; } // nothing toClass do
 
     if( !node.cy().hasCompoundNodes() ){
       return;
@@ -55134,7 +55134,7 @@ BRp.load = function(){
     // find top-level parent
     var parent = node.ancestors().orphans();
 
-    // no parent node: no nodes to add to the drag layer
+    // no parent node: no nodes toClass add toClass the drag layer
     if( parent.same( node ) ){
       return;
     }
@@ -55237,7 +55237,7 @@ BRp.load = function(){
   };
 
   var eventInContainer = function( e ){
-    // save cycles if mouse events aren't to be captured
+    // save cycles if mouse events aren't toClass be captured
     var containerPageCoords = r.findContainerClientCoords();
     var x = containerPageCoords[0];
     var y = containerPageCoords[1];
@@ -55357,7 +55357,7 @@ BRp.load = function(){
 
       // Element dragging
       {
-        // If something is under the cursor and it is draggable, prepare to grab it
+        // If something is under the cursor and it is draggable, prepare toClass grab it
         if( near != null ){
 
           if( r.nodeIsGrabbable( near ) ){
@@ -55565,7 +55565,7 @@ BRp.load = function(){
         r.hoverData.dragged = true;
       }
 
-      // Needs reproject due to pan changing viewport
+      // Needs reproject due toClass pan changing viewport
       pos = r.projectIntoViewport( e.clientX, e.clientY );
 
     // Checks primary button down & out of time & mouse not moved much
@@ -55640,7 +55640,7 @@ BRp.load = function(){
 
           var toTrigger = [];
 
-          // now, add the elements to the drag layer if not done already
+          // now, add the elements toClass the drag layer if not done already
           if( !r.hoverData.draggingEles ){
             addNodesToDrag( cy.collection( draggedElements ), { inDragLayer: true } );
           }
@@ -55887,7 +55887,7 @@ BRp.load = function(){
   var wheelHandler = function( e ){
 
 
-    if( r.scrollingPage ){ return; } // while scrolling, ignore wheel-to-zoom
+    if( r.scrollingPage ){ return; } // while scrolling, ignore wheel-toClass-zoom
 
     var cy = r.cy;
     var pos = r.projectIntoViewport( e.clientX, e.clientY );
@@ -55936,7 +55936,7 @@ BRp.load = function(){
 
   };
 
-  // Functions to help with whether mouse wheel should trigger zooming
+  // Functions toClass help with whether mouse wheel should trigger zooming
   // --
   r.registerBinding( r.container, 'wheel', wheelHandler, true );
 
@@ -55954,7 +55954,7 @@ BRp.load = function(){
     }, 250 );
   }, true );
 
-  // Functions to help with handling mouseout/mouseover on the Cytoscape container
+  // Functions toClass help with handling mouseout/mouseover on the Cytoscape container
   // Handle mouseout on Cytoscape container
   r.registerBinding( r.container, 'mouseout', function mouseOutHandler( e ){
     var pos = r.projectIntoViewport( e.clientX, e.clientY );
@@ -55974,9 +55974,9 @@ BRp.load = function(){
     } ) );
   }, false );
 
-  var f1x1, f1y1, f2x1, f2y1; // starting points for pinch-to-zoom
-  var distance1, distance1Sq; // initial distance between finger 1 and finger 2 for pinch-to-zoom
-  var center1, modelCenter1; // center point on start pinch to zoom
+  var f1x1, f1y1, f2x1, f2y1; // starting points for pinch-toClass-zoom
+  var distance1, distance1Sq; // initial distance between finger 1 and finger 2 for pinch-toClass-zoom
+  var center1, modelCenter1; // center point on start pinch toClass zoom
   var offsetLeft, offsetTop;
   var containerWidth, containerHeight;
   var twoFingersStartInside;
@@ -56004,7 +56004,7 @@ BRp.load = function(){
     if( e.touches[1] ){ var pos = r.projectIntoViewport( e.touches[1].clientX, e.touches[1].clientY ); now[2] = pos[0]; now[3] = pos[1]; }
     if( e.touches[2] ){ var pos = r.projectIntoViewport( e.touches[2].clientX, e.touches[2].clientY ); now[4] = pos[0]; now[5] = pos[1]; }
 
-    // record starting points for pinch-to-zoom
+    // record starting points for pinch-toClass-zoom
     if( e.touches[1] ){
 
       freeDraggedElements( r.dragData.touchDragEles );
@@ -56331,8 +56331,8 @@ BRp.load = function(){
 
       r.redraw();
 
-    // pinch to zoom
-    } else if( capture && e.touches[1] && cy.zoomingEnabled() && cy.panningEnabled() && cy.userZoomingEnabled() && cy.userPanningEnabled() ){ // two fingers => pinch to zoom
+    // pinch toClass zoom
+    } else if( capture && e.touches[1] && cy.zoomingEnabled() && cy.panningEnabled() && cy.userZoomingEnabled() && cy.userPanningEnabled() ){ // two fingers => pinch toClass zoom
       e.preventDefault();
 
       r.data.bgActivePosistion = undefined;
@@ -56387,7 +56387,7 @@ BRp.load = function(){
         var zoom2 = zoom1 * factor;
         var pan1 = cy.pan();
 
-        // the model center point converted to the current rendered pos
+        // the model center point converted toClass the current rendered pos
         var ctrx = modelCenter1[0] * zoom1 + pan1.x;
         var ctry = modelCenter1[1] * zoom1 + pan1.y;
 
@@ -56527,7 +56527,7 @@ BRp.load = function(){
         r.touchData.last = near;
       }
 
-      // check to cancel taphold
+      // check toClass cancel taphold
       if( capture ){
         for( var i = 0; i < now.length; i++ ){
           if( now[ i ]
@@ -56758,12 +56758,12 @@ BRp.load = function(){
       var dist2 = dx2 + dy2;
       var rdist2 = dist2 * zoom * zoom;
 
-      // Prepare to select the currently touched node, only if it hasn't been dragged past a certain distance
+      // Prepare toClass select the currently touched node, only if it hasn't been dragged past a certain distance
       if( start != null
           && !r.dragData.didDrag // didn't drag nodes around
           && start._private.selectable
           && rdist2 < r.touchTapThreshold2
-          && !r.pinching // pinch to zoom should not affect selection
+          && !r.pinching // pinch toClass zoom should not affect selection
       ){
 
         if( cy.selectionType() === 'single' ){
@@ -58302,7 +58302,7 @@ CRp.drawNode = function( context, node, shiftToOriginWithBb, drawLabel ){
 
     var bgImgCrossOrigin = node.pstyle( 'background-image-crossorigin' );
 
-    // get image, and if not loaded then ask to redraw when later loaded
+    // get image, and if not loaded then ask toClass redraw when later loaded
     image = this.getCachedImage( url, bgImgCrossOrigin, function(){
       node.trigger('background');
 
@@ -58544,7 +58544,7 @@ CRp.drawPie = function( context, node, nodeOpacity, pos ){
   var x = pos.x;
   var y = pos.y;
   var radius = Math.min( nodeW, nodeH ) / 2; // must fit in node
-  var lastPercent = 0; // what % to continue drawing pie slices from on [0, 1]
+  var lastPercent = 0; // what % toClass continue drawing pie slices from on [0, 1]
   var usePaths = this.usePaths();
 
   if( usePaths ){
@@ -58562,7 +58562,7 @@ CRp.drawPie = function( context, node, nodeOpacity, pos ){
     var size = node.pstyle( 'pie-' + i + '-background-size' ).value;
     var color = node.pstyle( 'pie-' + i + '-background-color' ).value;
     var opacity = node.pstyle( 'pie-' + i + '-background-opacity' ).value * nodeOpacity;
-    var percent = size / 100; // map integer range [0, 100] to [0, 1]
+    var percent = size / 100; // map integer range [0, 100] toClass [0, 1]
 
     // percent can't push beyond 1
     if( percent + lastPercent > 1 ){
@@ -58808,7 +58808,7 @@ CRp.render = function( options ){
       motionBlurFadeEffect = false;
     }
 
-    // go to lower quality blurry frames when several m/b frames have been rendered (avoids flashing)
+    // go toClass lower quality blurry frames when several m/b frames have been rendered (avoids flashing)
     if( r.mbFrames > r.minMbLowQualFrames ){
       //r.fullQualityMb = false;
       r.motionBlurPxRatio = r.mbPxRBlurry;
@@ -59224,13 +59224,13 @@ CRp.drawRoundRectanglePath = function(
 
   // Start at top middle
   context.moveTo( x, y - halfHeight );
-  // Arc from middle top to right side
+  // Arc from middle top toClass right side
   context.arcTo( x + halfWidth, y - halfHeight, x + halfWidth, y, cornerRadius );
-  // Arc from right side to bottom
+  // Arc from right side toClass bottom
   context.arcTo( x + halfWidth, y + halfHeight, x, y + halfHeight, cornerRadius );
-  // Arc from bottom to left side
+  // Arc from bottom toClass left side
   context.arcTo( x - halfWidth, y + halfHeight, x - halfWidth, y, cornerRadius );
-  // Arc from left side to topBorder
+  // Arc from left side toClass topBorder
   context.arcTo( x - halfWidth, y - halfHeight, x, y - halfHeight, cornerRadius );
   // Join line
   context.lineTo( x, y - halfHeight );
@@ -59293,10 +59293,10 @@ var defs = __webpack_require__( 48 );
 
 var minTxrH = 25; // the size of the texture cache for small height eles (special case)
 var txrStepH = 50; // the min size of the regular cache, and the size it increases with each step up
-var minLvl = -4; // when scaling smaller than that we don't need to re-render
+var minLvl = -4; // when scaling smaller than that we don't need toClass re-render
 var maxLvl = 2; // when larger than this scale just render directly (caching is not helpful)
 var maxZoom = 3.99; // beyond this zoom level, layered textures are not used
-var eleTxrSpacing = 8; // spacing between elements on textures to avoid blitting overlaps
+var eleTxrSpacing = 8; // spacing between elements on textures toClass avoid blitting overlaps
 var defTxrWidth = 1024; // default/minimum texture width
 var maxTxrW = 1024; // the maximum width of a texture
 var maxTxrH = 1024;  // the maximum height of a texture
@@ -59306,11 +59306,11 @@ var maxFullnessChecks = 10; // dequeued after this many checks
 var allowEdgeTxrCaching = false; // whether edges can be cached as textures (TODO maybe better on if webgl supported?)
 var allowParentTxrCaching = false; // whether parent nodes can be cached as textures (TODO maybe better on if webgl supported?)
 var deqCost = 0.15; // % of add'l rendering cost allowed for dequeuing ele caches each frame
-var deqAvgCost = 0.1; // % of add'l rendering cost compared to average overall redraw time
+var deqAvgCost = 0.1; // % of add'l rendering cost compared toClass average overall redraw time
 var deqNoDrawCost = 0.9; // % of avg frame time that can be used for dequeueing when not drawing
-var deqFastCost = 0.9; // % of frame time to be used when >60fps
-var deqRedrawThreshold = 100; // time to batch redraws together from dequeueing to allow more dequeueing calcs to happen in the meanwhile
-var maxDeqSize = 1; // number of eles to dequeue and render at higher texture in each batch
+var deqFastCost = 0.9; // % of frame time toClass be used when >60fps
+var deqRedrawThreshold = 100; // time toClass batch redraws together from dequeueing toClass allow more dequeueing calcs toClass happen in the meanwhile
+var maxDeqSize = 1; // number of eles toClass dequeue and render at higher texture in each batch
 
 var getTxrReasons = {
   dequeue: 'dequeue',
@@ -59397,7 +59397,7 @@ ETCp.getElement = function( ele, bb, pxRatio, lvl, reason ){
     return eleCache;
   }
 
-  var txrH; // which texture height this ele belongs to
+  var txrH; // which texture height this ele belongs toClass
 
   if( eleScaledH <= minTxrH ){
     txrH = minTxrH;
@@ -59474,7 +59474,7 @@ ETCp.getElement = function( ele, bb, pxRatio, lvl, reason ){
 
   } else if( scalableFrom(higherCache) ){
     // then use the higher cache for now and queue the next level down
-    // to cheaply scale towards the smaller level
+    // toClass cheaply scale towards the smaller level
 
     if( highQualityReq ){
       for( var l = higherCache.level; l > lvl; l-- ){
@@ -59547,14 +59547,14 @@ ETCp.invalidateElement = function( ele ){
       if( cache ){
         var txr = cache.texture;
 
-        // remove space from the texture it belongs to
+        // remove space from the texture it belongs toClass
         txr.invalidatedWidth += cache.width;
 
         // remove refs with the element
         caches[ lvl ] = null;
         util.removeFromArray( txr.eleCaches, cache );
 
-        // might have to remove the entire texture if it's not efficiently using its space
+        // might have toClass remove the entire texture if it's not efficiently using its space
         self.checkTextureUtility( txr );
       }
     }
@@ -59570,7 +59570,7 @@ ETCp.checkTextureUtility = function( txr ){
 
 ETCp.checkTextureFullness = function( txr ){
   // if texture has been mostly filled and passed over several times, remove
-  // it from the queue so we don't need to waste time looking at it to put new things
+  // it from the queue so we don't need toClass waste time looking at it toClass put new things
 
   var self = this;
   var txrQ = self.getTextureQueue( txr.height );
@@ -59593,7 +59593,7 @@ ETCp.retireTexture = function( txr ){
 
   txr.retired = true;
 
-  // remove the refs from the eles to the caches:
+  // remove the refs from the eles toClass the caches:
 
   var eleCaches = txr.eleCaches;
 
@@ -59610,7 +59610,7 @@ ETCp.retireTexture = function( txr ){
 
   util.clearArray( eleCaches );
 
-  // add the texture to a retired queue so it can be recycled in future:
+  // add the texture toClass a retired queue so it can be recycled in future:
 
   var rtxtrQ = self.getRetiredTextureQueue( txrH );
 
@@ -59675,7 +59675,7 @@ ETCp.queueElement = function( ele, bb, lvl ){
   var id = ele.id();
   var existingReq = id2q[ id ];
 
-  if( existingReq ){ // use the max lvl b/c in between lvls are cheap to make
+  if( existingReq ){ // use the max lvl b/c in between lvls are cheap toClass make
     existingReq.level = Math.max( existingReq.level, lvl );
     existingReq.reqs++;
 
@@ -60023,7 +60023,7 @@ CRp.redrawHint = function( group, bool ){
   }
 };
 
-// whether to use Path2D caching for drawing
+// whether toClass use Path2D caching for drawing
 var pathsImpld = typeof Path2D !== 'undefined';
 
 CRp.path2dEnabled = function( on ){
@@ -60069,24 +60069,24 @@ var Heap = __webpack_require__( 26 );
 var is = __webpack_require__( 1 );
 var defs = __webpack_require__( 48 );
 
-var defNumLayers = 1; // default number of layers to use
-var minLvl = -4; // when scaling smaller than that we don't need to re-render
+var defNumLayers = 1; // default number of layers toClass use
+var minLvl = -4; // when scaling smaller than that we don't need toClass re-render
 var maxLvl = 2; // when larger than this scale just render directly (caching is not helpful)
 var maxZoom = 3.99; // beyond this zoom level, layered textures are not used
-var deqRedrawThreshold = 50; // time to batch redraws together from dequeueing to allow more dequeueing calcs to happen in the meanwhile
-var refineEleDebounceTime = 50; // time to debounce sharper ele texture updates
+var deqRedrawThreshold = 50; // time toClass batch redraws together from dequeueing toClass allow more dequeueing calcs toClass happen in the meanwhile
+var refineEleDebounceTime = 50; // time toClass debounce sharper ele texture updates
 var disableEleImgSmoothing = true; // when drawing eles on layers from an ele cache ; crisper and more performant when true
 var deqCost = 0.15; // % of add'l rendering cost allowed for dequeuing ele caches each frame
-var deqAvgCost = 0.1; // % of add'l rendering cost compared to average overall redraw time
+var deqAvgCost = 0.1; // % of add'l rendering cost compared toClass average overall redraw time
 var deqNoDrawCost = 0.9; // % of avg frame time that can be used for dequeueing when not drawing
-var deqFastCost = 0.9; // % of frame time to be used when >60fps
-var maxDeqSize = 1; // number of eles to dequeue and render at higher texture in each batch
+var deqFastCost = 0.9; // % of frame time toClass be used when >60fps
+var maxDeqSize = 1; // number of eles toClass dequeue and render at higher texture in each batch
 var invalidThreshold = 250; // time threshold for disabling b/c of invalidations
 var maxLayerArea = 4000 * 4000; // layers can't be bigger than this
 var alwaysQueue = true; // never draw all the layers in a level on a frame; draw directly until all dequeued
-var useHighQualityEleTxrReqs = true; // whether to use high quality ele txr requests (generally faster and cheaper in the longterm)
+var useHighQualityEleTxrReqs = true; // whether toClass use high quality ele txr requests (generally faster and cheaper in the longterm)
 
-var useEleTxrCaching = true; // whether to use individual ele texture caching underneath this cache
+var useEleTxrCaching = true; // whether toClass use individual ele texture caching underneath this cache
 
 // var log = function(){ console.log.apply( console, arguments ); };
 
@@ -60159,7 +60159,7 @@ LTCp.makeLayer = function( bb, lvl ){
   var dx = -layer.bb.x1;
   var dy = -layer.bb.y1;
 
-  // do the transform on creation to save cycles (it's the same for all eles)
+  // do the transform on creation toClass save cycles (it's the same for all eles)
   cxt.scale( scale, scale );
   cxt.translate( dx, dy );
 
@@ -60352,7 +60352,7 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
   return layers;
 };
 
-// a layer may want to use an ele cache of a higher level to avoid blurriness
+// a layer may want toClass use an ele cache of a higher level toClass avoid blurriness
 // so the layer level might not equal the ele level
 LTCp.getEleLevelForLayerLevel = function( lvl, pxRatio ){
   return lvl;
@@ -60405,7 +60405,7 @@ LTCp.levelIsComplete = function( lvl, eles ){
   for( var i = 0; i < layers.length; i++ ){
     var layer = layers[i];
 
-    // if there are any eles needed to be drawn yet, the level is not complete
+    // if there are any eles needed toClass be drawn yet, the level is not complete
     if( layer.reqs > 0 ){ return false; }
 
     // if the layer is invalid, the level is not complete
@@ -60414,7 +60414,7 @@ LTCp.levelIsComplete = function( lvl, eles ){
     numElesInLayers += layer.eles.length;
   }
 
-  // we should have exactly the number of eles passed in to be complete
+  // we should have exactly the number of eles passed in toClass be complete
   if( numElesInLayers !== eles.length ){ return false; }
 
   return true;
@@ -60605,7 +60605,7 @@ LTCp.queueLayer = function( layer, ele ){
   var elesQ = layer.elesQueue;
   var hasId = elesQ.hasId = elesQ.hasId || {};
 
-  // if a layer is going to be replaced, queuing is a waste of time
+  // if a layer is going toClass be replaced, queuing is a waste of time
   if( layer.replacement ){ return; }
 
   if( ele ){
@@ -60670,7 +60670,7 @@ LTCp.dequeue = function( pxRatio ){
     }
 
     if( deqd.length === 0 ){
-      // we need only one entry in deqd to queue redrawing etc
+      // we need only one entry in deqd toClass queue redrawing etc
       deqd.push( true );
     }
 
@@ -60845,9 +60845,9 @@ var cytoscape = function( options ){ // jshint ignore:line
 
 // e.g. cytoscape.use( require('cytoscape-foo'), bar )
 cytoscape.use = function( ext ){
-  var args = Array.prototype.slice.call( arguments, 1 ); // args to pass to ext
+  var args = Array.prototype.slice.call( arguments, 1 ); // args toClass pass toClass ext
 
-  args.unshift( cytoscape ); // cytoscape is first arg to ext
+  args.unshift( cytoscape ); // cytoscape is first arg toClass ext
 
   ext.apply( null, args );
 };
@@ -60874,7 +60874,7 @@ var is = __webpack_require__( 1 );
 var styfn = {};
 
 // (potentially expensive calculation)
-// apply the style to the element based on
+// apply the style toClass the element based on
 // - its bypass
 // - what selectors match it
 styfn.apply = function( eles ){
@@ -60929,9 +60929,9 @@ styfn.getPropertiesDiff = function( oldCxtKey, newCxtKey ){
       if( cxtHasDiffed && cxtHasMappedProps ){
         props = cxt.properties; // suffices b/c mappedProperties is a subset of properties
       } else if( cxtHasDiffed ){
-        props = cxt.properties; // need to check them all
+        props = cxt.properties; // need toClass check them all
       } else if( cxtHasMappedProps ){
-        props = cxt.mappedProperties; // only need to check mapped
+        props = cxt.mappedProperties; // only need toClass check mapped
       }
 
       for( var j = 0; j < props.length; j++ ){
@@ -60973,7 +60973,7 @@ styfn.getContextMeta = function( ele ){
   var prevKey = ele._private.styleCxtKey || '';
 
   if( self._private.newStyle ){
-    prevKey = ''; // since we need to apply all style if a fresh stylesheet
+    prevKey = ''; // since we need toClass apply all style if a fresh stylesheet
   }
 
   // get the cxt key
@@ -61043,7 +61043,7 @@ styfn.applyContextStyle = function( cxtMeta, cxtStyle, ele ){
 
     if( !cxtProp ){ // no context prop means delete
       if( !eleProp ){
-        continue; // no existing prop means nothing needs to be removed
+        continue; // no existing prop means nothing needs toClass be removed
         // nb affects initial application on mapped values like control-point-distances
       } else if( eleProp.bypass ){
         cxtProp = { name: diffPropName, deleteBypassed: true };
@@ -61052,7 +61052,7 @@ styfn.applyContextStyle = function( cxtMeta, cxtStyle, ele ){
       }
     }
 
-    // save cycles when the context prop doesn't need to be applied
+    // save cycles when the context prop doesn't need toClass be applied
     if( eleProp === cxtProp ){ continue; }
 
     var retDiffProp = retDiffProps[ diffPropName ] = {
@@ -61118,14 +61118,14 @@ styfn.updateStyleHints = function(ele){
   _p.styleKey = Date.now();
 };
 
-// apply a property to the style (for internal use)
+// apply a property toClass the style (for internal use)
 // returns whether application was successful
 //
 // now, this function flattens the property, and here's how:
 //
 // for parsedProp:{ bypass: true, deleteBypass: true }
 // no property is generated, instead the bypass property in the
-// element's style is replaced by what's pointed to by the `bypassed`
+// element's style is replaced by what's pointed toClass by the `bypassed`
 // field in the bypass property (i.e. restoring the property the
 // bypass was overriding)
 //
@@ -61146,7 +61146,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
   var origPropIsBypass = origProp && origProp.bypass;
   var _p = ele._private;
 
-  // edges connected to compound nodes can not be haystacks
+  // edges connected toClass compound nodes can not be haystacks
   if(
     parsedProp.name === 'curve-style'
     && parsedProp.value === 'haystack'
@@ -61175,8 +61175,8 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
     }
   }
 
-  // check if we need to delete the current bypass
-  if( prop.deleteBypass ){ // then this property is just here to indicate we need to delete
+  // check if we need toClass delete the current bypass
+  if( prop.deleteBypass ){ // then this property is just here toClass indicate we need toClass delete
     if( !origProp ){
       return true; // property is already not defined
 
@@ -61191,7 +61191,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
   }
 
   var printMappingErr = function(){
-    util.error( 'Do not assign mappings to elements without corresponding data (e.g. ele `' + ele.id() + '` for property `' + prop.name + '` with data field `' + prop.field + '`); try a `[' + prop.field + ']` selector to limit scope to elements with `' + prop.field + '` defined' );
+    util.error( 'Do not assign mappings toClass elements without corresponding data (e.g. ele `' + ele.id() + '` for property `' + prop.name + '` with data field `' + prop.field + '`); try a `[' + prop.field + ']` selector toClass limit scope toClass elements with `' + prop.field + '` defined' );
   };
 
   // put the property in the style objects
@@ -61213,7 +61213,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
       percent = (fieldVal - prop.fieldMin) / (prop.fieldMax - prop.fieldMin);
     }
 
-    // make sure to bound percent value
+    // make sure toClass bound percent value
     if( percent < 0 ){
       percent = 0;
     } else if( percent > 1 ){
@@ -61249,7 +61249,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
       flatProp = this.parse( prop.name, calcValue, prop.bypass, true );
 
     } else {
-      return false; // can only map to colours and numbers
+      return false; // can only map toClass colours and numbers
     }
 
     if( !flatProp ){ // if we can't flatten the property, then use the origProp so we still keep the mapping itself
@@ -61257,7 +61257,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
     }
 
     if( !flatProp ){ printMappingErr(); }
-    flatProp.mapping = prop; // keep a reference to the mapping
+    flatProp.mapping = prop; // keep a reference toClass the mapping
     prop = flatProp; // the flattened (mapped) property is the one we want
 
     break;
@@ -61282,7 +61282,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
     }
 
     if( !flatProp ){ printMappingErr(); }
-    flatProp.mapping = prop; // keep a reference to the mapping
+    flatProp.mapping = prop; // keep a reference toClass the mapping
     prop = flatProp; // the flattened (mapped) property is the one we want
 
     break;
@@ -61292,7 +61292,7 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
     var fnRetVal = fn( ele );
 
     flatProp = this.parse( prop.name, fnRetVal, prop.bypass, true );
-    flatProp.mapping = prop; // keep a reference to the mapping
+    flatProp.mapping = prop; // keep a reference toClass the mapping
     prop = flatProp; // the flattened (mapped) property is the one we want
 
     break;
@@ -61304,18 +61304,18 @@ styfn.applyParsedProperty = function( ele, parsedProp ){
     return false; // not a valid mapping
   }
 
-  // if the property is a bypass property, then link the resultant property to the original one
+  // if the property is a bypass property, then link the resultant property toClass the original one
   if( propIsBypass ){
     if( origPropIsBypass ){ // then this bypass overrides the existing one
       prop.bypassed = origProp.bypassed; // steal bypassed prop from old bypass
-    } else { // then link the orig prop to the new bypass
+    } else { // then link the orig prop toClass the new bypass
       prop.bypassed = origProp;
     }
 
     style[ prop.name ] = prop; // and set
 
   } else { // prop is not bypass
-    if( origPropIsBypass ){ // then keep the orig prop (since it's a bypass) and link to the new prop
+    if( origPropIsBypass ){ // then keep the orig prop (since it's a bypass) and link toClass the new prop
       origProp.bypassed = prop;
     } else { // then just replace the old prop with the new one
       style[ prop.name ] = prop;
@@ -61396,7 +61396,7 @@ styfn.updateTransitions = function( ele, diffProps, isBypass ){
 
     var css = {};
 
-    // build up the style to animate towards
+    // build up the style toClass animate towards
     var anyPrev = false;
     for( var i = 0; i < props.length; i++ ){
       var prop = props[ i ];
@@ -61436,14 +61436,14 @@ styfn.updateTransitions = function( ele, diffProps, isBypass ){
 
       // the previous value is good for an animation only if it's different
       if( diff ){
-        css[ prop ] = toProp.strValue; // to val
+        css[ prop ] = toProp.strValue; // toClass val
         this.applyBypass( ele, prop, initVal ); // from val
         anyPrev = true;
       }
 
     } // end if props allow ani
 
-    // can't transition if there's nothing previous to transition from
+    // can't transition if there's nothing previous toClass transition from
     if( !anyPrev ){ return; }
 
     _p.transitioning = true;
@@ -61493,7 +61493,7 @@ var util = __webpack_require__( 2 );
 
 var styfn = {};
 
-// bypasses are applied to an existing style on an element, and just tacked on temporarily
+// bypasses are applied toClass an existing style on an element, and just tacked on temporarily
 // returns true iff application was successful for at least 1 specified property
 styfn.applyBypass = function( eles, name, value, updateTransitions ){
   var self = this;
@@ -61501,7 +61501,7 @@ styfn.applyBypass = function( eles, name, value, updateTransitions ){
   var isBypass = true;
 
   // put all the properties (can specify one or many) in an array after parsing them
-  if( name === '*' || name === '**' ){ // apply to all property names
+  if( name === '*' || name === '**' ){ // apply toClass all property names
 
     if( value !== undefined ){
       for( var i = 0; i < self.properties.length; i++ ){
@@ -61634,7 +61634,7 @@ styfn.removeBypasses = function( eles, props, updateTransitions ){
       var prevProp = ele.pstyle( prop.name );
 
       if( !prevProp || !prevProp.bypass ){
-        // if a bypass doesn't exist for the prop, nothing needs to be removed
+        // if a bypass doesn't exist for the prop, nothing needs toClass be removed
         continue;
       }
 
@@ -61669,7 +61669,7 @@ var window = __webpack_require__( 13 );
 
 var styfn = {};
 
-// gets what an em size corresponds to in pixels relative to a dom element
+// gets what an em size corresponds toClass in pixels relative toClass a dom element
 styfn.getEmSizeInPixels = function(){
   var px = this.containerCss( 'font-size' );
 
@@ -61941,14 +61941,14 @@ var parseImpl = function( name, value, propIsBypass, propIsFlat ){
   }
 
   var valueIsString = is.string( value );
-  if( valueIsString ){ // trim the value to make parsing easier
+  if( valueIsString ){ // trim the value toClass make parsing easier
     value = value.trim();
   }
 
   var type = property.type;
   if( !type ){ return null; } // no type, no luck
 
-  // check if bypass is null or empty string (i.e. indication to delete bypass property)
+  // check if bypass is null or empty string (i.e. indication toClass delete bypass property)
   if( propIsBypass && (value === '' || value === null) ){
     return {
       name: name,
@@ -61972,7 +61972,7 @@ var parseImpl = function( name, value, propIsBypass, propIsFlat ){
   // check if value is mapped
   var data, mapData;
   if( !valueIsString || propIsFlat ){
-    // then don't bother to do the expensive regex checks
+    // then don't bother toClass do the expensive regex checks
 
   } else if( (data = new RegExp( types.data.regex ).exec( value )) ){
     if( propIsBypass ){ return false; } // mappers not allowed in bypass
@@ -61990,17 +61990,17 @@ var parseImpl = function( name, value, propIsBypass, propIsFlat ){
 
   } else if( (mapData = new RegExp( types.mapData.regex ).exec( value )) ){
     if( propIsBypass ){ return false; } // mappers not allowed in bypass
-    if( type.multiple ){ return false; } // impossible to map to num
+    if( type.multiple ){ return false; } // impossible toClass map toClass num
 
     var mapped = types.mapData;
 
     // we can map only if the type is a colour or a number
     if( !(type.color || type.number) ){ return false; }
 
-    var valueMin = this.parse( name, mapData[4] ); // parse to validate
+    var valueMin = this.parse( name, mapData[4] ); // parse toClass validate
     if( !valueMin || valueMin.mapped ){ return false; } // can't be invalid or mapped
 
-    var valueMax = this.parse( name, mapData[5] ); // parse to validate
+    var valueMax = this.parse( name, mapData[5] ); // parse toClass validate
     if( !valueMax || valueMax.mapped ){ return false; } // can't be invalid or mapped
 
     // check if valueMin and valueMax are the same
@@ -62290,7 +62290,7 @@ var styfn = {};
     return '^' + prefix + '\\s*\\(([\\w\\.]+)\\s*\\,\\s*(' + number + ')\\s*\\,\\s*(' + number + ')\\s*,\\s*(' + mapArg + ')\\s*\\,\\s*(' + mapArg + ')\\)$';
   };
 
-  // each visual style property has a type and needs to be validated according to it
+  // each visual style property has a type and needs toClass be validated according toClass it
   styfn.types = {
     time: { number: true, min: 0, units: 's|ms', implicitUnits: 'ms' },
     percent: { number: true, min: 0, max: 100, units: '%', implicitUnits: '%' },
@@ -62505,7 +62505,7 @@ var styfn = {};
   ];
 
   // pie backgrounds for nodes
-  styfn.pieBackgroundN = 16; // because the pie properties are numbered, give access to a constant N (for renderer use)
+  styfn.pieBackgroundN = 16; // because the pie properties are numbered, give access toClass a constant N (for renderer use)
   props.push( { name: 'pie-size', type: t.bgSize } );
   for( var i = 1; i <= styfn.pieBackgroundN; i++ ){
     props.push( { name: 'pie-' + i + '-background-color', type: t.color } );
@@ -62779,7 +62779,7 @@ styfn.applyFromString = function( string ){
   remaining = remaining.replace( /[/][*](\s|.)+?[*][/]/g, '' );
 
   function removeSelAndBlockFromRemaining(){
-    // remove the parsed selector and block from the remaining text to parse
+    // remove the parsed selector and block from the remaining text toClass parse
     if( remaining.length > selAndBlockStr.length ){
       remaining = remaining.substr( selAndBlockStr.length );
     } else {
@@ -62788,7 +62788,7 @@ styfn.applyFromString = function( string ){
   }
 
   function removePropAndValFromRem(){
-    // remove the parsed property and value from the remaining block text to parse
+    // remove the parsed property and value from the remaining block text toClass parse
     if( blockRem.length > propAndValStr.length ){
       blockRem = blockRem.substr( propAndValStr.length );
     } else {
@@ -62803,7 +62803,7 @@ styfn.applyFromString = function( string ){
     var selAndBlock = remaining.match( /^\s*((?:.|\s)+?)\s*\{((?:.|\s)+?)\}/ );
 
     if( !selAndBlock ){
-      util.error( 'Halting stylesheet parsing: String stylesheet contains more to parse but no selector and block found in: ' + remaining );
+      util.error( 'Halting stylesheet parsing: String stylesheet contains more toClass parse but no selector and block found in: ' + remaining );
       break;
     }
 
@@ -62911,7 +62911,7 @@ var is = __webpack_require__( 1 );
 var util = __webpack_require__( 2 );
 var Style = __webpack_require__( 49 );
 
-// a dummy stylesheet object that doesn't need a reference to the core
+// a dummy stylesheet object that doesn't need a reference toClass the core
 // (useful for init)
 var Stylesheet = function(){
   if( !(this instanceof Stylesheet) ){
@@ -62927,7 +62927,7 @@ sheetfn.instanceString = function(){
   return 'stylesheet';
 };
 
-// just store the selector to be parsed later
+// just store the selector toClass be parsed later
 sheetfn.selector = function( selector ){
   var i = this.length++;
 
@@ -62939,7 +62939,7 @@ sheetfn.selector = function( selector ){
   return this; // chaining
 };
 
-// just store the property to be parsed later
+// just store the property toClass be parsed later
 sheetfn.css = function( name, value ){
   var i = this.length - 1;
 
@@ -63071,7 +63071,7 @@ module.exports = {
         if( a < 0 || a > 1 ){ return; } // alpha is [0, 1]
       }
 
-      // now, convert to rgb
+      // now, convert toClass rgb
       // code from http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
       if( s === 0 ){
         r = g = b = Math.round( l * 255 ); // achromatic
@@ -63107,7 +63107,7 @@ module.exports = {
         channel = parseFloat( channel );
 
         if( isPct[ i ] ){
-          channel = channel / 100 * 255; // normalise to [0, 255]
+          channel = channel / 100 * 255; // normalise toClass [0, 255]
         }
 
         if( channel < 0 || channel > 255 ){ return; } // invalid channel value
@@ -63321,7 +63321,7 @@ module.exports = {
     return empty;
   },
 
-  // pushes to the array at the end of a map (map may not be built)
+  // pushes toClass the array at the end of a map (map may not be built)
   pushMap: function( options ){
     var array = this.getMap( options );
 
@@ -63345,7 +63345,7 @@ module.exports = {
       var key = keys[ i ];
 
       if( is.plainObject( key ) ){
-        this.error( 'Tried to set map with object key' );
+        this.error( 'Tried toClass set map with object key' );
       }
 
       if( i < keys.length - 1 ){
@@ -63373,7 +63373,7 @@ module.exports = {
       var key = keys[ i ];
 
       if( is.plainObject( key ) ){
-        this.error( 'Tried to get map with object key' );
+        this.error( 'Tried toClass get map with object key' );
       }
 
       obj = obj[ key ];
@@ -63397,7 +63397,7 @@ module.exports = {
       var key = keys[ i ];
 
       if( is.plainObject( key ) ){
-        this.error( 'Tried to delete map with object key' );
+        this.error( 'Tried toClass delete map with object key' );
       }
 
       var lastKey = i === options.keys.length - 1;
@@ -63695,7 +63695,7 @@ exports.enabled = enabled;
 exports.humanize = __webpack_require__(330);
 
 /**
- * The currently active debug mode names, and names to skip.
+ * The currently active debug mode names, and names toClass skip.
  */
 
 exports.names = [];
@@ -63727,7 +63727,7 @@ function selectColor(namespace) {
 
   for (i in namespace) {
     hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
+    hash |= 0; // Convert toClass 32bit integer
   }
 
   return exports.colors[Math.abs(hash) % exports.colors.length];
@@ -63781,7 +63781,7 @@ function createDebug(namespace) {
         var val = args[index];
         match = formatter.call(self, val);
 
-        // now we need to remove `args[index]` since it's inlined in the `format`
+        // now we need toClass remove `args[index]` since it's inlined in the `format`
         args.splice(index, 1);
         index--;
       }
@@ -64921,7 +64921,7 @@ var has = Object.prototype.hasOwnProperty;
 /**
  * Simple query string parser.
  *
- * @param {String} query The query string that needs to be parsed.
+ * @param {String} query The query string that needs toClass be parsed.
  * @returns {Object}
  * @api public
  */
@@ -64944,7 +64944,7 @@ function querystring(query) {
 }
 
 /**
- * Transform a query string to an object.
+ * Transform a query string toClass an object.
  *
  * @param {Object} obj Object that should be transformed.
  * @param {String} prefix Optional prefix.
@@ -64985,11 +64985,11 @@ exports.parse = querystring;
 
 
 /**
- * Check if we're required to add a port number.
+ * Check if we're required toClass add a port number.
  *
  * @see https://url.spec.whatwg.org/#default-port
- * @param {Number|String} port Port number we need to check
- * @param {String} protocol Protocol we need to check against.
+ * @param {Number|String} port Port number we need toClass check
+ * @param {String} protocol Protocol we need toClass check against.
  * @returns {Boolean} Is it a default port for the given protocol
  * @api private
  */
@@ -65084,7 +65084,7 @@ module.exports = function required(port, protocol) {
 
     function runIfPresent(handle) {
         // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
-        // So if we're currently running a task, we'll need to delay this invocation.
+        // So if we're currently running a task, we'll need toClass delay this invocation.
         if (currentlyRunningATask) {
             // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
             // "too much recursion" error.
@@ -65165,7 +65165,7 @@ module.exports = function required(port, protocol) {
         var html = doc.documentElement;
         registerImmediate = function(handle) {
             // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+            // into the document. Do so, thus queuing up the task. Remember toClass clean up once it's been called.
             var script = doc.createElement("script");
             script.onreadystatechange = function () {
                 runIfPresent(handle);
@@ -65183,7 +65183,7 @@ module.exports = function required(port, protocol) {
         };
     }
 
-    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
+    // If supported, we should attach toClass the prototype of global, since that is where setTimeout et al. live.
     var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
     attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
 
@@ -65370,7 +65370,7 @@ module.exports = function(SockJS, availableTransports) {
         var transUrl = p[2];
         var baseUrl = p[3];
         debug(version, transport, transUrl, baseUrl);
-        // change this to semver logic
+        // change this toClass semver logic
         if (version !== SockJS.version) {
           throw new Error('Incompatible SockJS! Main site uses:' +
                     ' "' + version + '", the iframe:' +
@@ -65379,7 +65379,7 @@ module.exports = function(SockJS, availableTransports) {
 
         if (!urlUtils.isOriginEqual(transUrl, loc.href) ||
             !urlUtils.isOriginEqual(baseUrl, loc.href)) {
-          throw new Error('Can\'t connect to different domain from within an ' +
+          throw new Error('Can\'t connect toClass different domain from within an ' +
                     'iframe. (' + loc.href + ', ' + transUrl + ', ' + baseUrl + ')');
         }
         facade = new FacadeJS(new transportMap[transport](transUrl, baseUrl));
@@ -65620,7 +65620,7 @@ function SockJS(url, protocols, options) {
     return new SockJS(url, protocols, options);
   }
   if (arguments.length < 1) {
-    throw new TypeError("Failed to construct 'SockJS: 1 argument required, but only 0 present");
+    throw new TypeError("Failed toClass construct 'SockJS: 1 argument required, but only 0 present");
   }
   EventTarget.call(this);
 
@@ -65644,7 +65644,7 @@ function SockJS(url, protocols, options) {
       return random.string(sessionId);
     };
   } else {
-    throw new TypeError('If sessionId is used in the options, it needs to be a number or a function.');
+    throw new TypeError('If sessionId is used in the options, it needs toClass be a number or a function.');
   }
 
   this._server = options.server || random.numberString(1000);
@@ -65729,13 +65729,13 @@ SockJS.prototype.close = function(code, reason) {
     return;
   }
 
-  // TODO look at docs to determine how to set this
+  // TODO look at docs toClass determine how toClass set this
   var wasClean = true;
   this._close(code || 1000, reason || 'Normal closure', wasClean);
 };
 
 SockJS.prototype.send = function(data) {
-  // #13 - convert anything non-string to string
+  // #13 - convert anything non-string toClass string
   // TODO this currently turns objects into [object Object]
   if (typeof data !== 'string') {
     data = '' + data;
@@ -65760,14 +65760,14 @@ SockJS.prototype._receiveInfo = function(info, rtt) {
   debug('_receiveInfo', rtt);
   this._ir = null;
   if (!info) {
-    this._close(1002, 'Cannot connect to server');
+    this._close(1002, 'Cannot connect toClass server');
     return;
   }
 
   // establish a round-trip timeout (RTO) based on the
   // round-trip time (RTT)
   this._rto = this.countRTO(rtt);
-  // allow server to override url used for the actual transport
+  // allow server toClass override url used for the actual transport
   this._transUrl = info.base_url ? info.base_url : this.url;
   info = objectUtils.extend(info, this._urlInfo);
   debug('info', info);
@@ -65794,7 +65794,7 @@ SockJS.prototype._connect = function() {
       }
     }
 
-    // calculate timeout based on RTO and round trips. Default to 5s
+    // calculate timeout based on RTO and round trips. Default toClass 5s
     var timeoutMs = (this._rto * Transport.roundTrips) || 5000;
     this._transportTimeoutId = setTimeout(this._transportTimeout.bind(this), timeoutMs);
     debug('using timeout', timeoutMs);
@@ -65949,8 +65949,8 @@ SockJS.prototype._close = function(code, reason, wasClean) {
 // and RFC 2988.
 SockJS.prototype.countRTO = function(rtt) {
   // In a local environment, when using IE8/9 and the `jsonp-polling`
-  // transport the time needed to establish a connection (the time that pass
-  // from the opening of the transport to the call of `_dispatchOpen`) is
+  // transport the time needed toClass establish a connection (the time that pass
+  // from the opening of the transport toClass the call of `_dispatchOpen`) is
   // around 200msec (the lower bound used in the article above) and this
   // causes spurious timeouts. For this reason we calculate a value slightly
   // larger than that used in the article.
@@ -66034,7 +66034,7 @@ var defineProperties = function (object, map, forceAssign) {
 
 var toObject = function (o) {
     if (o == null) { // this matches both null and undefined
-        throw new TypeError("can't convert " + o + ' to object');
+        throw new TypeError("can't convert " + o + ' toClass object');
     }
     return Object(o);
 };
@@ -66085,7 +66085,7 @@ defineProperties(FunctionPrototype, {
         // XXX slicedArgs will stand in for "A" if used
         var args = array_slice.call(arguments, 1); // for normal call
         // 4. Let F be a new native ECMAScript object.
-        // 11. Set the [[Prototype]] internal property of F to the standard
+        // 11. Set the [[Prototype]] internal property of F toClass the standard
         //   built-in Function prototype object as specified in 15.3.3.1.
         // 12. Set the [[Call]] internal property of F as described in
         //   15.3.4.5.1.
@@ -66152,13 +66152,13 @@ defineProperties(FunctionPrototype, {
 
         // 15. If the [[Class]] internal property of Target is "Function", then
         //     a. Let L be the length property of Target minus the length of A.
-        //     b. Set the length own property of F to either 0 or L, whichever is
+        //     b. Set the length own property of F toClass either 0 or L, whichever is
         //       larger.
-        // 16. Else set the length own property of F to 0.
+        // 16. Else set the length own property of F toClass 0.
 
         var boundLength = Math.max(0, target.length - args.length);
 
-        // 17. Set the attributes of the length own property of F to the values
+        // 17. Set the attributes of the length own property of F toClass the values
         //   specified in 15.3.5.1.
         var boundArgs = [];
         for (var i = 0; i < boundLength; i++) {
@@ -66166,7 +66166,7 @@ defineProperties(FunctionPrototype, {
         }
 
         // XXX Build a dynamic function with desired amount of arguments is the only
-        // way to set the length property of a function.
+        // way toClass set the length property of a function.
         // In environments where Content Security Policies enabled (Chrome extensions,
         // for ex.) all use of eval or Function costructor throws an exception.
         // However in all of these environments Function.prototype.bind exists
@@ -66181,7 +66181,7 @@ defineProperties(FunctionPrototype, {
         }
 
         // TODO
-        // 18. Set the [[Extensible]] internal property of F to true.
+        // 18. Set the [[Extensible]] internal property of F toClass true.
 
         // TODO
         // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
@@ -66301,7 +66301,7 @@ defineProperties(ArrayPrototype, {
 // Many browsers do not split properly with regular expressions or they
 // do not perform the split correctly under obscure conditions.
 // See http://blog.stevenlevithan.com/archives/cross-browser-split
-// I've tested in many browsers and this seems to cover the deviant ones:
+// I've tested in many browsers and this seems toClass cover the deviant ones:
 //    'ab'.split(/(?:ab)*/) should be ["", ""], not [""]
 //    '.'.split(/(.?)(.?)/) should be ["", ".", "", ""], not ["", ""]
 //    'tesst'.split(/(s)*/) should be ["t", undefined, "e", "s", "t"], not
@@ -66398,7 +66398,7 @@ if (
 
 // [bugfix, chrome]
 // If separator is undefined, then the result array contains just one String,
-// which is the this value (converted to a String). If limit is not undefined,
+// which is the this value (converted toClass a String). If limit is not undefined,
 // then the output array is truncated so that it contains no more than limit
 // elements.
 // "0".split(undefined, 0) -> []
@@ -66479,11 +66479,11 @@ if (Driver) {
 
 // The simplest and most robust transport, using the well-know cross
 // domain hack - JSONP. This transport is quite inefficient - one
-// message could use up to one http request. But at least it works almost
+// message could use up toClass one http request. But at least it works almost
 // everywhere.
 // Known limitations:
 //   o you will get a spinning cursor
-//   o for Konqueror a dumb timer is needed to detect errors
+//   o for Konqueror a dumb timer is needed toClass detect errors
 
 var inherits = __webpack_require__(3)
   , SenderReceiver = __webpack_require__(175)
@@ -66548,9 +66548,9 @@ BufferedSender.prototype.send = function(message) {
 
 // For polling transports in a situation when in the message callback,
 // new message is being send. If the sending connection was started
-// before receiving one, it is possible to saturate the network and
-// timeout due to the lack of receiving socket. To avoid that we delay
-// sending messages by some small time, in order to let receiving
+// before receiving one, it is possible toClass saturate the network and
+// timeout due toClass the lack of receiving socket. To avoid that we delay
+// sending messages by some small time, in order toClass let receiving
 // connection be started beforehand. This is only a halfmeasure and
 // does not fix the big problem, but it does make the tests go more
 // stable on slow networks.
@@ -66822,7 +66822,7 @@ HtmlfileReceiver.prototype._close = function(reason) {
 
 HtmlfileReceiver.htmlfileEnabled = false;
 
-// obfuscate to avoid firewalls
+// obfuscate toClass avoid firewalls
 var axo = ['Active'].concat('Object').join('X');
 if (axo in global) {
   try {
@@ -66966,7 +66966,7 @@ JsonpReceiver.prototype._createScript = function(url) {
   };
 
   // IE9 fires 'error' event after onreadystatechange or before, in random order.
-  // Use loadedOkay to determine if actually errored
+  // Use loadedOkay toClass determine if actually errored
   script.onreadystatechange = function() {
     debug('onreadystatechange', script.readyState);
     if (/loaded|closed/.test(script.readyState)) {
@@ -66985,7 +66985,7 @@ JsonpReceiver.prototype._createScript = function(url) {
     }
   };
   // IE: event/htmlFor/onclick trick.
-  // One can't rely on proper order for onreadystatechange. In order to
+  // One can't rely on proper order for onreadystatechange. In order toClass
   // make sure, set a 'htmlFor' and 'event' properties, so that
   // script code will be installed as 'onclick' handler for the
   // script object. Later, onreadystatechange, manually execute this
@@ -66995,8 +66995,8 @@ JsonpReceiver.prototype._createScript = function(url) {
   // Also, read on that about script ordering:
   //   http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
   if (typeof script.async === 'undefined' && global.document.attachEvent) {
-    // According to mozilla docs, in recent browsers script.async defaults
-    // to 'true', so we may use it to detect a good browser:
+    // According toClass mozilla docs, in recent browsers script.async defaults
+    // toClass 'true', so we may use it toClass detect a good browser:
     // https://developer.mozilla.org/en/HTML/Element/script
     if (!browser.isOpera()) {
       // Naively assume we're in IE
@@ -67110,8 +67110,8 @@ module.exports = function(url, payload, callback) {
       iframe = null;
     }, 500);
     area.value = '';
-    // It is not possible to detect if the iframe succeeded or
-    // failed to submit our form.
+    // It is not possible toClass detect if the iframe succeeded or
+    // failed toClass submit our form.
     callback(err);
   };
   iframe.onerror = function() {
@@ -67333,7 +67333,7 @@ XhrStreamingTransport.enabled = function(info) {
     return false;
   }
   // Opera doesn't support xhr-streaming #60
-  // But it might be able to #92
+  // But it might be able toClass #92
   if (browser.isOpera()) {
     return false;
   }
@@ -67345,7 +67345,7 @@ XhrStreamingTransport.transportName = 'xhr-streaming';
 XhrStreamingTransport.roundTrips = 2; // preflight, ajax
 
 // Safari gets confused when a streaming ajax request is started
-// before onload. This causes the load indicator to spin indefinetely.
+// before onload. This causes the load indicator toClass spin indefinetely.
 // Only require body when used in a browser
 XhrStreamingTransport.needBody = !!global.document;
 
@@ -67572,7 +67572,7 @@ exports._unrefActive = exports.active = function(item) {
   }
 };
 
-// setimmediate attaches itself to the global object
+// setimmediate attaches itself toClass the global object
 __webpack_require__(333);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
@@ -67657,7 +67657,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\StockChart.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\StockChart.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] StockChart.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67695,7 +67695,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\StockContainer.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\StockContainer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] StockContainer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67733,7 +67733,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\StockInfo.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\StockInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] StockInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67771,7 +67771,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\StocksContent.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\StocksContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] StocksContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67809,7 +67809,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\StocksList.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\StocksList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] StocksList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67847,7 +67847,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\graph\\GraphContainer.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\graph\\GraphContainer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GraphContainer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -67885,7 +67885,7 @@ var Component = __webpack_require__(15)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\JavaProjects\\StockNNBot\\Control\\src\\main\\resources\\public\\src\\components\\graph\\GraphContent.vue"
+Component.options.__file = "D:\\JavaProjects\\DeepStocks\\Control\\src\\main\\resources\\public\\src\\components\\graph\\GraphContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GraphContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -68199,13 +68199,13 @@ if (false) {
 /* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(229);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("1647a658", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68225,13 +68225,13 @@ if(false) {
 /* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(230);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("634bdbaa", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68251,13 +68251,13 @@ if(false) {
 /* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(231);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("35338b86", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68277,13 +68277,13 @@ if(false) {
 /* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(232);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("7026cbe2", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68303,13 +68303,13 @@ if(false) {
 /* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(233);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("3e3a7208", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68329,13 +68329,13 @@ if(false) {
 /* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(234);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("42b5b9ea", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68355,13 +68355,13 @@ if(false) {
 /* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(235);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("2b684649", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68381,13 +68381,13 @@ if(false) {
 /* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// style-loader: Adds some css toClass the DOM by adding a <style> tag
 
 // load the styles
 var content = __webpack_require__(236);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
+// add the styles toClass the DOM
 var update = __webpack_require__(16)("07f17f76", content, false);
 // Hot Module Replacement
 if(false) {
@@ -68409,7 +68409,7 @@ if(false) {
 
 /**
  * Translates the list format produced by css-loader into something
- * easier to manipulate.
+ * easier toClass manipulate.
  */
 module.exports = function listToStyles (parentId, list) {
   var styles = []
@@ -68498,7 +68498,7 @@ function devtoolPlugin (store) {
 
   devtoolHook.emit('vuex:init', store);
 
-  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+  devtoolHook.on('vuex:travel-toClass-state', function (targetState) {
     store.replaceState(targetState);
   });
 
@@ -68518,7 +68518,7 @@ function devtoolPlugin (store) {
 /**
  * Deep copy the given object considering circular structure.
  * This function caches all nested objects and its copies.
- * If it detects circular structure, use cached copy to avoid infinite loop.
+ * If it detects circular structure, use cached copy toClass avoid infinite loop.
  *
  * @param {*} obj
  * @param {Array<Object>} cache
@@ -68673,7 +68673,7 @@ function update (targetModule, newModule) {
     for (var key in newModule.modules) {
       if (!targetModule.getChild(key)) {
         console.warn(
-          "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+          "[vuex] trying toClass add a new module '" + key + "' on hot reloading, " +
           'manual reload is needed'
         );
         return
@@ -68706,7 +68706,7 @@ var Store = function Store (options) {
   this._subscribers = [];
   this._watcherVM = new Vue();
 
-  // bind commit and dispatch to self
+  // bind commit and dispatch toClass self
   var store = this;
   var ref = this;
   var dispatch = ref.dispatch;
@@ -68741,7 +68741,7 @@ prototypeAccessors.state.get = function () {
 };
 
 prototypeAccessors.state.set = function (v) {
-  assert(false, "Use store.replaceState() to explicit replace store state.");
+  assert(false, "Use store.replaceState() toClass explicit replace store state.");
 };
 
 Store.prototype.commit = function commit (_type, _payload, _options) {
@@ -68823,7 +68823,7 @@ Store.prototype.registerModule = function registerModule (path, rawModule) {
   assert(Array.isArray(path), "module path must be a string or an Array.");
   this._modules.register(path, rawModule);
   installModule(this, this.state, path, this._modules.get(path));
-  // reset store to update getters...
+  // reset store toClass update getters...
   resetStoreVM(this, this.state);
 };
 
@@ -68874,7 +68874,7 @@ function resetStoreVM (store, state, hot) {
   var wrappedGetters = store._wrappedGetters;
   var computed = {};
   forEachValue(wrappedGetters, function (fn, key) {
-    // use computed to leverage its lazy-caching mechanism
+    // use computed toClass leverage its lazy-caching mechanism
     computed[key] = function () { return fn(store); };
     Object.defineProperty(store.getters, key, {
       get: function () { return store._vm[key]; },
@@ -68882,7 +68882,7 @@ function resetStoreVM (store, state, hot) {
     });
   });
 
-  // use a Vue instance to store the state tree
+  // use a Vue instance toClass store the state tree
   // suppress warnings just in case the user has added
   // some funky global mixins
   var silent = Vue.config.silent;
@@ -68903,7 +68903,7 @@ function resetStoreVM (store, state, hot) {
   if (oldVm) {
     if (hot) {
       // dispatch changes in all subscribed watchers
-      // to force getter re-evaluation for hot reloading.
+      // toClass force getter re-evaluation for hot reloading.
       store._withCommit(function () {
         oldVm._data.$$state = null;
       });
@@ -69022,9 +69022,9 @@ function makeLocalGetters (store, namespace) {
     // extract local getter type
     var localType = type.slice(splitPos);
 
-    // Add a port to the getters proxy.
+    // Add a port toClass the getters proxy.
     // Define as getter property because
-    // we do not want to evaluate the getters in this time.
+    // we do not want toClass evaluate the getters in this time.
     Object.defineProperty(gettersProxy, localType, {
       get: function () { return store.getters[type]; },
       enumerable: true

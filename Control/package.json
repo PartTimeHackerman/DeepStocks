@@ -1,7 +1,7 @@
 {
   "name": "StockNNView",
   "version": "0.0.1",
-  "description": "StockNNBot view client",
+  "description": "DeepStocks view client",
   "scripts": {},
   "babel": {
     "presets": [
