@@ -3,7 +3,7 @@ package model.binaryAPI;
 import model.binaryAPI.commands.ticks_history.TicksHistorySend;
 import model.connection.PacketSender;
 import model.connection.Packet;
-import model.data.Candle;
+import model.connection.validation.RequestValidator;
 import model.data.Stock;
 import model.data.StockProvider;
 import model.connection.packetHandler.TicksHistoryHandler;
@@ -12,47 +12,42 @@ import model.utils.EpochUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 @Component
 public class BinaryCandlesGather {
 	
 	private final PacketSender packetSender;
 	private final TicksHistoryHandler ticksHistoryHandler;
+	private final RequestValidator requestValidator;
 	private Integer count = 5000;
 	
 	@Autowired
-	public BinaryCandlesGather(PacketSender packetSender, TicksHistoryHandler ticksHistoryHandler) {
+	public BinaryCandlesGather(PacketSender packetSender, TicksHistoryHandler ticksHistoryHandler, RequestValidator requestValidator) {
 		this.packetSender = packetSender;
 		this.ticksHistoryHandler = ticksHistoryHandler;
+		this.requestValidator = requestValidator;
 	}
 	
-	public List<Candle> getCandles(Stock stock, Long start, Long end) {
-		List<Candle> candles = new ArrayList<>();
-		
+	public void getCandles(Stock stock, Long epochFrom, Long epochTo) {
 		Integer count = this.count * 60;
 		
-		while (start < end) {
-			Packet packet = getPacket(stock, start, start + count);
-			start += count;
+		while (epochFrom < epochTo) {
+			Packet packet = getPacket(stock, epochFrom, epochFrom + count);
+			epochFrom += count;
 			packetSender.send(packet);
-			//packetSender.sendAndGet(packet);
-			//ticksHistoryHandler.handle(packet);
-			//candles.addAll(ticksHistoryHandler.getCandles(packet));
 		}
-		return candles;
 	}
 	
-	public List<Candle> getLatestCandles(Stock stock) {
+	public void getLatestCandles(Stock stock) {
+		if (stock.getSymbols().stream().filter(symbol -> symbol.getProvider() == StockProvider.BINARY).map(Symbol::getExcluded).findAny().orElse(false))
+			return;
+		
 		Long currentTime = EpochUtil.getCurrentTime();
 		
 		Long start = stock.getStockCandles().isEmpty()
 				? EpochUtil.FirstJanuary2016
 				: stock.getStockCandles().get(stock.getStockCandles().size() - 1).getEpoch();
 		
-		return getCandles(stock, start, currentTime);
+		getCandles(stock, start, currentTime);
 	}
 	
 	private Packet getPacket(Stock stock, Long start, Long end) {

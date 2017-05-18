@@ -8,7 +8,10 @@ import model.exception.InvalidSymbolException;
 import model.exception.StreamingNotAllowedException;
 import model.utils.GsonService;
 import model.utils.MainLogger;
+import vaer.Vaer;
+import vaer.model.Group;
 
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.Optional;
 
@@ -28,12 +31,16 @@ public class BinaryAPI implements ProviderAPI {
 		this(binaryPacketSender, websocketClient, ConnectionType.DIRECT);
 	}
 	
-	public BinaryAPI(BinaryPacketsService binaryPacketSender, WebsocketClient websocketClient, ConnectionType connectionType) {
+	public BinaryAPI(@NotNull BinaryPacketsService binaryPacketSender, @NotNull WebsocketClient websocketClient, @NotNull ConnectionType connectionType) {
 		this.binaryPacketSender = binaryPacketSender;
 		this.connectionType = connectionType;
 		this.websocketClient = websocketClient;
-		websocketClient.addMessageHandler(this::onMessage);
+		this.websocketClient.addMessageHandler(this::onMessage);
 		messageCounter = new MinuteMessagesCounter();
+		
+		Group apis = Vaer.get("Binary APIs").group(websocketClient.getProxy().toString());
+		apis.variable("Messages remained").setVariableGetter(messageCounter::getRemaining);
+		apis.variable("time elapsed").setVariableGetter(() -> ((MinuteMessagesCounter) messageCounter).elapsedTime);
 		
 		
 		/*if(connectionType == ConnectionType.DIRECT)
@@ -45,12 +52,11 @@ public class BinaryAPI implements ProviderAPI {
 		((BinaryMessage) message).setReqId(IdGenerator.getIdInteger());
 		
 		try {
-			packet.setTo(getReceiverClass(packet));
+			packet.setToClass(getReceiverClass(packet));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
-		
 		String json = gson.toJson(message);
 		websocketClient.sendMessage(json);
 		binaryPacketSender.addToPending(packet);
@@ -68,19 +74,21 @@ public class BinaryAPI implements ProviderAPI {
 	private void onMessage(String json) {
 		Response response = gson.fromJson(json, Response.class);
 		Integer id = response.req_id;
-		Optional<Packet> optionalPacket = binaryPacketSender
-				.getPendingMessages()
-				.stream()
-				.filter(m ->
-								m.getSender() instanceof BinaryMessage)
-				.filter(m ->
-								((BinaryMessage)m.getSender()).getReqId().equals(id))
-				.findFirst();
-		
-		if (optionalPacket.isPresent()){
+		Optional<Packet> optionalPacket;
+		synchronized (binaryPacketSender.getPendingMessages()) {
+			optionalPacket = binaryPacketSender
+					.getPendingMessages()
+					.stream()
+					.filter(m ->
+									m.getSender() instanceof BinaryMessage)
+					.filter(m ->
+									((BinaryMessage) m.getSender()).getReqId().equals(id))
+					.findFirst();
+		}
+		if (optionalPacket.isPresent()) {
 			Packet packet = optionalPacket.get();
 			handleResponseError(packet, response);
-			packet.setReceiver(gson.fromJson(json, packet.getTo()));
+			packet.setReceiver(gson.fromJson(json, packet.getToClass()));
 			receive(packet);
 		}
 	}
@@ -92,7 +100,6 @@ public class BinaryAPI implements ProviderAPI {
 	
 	private void handleResponseError(Packet packet, Response response) {
 		if (response.error != null) {
-			MainLogger.log().error("Error: {}", response.error.code);
 			switch (response.error.code) {
 				case "AuthorizationRequired":
 					packet.setException(new AuthorizationException());
@@ -103,12 +110,22 @@ public class BinaryAPI implements ProviderAPI {
 				case "InvalidSymbol":
 					packet.setException(new InvalidSymbolException());
 					break;
+				default:
+					MainLogger.log(this).error(response.error.code);
 			}
 		}
 	}
 	
 	public boolean canSend() {
 		return messageCounter.getRemaining() > 1;
+	}
+	
+	public Boolean isConnected() {
+		return websocketClient.isConnected();
+	}
+	
+	public Boolean reconnect() {
+		return websocketClient.reconnect();
 	}
 	
 	public ConnectionType getConnectionType() {
