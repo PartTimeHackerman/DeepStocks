@@ -12,7 +12,8 @@ import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
 import model.jdbc.dao.*;
 import model.binaryAPI.BinaryPacketsService;
-import org.eclipse.jetty.util.DateCache;
+import model.utils.MainLogger;
+import model.utils.StockExcluder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import spring.websocket.STOMPStocksController;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @SpringBootApplication
 @EnableAutoConfiguration
 @EntityScan({"model.*", "spring"})
@@ -41,7 +46,7 @@ import spring.websocket.STOMPStocksController;
 public class Application implements CommandLineRunner {
 	
 	@Autowired
-	private StockDAO stockDataDAO;
+	private StockDAO stockDAO;
 	
 	@Autowired
 	private StockRepo stockRepo;
@@ -88,9 +93,16 @@ public class Application implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		ticksHistoryHandler.subscribe(candlesDBUpdater);
+		/*List<Stock> stocks = new ArrayList<>();
+		stocksUpdater.updateStocks(stocks);
 		
-		stockRepo.getStocks().forEach(candlesUpdaterDB::updateForStock);
+		stockDAO.save(stocks);*/
+		
+		ticksHistoryHandler.subscribe(candlesDBUpdater);
+		Collection<Stock> stocks = stockRepo.getStocks();
+		StockExcluder.excludeVolatility(stocks);
+		stocks.forEach(candlesUpdaterDB::updateForStock);
+		MainLogger.log(this).info("!!!!!!!!DONE!!!!!!!");
 		
 		/*BinaryData data = stockRepo.getStocks().get(1).getBinaryData();
 		
@@ -151,10 +163,10 @@ public class Application implements CommandLineRunner {
 
 		candlesUpdaterDB.updateForStocks(stockRepo.getStocks());
 
-		stockDataDAO.save(stockRepo.getStocks());
+		stockDAO.save(stockRepo.getStocks());
 
 		MainLogger.log().info("Done!xD");
-		//stockDataDAO.save(stock);
+		//stockDAO.save(stock);
 		//System.exit(0);*/
 		
 	}

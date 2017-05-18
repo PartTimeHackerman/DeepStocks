@@ -17,7 +17,7 @@ public class STOMPSessionsManager {
 		
 		usersSessions.get(user).add(session);
 		
-		MainLogger.log().debug(usersSessions);
+		MainLogger.log(this).debug(usersSessions);
 	}
 	
 	public void removeUserSession(String user, String session) {

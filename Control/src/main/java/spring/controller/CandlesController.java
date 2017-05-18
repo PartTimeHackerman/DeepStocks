@@ -50,7 +50,7 @@ public class CandlesController {
 			@RequestParam(value = "granularity", defaultValue = "1000", required = false) Integer granularity) throws IOException {
 		Long time = System.currentTimeMillis();
 		List<Candle> candles = candleDAO.findByStockIdAndEpochBetweenOrderByEpochDescWithGranularity(stockId, start, end, granularity);
-		MainLogger.log().debug("getCandlesWithGranularity: {} ms", System.currentTimeMillis() - time);
+		MainLogger.log(this).debug("getCandlesWithGranularity: {} ms", System.currentTimeMillis() - time);
 		return candles;
 	}
 	

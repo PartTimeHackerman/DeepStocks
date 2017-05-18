@@ -1,23 +1,18 @@
 package spring.websocket;
 
 import model.data.BinaryData;
-import model.data.Stock;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-import sun.net.www.MessageHeader;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Controller
 public class STOMPStocksController {
@@ -41,7 +36,7 @@ public class STOMPStocksController {
 	@MessageMapping("/endpoint/message")
 	@SendToUser(destinations = "/queue/message", broadcast = false)
 	public Long wsTest(Long epoch, Message<Object> message) throws Exception {
-		MainLogger.log().debug(message);
+		MainLogger.log(this).debug(message);
 		return epoch + 111;
 		
 	}
@@ -53,7 +48,7 @@ public class STOMPStocksController {
 	
 	public void sendTimeToAllUsers(Long epoch) {
 		Consumer<String> sendTime = sessionID -> {
-			MainLogger.log().debug("Epoch sent to: {}", sessionID);
+			MainLogger.log(this).debug("Epoch sent to: {}", sessionID);
 			MessageHeaders messageHeaders = getMessageHeaders(sessionID);
 			this.template.convertAndSendToUser(sessionID, "/queue/message", epoch, messageHeaders);
 		};
