@@ -18,8 +18,15 @@ public class GsonSerializer {
 	
 	private static final Gson gson = new Gson();
 	
+	public static String toJson(Object o){
+		return gson.toJson(o);
+	}
 	
-	public static List<Stock> loadStocksData() {
+	public static <T> T fromJson(Class<T> clazz, String json){
+		return gson.fromJson(json, clazz);
+	}
+	
+	/*public static List<Stock> loadStocksData() {
 		return loadJsons("stocks/", Stock.class);
 	}
 	
@@ -70,6 +77,6 @@ public class GsonSerializer {
 		
 		if(!file.exists())
 			file.mkdirs();
-	}
+	}*/
 	
 }
