@@ -1,8 +1,8 @@
 package model.connection.proxy;
 
-import org.scraper.main.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scraper.Proxy;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +50,7 @@ public class UnrepeatedProxyProvider implements ProxyProvider {
 	public void addProxy(Proxy proxy) {
 		if (!usedProxies.contains(proxy))
 			proxies.add(proxy);
+		proxies.sort(Comparator.comparingLong(Proxy::getSpeed));
 	}
 	
 	private void requireNewProxies() {

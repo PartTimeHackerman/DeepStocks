@@ -18,6 +18,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -55,6 +56,7 @@ public class Stock implements Serializable{
 	@ReverseResourceRelation
 	private List<Symbol> symbols;
 	
+	@Transient
 	@OneToMany(mappedBy = "stock")
 	@SerializedName("stockCandles")
 	@Expose
@@ -99,6 +101,7 @@ public class Stock implements Serializable{
 			return getStockCandlesByAnnotations();
 		
 		stockCandles = candleDAO.findTopLimitByStockidOrderByEpoch(id, 1440);
+		Collections.reverse(stockCandles);
 		return stockCandles;
 	}
 	

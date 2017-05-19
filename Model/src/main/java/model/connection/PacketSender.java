@@ -1,7 +1,9 @@
 package model.connection;
 
 import model.binaryAPI.BinaryMessage;
+import model.connection.validation.RequestValidator;
 import model.data.StockProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,30 +11,36 @@ public class PacketSender {
 	
 	private ProviderSender binaryPacketSender;
 	
-	public PacketSender(ProviderSender binaryPacketSender){
+	private final RequestValidator requestValidator;
+	
+	@Autowired
+	public PacketSender(ProviderSender binaryPacketSender, RequestValidator requestValidator) {
 		this.binaryPacketSender = binaryPacketSender;
+		this.requestValidator = requestValidator;
 	}
 	
-	public void send(Message message){
+	public void send(Message message) {
 		send(new Packet(message));
 	}
 	
-	public void send(Packet packet){
-		StockProvider provider = getProvider(packet.getSender());
-		
-		switch (provider){
+	public void send(Packet packet) {
+		requestValidator.addToSent(packet);
+		StockProvider provider = getProvider(packet);
+		if (provider == null)
+			return;
+		switch (provider) {
 			case BINARY:
-				 binaryPacketSender.send(packet);
+				binaryPacketSender.send(packet);
 		}
 	}
 	
-	public Message sendAndGet(Message message){
+	public Message sendAndGet(Message message) {
 		return sendAndGet(new Packet(message)).getReceiver();
 	}
 	
-	public Packet sendAndGet(Packet packet){
+	public Packet sendAndGet(Packet packet) {
 		packet.setWait(true);
-		synchronized (packet){
+		synchronized (packet) {
 			try {
 				send(packet);
 				packet.wait();
@@ -44,8 +52,9 @@ public class PacketSender {
 		}
 	}
 	
-	private StockProvider getProvider(Message message){
-		if(message instanceof BinaryMessage)
+	private StockProvider getProvider(Packet packet) {
+		Message message = packet.getSender();
+		if (message instanceof BinaryMessage)
 			return StockProvider.BINARY;
 		return null;
 	}

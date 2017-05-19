@@ -1,6 +1,7 @@
 package model.connection.proxy;
 
-import org.scraper.main.Proxy;
+
+import scraper.Proxy;
 
 public interface ProxyProvider {
 	

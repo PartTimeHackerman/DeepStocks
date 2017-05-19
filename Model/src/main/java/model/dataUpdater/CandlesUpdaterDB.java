@@ -24,14 +24,12 @@ public class CandlesUpdaterDB implements ICandlesUpdater {
 	}
 	
 	@Override
-	public void updateStock(Stock stock) {
-		List<Candle> candles = binaryCandlesGather.getLatestCandles(stock);
-		candles.forEach(candle -> candle.setStock(stock));
-		candleDAO.getCrudDAO().save(candles);
+	public void updateForStock(Stock stock) {
+		binaryCandlesGather.getLatestCandles(stock);
 	}
 	
 	@Override
-	public void updateStocks(Collection<Stock> stocks) {
-		stocks.forEach(this::updateStock);
+	public void updateForStocks(Collection<Stock> stocks) {
+		stocks.forEach(this::updateForStock);
 	}
 }

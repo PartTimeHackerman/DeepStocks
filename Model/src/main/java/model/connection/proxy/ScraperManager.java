@@ -1,13 +1,12 @@
 package model.connection.proxy;
 
 import model.utils.MainLogger;
-import org.scraper.MVC.model.SitesUtility;
-import org.scraper.main.Proxy;
-import org.scraper.main.Scraper;
-import org.scraper.main.data.Site;
-import org.scraper.main.data.SitesRepo;
 import org.springframework.stereotype.Component;
+import scraper.Proxy;
+import scraper.Scraper;
+import scraper.data.Site;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
 
 @Component
@@ -66,7 +65,10 @@ public class ScraperManager {
 	}
 	
 	private Collection<Site> getSitesWithAvgWorkingProxies(Integer minWorking) {
-		Collection<Site> sites = scraper.getSitesUtility().getSitesFilter().filterAvgWorking(5, scraper.getSitesRepo().getAll());
+		List<Site> sites = new ArrayList<>(scraper.getSitesUtility().getSitesFilter().filterAvgWorking(5, scraper.getSitesRepo().getAll()));
+		sites.removeIf(site -> site.getAvgProxies()<=0);
+		sites.sort(Comparator.comparingDouble(s -> ((double)s.getAvgWorkingProxies() / s.getAvgProxies())));
+		Collections.reverse(sites);
 		return sites;
 	}
 	
@@ -90,12 +92,12 @@ public class ScraperManager {
 	}*/
 	
 	public void scrapeNextSite() {
-		if(scraper == null)
+		if (scraper == null)
 			create();
 		
 		scraper.getLimiter().clear();
 		scraper.getLimiter().setLimit(maxProxiesToScrape);
-		if(isScraping())
+		if (isScraping())
 			return;
 		Site site = sitesCycle.remove(0);
 		sitesCycle.add(site);

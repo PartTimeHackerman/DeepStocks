@@ -1,7 +1,7 @@
 package model.connection.proxy;
 
-import org.scraper.main.Proxy;
 import org.springframework.stereotype.Service;
+import scraper.Proxy;
 
 import java.util.Vector;
 

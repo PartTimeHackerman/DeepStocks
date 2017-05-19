@@ -10,6 +10,7 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vaer.Vaer;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -28,8 +29,7 @@ public class CandlesDBUpdater implements HandlerConsumer<TicksHistoryHandler.Sto
 	@Autowired
 	public CandlesDBUpdater(CandleDAOImpl candleDAO) {
 		this.candleDAO = candleDAO;
-		Interval.doEvery(3L, TimeUnit.SECONDS, () ->
-				MainLogger.log().debug("Candles Database updater queue size: {}", executorQueueSize));
+		Vaer.get().group(getClass().getSimpleName()).variable("Candles Database updater queue size").setVariableGetter(executorQueueSize::get);
 	}
 	
 	@Override
@@ -45,13 +45,14 @@ public class CandlesDBUpdater implements HandlerConsumer<TicksHistoryHandler.Sto
 		List<Candle> candles = stockCandlesWrapper.getCandles();
 		Stock stock = stockCandlesWrapper.getStock();
 		
+		//MainLogger.log(this).info("Adding candles to DB");
 		candles.forEach(candle -> candle.setStock(stock));
 		candleDAO.getCrudDAO().save(candles);
 	}
 	
 	@Override
 	public void onSubscribe(Subscription s) {
-		MainLogger.log().debug("{} subscribed", this);
+		MainLogger.log(this).debug("{} subscribed", this);
 		s.request(Long.MAX_VALUE);
 	}
 	
@@ -62,11 +63,11 @@ public class CandlesDBUpdater implements HandlerConsumer<TicksHistoryHandler.Sto
 	
 	@Override
 	public void onError(Throwable t) {
-		MainLogger.log().error(t);
+		MainLogger.log(this).error(t);
 	}
 	
 	@Override
 	public void onComplete() {
-		MainLogger.log().error("{} completed", this);
+		MainLogger.log(this).error("{} completed", this);
 	}
 }

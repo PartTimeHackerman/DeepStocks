@@ -8,9 +8,10 @@ import model.data.Stock;
 import model.data.StockProvider;
 import model.data.Symbol;
 import model.factory.StockFactory;
-import model.packetHandler.ActiveSymbolsHandler;
+import model.connection.packetHandler.ActiveSymbolsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 
 @Component
@@ -26,33 +27,36 @@ public class StocksUpdater implements IStockUpdater {
 		this.stockFactory = stockFactory;
 	}
 	
+	/* Update only provided stock binary data*/
 	@Override
 	public void updateStock(Stock stock) {
-		Collection<BinaryData> binaryDatas = getBinaryData();
+		Collection<BinaryData> binaryDatas = fetchBinaryDatas();
 		BinaryData binaryData = binaryDatas.stream()
 				.filter(bd ->
 								bd.getDisplayName().equals(stock.getName()))
 				.findFirst()
 				.orElse(null);
 		
-		if(binaryData != null)
+		if (binaryData != null)
 			stock.setBinaryData(binaryData);
-			
+		
 	}
 	
 	@Override
 	public void updateStocks(Collection<Stock> stocks) {
-		Collection<BinaryData> binaryDatas = getBinaryData();
+		Collection<BinaryData> binaryDatas = fetchBinaryDatas();
 		updateStocksBinaryData(stocks, binaryDatas);
 	}
 	
-	private Collection<BinaryData> getBinaryData() {
+	/*Fetch all binary datas from binary ws*/
+	private Collection<BinaryData> fetchBinaryDatas() {
 		Packet packet = packetSender.sendAndGet(new Packet(new ActiveSymbolsSend()));
 		ActiveSymbolsHandler activeSymbolsHandler = new ActiveSymbolsHandler();
 		activeSymbolsHandler.handle(packet);
 		return activeSymbolsHandler.getBinaryData();
 	}
 	
+	/* Update all stocks binary datas, if stock doesn't exists get new one from stock factory */
 	private void updateStocksBinaryData(Collection<Stock> stocks, Collection<BinaryData> binaryDatas) {
 		for (BinaryData binaryData : binaryDatas) {
 			String name = binaryData.getDisplayName();
@@ -61,9 +65,9 @@ public class StocksUpdater implements IStockUpdater {
 									s.getName().equals(name))
 					.findFirst()
 					.orElse(null);
-			if(stock == null)
-				stock = stockFactory.getByName(name);
 			
+			if (stock == null)
+				stock = stockFactory.getByName(name);
 			
 			stock.setBinaryData(binaryData);
 			

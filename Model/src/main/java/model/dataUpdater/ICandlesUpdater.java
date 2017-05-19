@@ -6,8 +6,8 @@ import java.util.Collection;
 
 public interface ICandlesUpdater {
 	
-	void updateStock(Stock stock);
+	void updateForStock(Stock stock);
 	
-	void updateStocks(Collection<Stock> stocks);
+	void updateForStocks(Collection<Stock> stocks);
 	
 }

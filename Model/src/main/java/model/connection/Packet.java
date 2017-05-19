@@ -1,14 +1,20 @@
 package model.connection;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Packet {
 	
 	private Message sender;
 	
 	private Message receiver;
 	
-	private Class to;
+	private Class toClass;
 	
 	private Object optional;
 	
@@ -27,60 +33,7 @@ public class Packet {
 		this.optional = optional;
 	}
 	
-	public Message getSender() {
-		return sender;
-	}
-	
-	public void setSender(Message sender) {
-		this.sender = sender;
-	}
-	
-	public Message getReceiver() {
-		return receiver;
-	}
-	
-	public void setReceiver(Message receiver) {
-		this.receiver = receiver;
-	}
-	
 	public void setReceiver(Object receiver) {
 		this.receiver = (Message) receiver;
-	}
-	
-	public Class getTo() {
-		return to;
-	}
-	
-	public void setTo(Class to) {
-		this.to = to;
-	}
-	
-	public Object getOptional() {
-		return optional;
-	}
-	
-	public void setOptional(Object optional) {
-		this.optional = optional;
-	}
-	
-	public boolean isWait() {
-		return wait;
-	}
-	
-	public void setWait(boolean wait) {
-		this.wait = wait;
-	}
-	
-	@Override
-	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
-	}
-	
-	public Exception getException() {
-		return exception;
-	}
-	
-	public void setException(Exception exception) {
-		this.exception = exception;
 	}
 }

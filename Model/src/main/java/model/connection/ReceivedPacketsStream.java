@@ -1,16 +1,15 @@
 package model.connection;
 
 import io.reactivex.subscribers.DisposableSubscriber;
+import model.connection.validation.RequestValidator;
 import org.reactivestreams.Subscriber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.stereotype.Component;
 import model.connection.packetHandler.PacketHandler;
 import model.utils.MainLogger;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
-import java.util.Vector;
 import java.util.function.Predicate;
 
 
@@ -20,13 +19,16 @@ public class ReceivedPacketsStream extends SimpleStream<Packet> {
 	@Autowired
 	private Collection<PacketHandler> handlers;
 	
-	public ReceivedPacketsStream() {
+	private final RequestValidator requestValidator;
+	
+	@Autowired
+	public ReceivedPacketsStream(RequestValidator requestValidator) {
 		super();
+		this.requestValidator = requestValidator;
 	}
 	
 	@PostConstruct
 	public void addHandlers(){
-		
 		handlers.forEach(this::addHandler);
 	}
 	
@@ -34,12 +36,12 @@ public class ReceivedPacketsStream extends SimpleStream<Packet> {
 		Subscriber<Packet> subscriber = new DisposableSubscriber<Packet>() {
 			@Override
 			public void onComplete() {
-				MainLogger.log().info("{} COMPLETED", this);
+				MainLogger.log(this).info("{} COMPLETED", this);
 			}
 			
 			@Override
 			public void onError(Throwable e) {
-				MainLogger.log().info("{} {}", this, e);
+				MainLogger.log(this).info("{} {}", this, e);
 			}
 			
 			@Override
@@ -53,9 +55,9 @@ public class ReceivedPacketsStream extends SimpleStream<Packet> {
 		return this;
 	}
 	
-	@Override
-	public void submit(Packet o) {
-		super.submit(o);
+	public void receive(Packet packet) {
+		requestValidator.setPacketReceived(packet);
+		super.submit(packet);
 	}
 	
 }

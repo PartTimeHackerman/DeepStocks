@@ -4,9 +4,9 @@ import model.connection.ConnectionType;
 import model.connection.proxy.UnrepeatedProxyProvider;
 import model.utils.MainLogger;
 import model.utils.Timeout;
-import org.scraper.main.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scraper.Proxy;
 
 import javax.websocket.DeploymentException;
 import java.io.IOException;
@@ -32,11 +32,11 @@ public class WebsocketFactory {
 			String ip = proxy.getIp();
 			String port = proxy.getPort().toString();
 			
-			Optional<WebsocketClient> websocketClientOptional = Timeout.after(() -> new WebsocketClient(uri, ip, port), 5L, TimeUnit.SECONDS);
+			Optional<WebsocketClient> websocketClientOptional = Timeout.after(() -> new WebsocketClient(uri, proxy), 5L, TimeUnit.SECONDS);
 			if (websocketClientOptional.isPresent())
 				return websocketClientOptional.get();
 			else {
-				MainLogger.log().warn("Websocket connection timeout");
+				MainLogger.log(this).warn("Websocket connection timeout");
 				return getWebsocketClient(uri, connectionType);
 			}
 		}

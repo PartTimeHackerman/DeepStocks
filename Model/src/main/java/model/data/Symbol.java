@@ -18,7 +18,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString(exclude = "stock")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Symbol implements Serializable{
+public class Symbol implements Serializable {
 	
 	@Id
 	@Column(name = "stockId")
@@ -37,7 +37,11 @@ public class Symbol implements Serializable{
 	@Column(name = "symbol")
 	private String symbol;
 	
-	public Symbol(){}
+	@Column(name = "excluded")
+	private Boolean excluded = false;
+	
+	public Symbol() {
+	}
 	
 	public Symbol(StockProvider stockProvider, String symbol) {
 		provider = stockProvider;
@@ -45,22 +49,7 @@ public class Symbol implements Serializable{
 	}
 	
 	@Override
-	public boolean equals(Object o){
-		return o instanceof Symbol && ((Symbol) o).getProvider() ==  provider && ((Symbol) o).getSymbol().equals(symbol);
-	}
-	
-	@Data
-	@EqualsAndHashCode
-	public static class SymbolPK implements Serializable {
-		
-		@ManyToOne
-		@JoinColumn(name="stockId", referencedColumnName="id", insertable = false, updatable = false)
-		private Stock stock;
-		
-		private StockProvider provider;
-		
-		private String symbol;
-		
-		public SymbolPK(){}
+	public boolean equals(Object o) {
+		return o instanceof Symbol && ((Symbol) o).getProvider() == provider && ((Symbol) o).getSymbol().equals(symbol);
 	}
 }
