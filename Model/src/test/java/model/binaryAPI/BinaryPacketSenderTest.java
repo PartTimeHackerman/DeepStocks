@@ -1,7 +1,5 @@
 package model.binaryAPI;
 
-import static org.junit.Assert.*;
-
 import model.SpringTest;
 import model.binaryAPI.commands.ticks_history.TicksHistorySend;
 import model.connection.Packet;
@@ -11,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BinaryPacketSenderTest extends SpringTest {
 	
 	@Autowired
-	private BinaryPacketSender binaryPacketSender;
+	private BinaryPacketsService binaryPacketSender;
 	
 	@Test
 	public void send() throws Exception {

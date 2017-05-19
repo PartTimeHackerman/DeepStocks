@@ -40,7 +40,7 @@ public class BinaryAPI implements ProviderAPI {
 		
 		Group apis = Vaer.get("Binary APIs").group(websocketClient.getProxy().toString());
 		apis.variable("Messages remained").setVariableGetter(messageCounter::getRemaining);
-		apis.variable("time elapsed").setVariableGetter(() -> ((MinuteMessagesCounter) messageCounter).elapsedTime);
+		apis.variable("time elapsed").setVariableGetter(messageCounter::getElapsedTime);
 		
 		
 		/*if(connectionType == ConnectionType.DIRECT)

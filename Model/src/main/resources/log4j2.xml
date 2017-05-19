@@ -6,8 +6,9 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="trace">
+        <Root level="off">
             <AppenderRef ref="Console"/>
         </Root>
+        <logger name="org" additivity="false" level="off"/>
     </Loggers>
 </Configuration>

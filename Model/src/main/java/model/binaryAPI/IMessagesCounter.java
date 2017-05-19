@@ -7,4 +7,6 @@ public interface IMessagesCounter {
 	void reset();
 	
 	Integer getRemaining();
+	
+	Integer getElapsedTime();
 }

@@ -2,8 +2,8 @@ package model.connection.proxy;
 
 import model.SpringTest;
 import org.junit.Test;
-import org.scraper.main.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import scraper.Proxy;
 
 import static org.junit.Assert.assertNotNull;
 

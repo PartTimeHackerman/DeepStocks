@@ -48,4 +48,9 @@ public class MinuteMessagesCounter implements IMessagesCounter {
 		setTime();
 		return messagesLimit - sendMessages;
 	}
+	
+	@Override
+	public Integer getElapsedTime() {
+		return elapsedTime;
+	}
 }

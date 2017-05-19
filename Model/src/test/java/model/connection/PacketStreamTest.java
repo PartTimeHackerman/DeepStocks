@@ -1,34 +1,39 @@
 package model.connection;
 
+import io.reactivex.Observable;
+import io.reactivex.subscribers.DisposableSubscriber;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+import java.util.function.Predicate;
 
 import static org.junit.Assert.assertTrue;
 
 public class PacketStreamTest {
 	
 	static ReceivedPacketsStream stream;
-	
 	static Subscriber<Packet> subscriber;
-	
-	static Func1<Packet, Boolean> filter;
+	static Predicate<Packet> filter;
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
-		stream = new ReceivedPacketsStream();
+		stream = new ReceivedPacketsStream(null);
 		subscriber = new Subscriber<Packet>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 				System.out.println("done");
 			}
 			
 			@Override
 			public void onError(Throwable e) {
 				System.out.println("error");
+			}
+			
+			@Override
+			public void onSubscribe(Subscription s) {
+			
 			}
 			
 			@Override
@@ -50,24 +55,24 @@ public class PacketStreamTest {
 	public void subscribe() throws Exception {
 		
 		stream.subscribe(subscriber);
-		assertTrue(stream.getSubscriberMap().size()==1);
+		assertTrue(stream.getSubscribersMap().size()==1);
 	}
 	
 	@Test
 	public void subscribe1() throws Exception {
 		stream.subscribe(subscriber, filter);
-		assertTrue(stream.getSubscriberMap().size()==1);
+		assertTrue(stream.getSubscribersMap().size()==1);
 	}
 	
 	@Test
 	public void submit() throws Exception {
-		Observable.range(0,10).subscribe(i -> stream.submit(new Packet(null, i)));
+		Observable.range(0, 10).subscribe(i -> stream.receive(new Packet(null, i)));
 	}
 	
 	@Test
 	public void unsubscribe() throws Exception {
-		stream.unsubscribe(subscriber);
-		assertTrue(stream.getSubscriberMap().size()==0);
+		stream.unsubscribe((DisposableSubscriber<Packet>) subscriber);
+		assertTrue(stream.getSubscribersMap().size()==0);
 	}
 	
 }

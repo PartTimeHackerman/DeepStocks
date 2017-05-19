@@ -1,18 +1,18 @@
 package model;
 
 import model.utils.MainLogger;
-import org.scraper.main.Scraper;
+import scraper.Scraper;
 
 public class Test {
 	
 	public static void main(String[] args) {
-		Scraper scraper = new Scraper(100, 10000,0,false,2,2);
+		Scraper scraper = new Scraper(100, 10000, 0, false, 2, 2);
 		
-		MainLogger.log().info("scraper created");
+		MainLogger.log(Test.class).info("scraper created");
 		
 		scraper.dispose();
 		
-		MainLogger.log().info("scraper disposed");
+		MainLogger.log(Test.class).info("scraper disposed");
 		
 		
 	}
