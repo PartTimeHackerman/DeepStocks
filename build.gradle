@@ -29,9 +29,15 @@ buildscript {
     }
 }
 
-dependencies {
-    //compile project(':Model')
-    compile project(':Control')
+jar {
+    baseName = 'DeepStocks'
+    version = '0.1.0'
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 repositories {
@@ -39,11 +45,10 @@ repositories {
     jcenter()
 }
 
-jar {
-    baseName = 'StockNNBot'
-    version = '0.1.0'
+dependencies {
+    //compile project(':Model')
+    compile project(':Control')
 }
-
 subprojects {
 
     apply plugin: 'idea'
@@ -53,12 +58,18 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 
     ext['hibernate.version'] = '5.2.9.Final'
     dependencies {
-        testCompile 'org.junit.jupiter:junit-jupiter-api:5.+'
-        testCompile 'org.junit.vintage:junit-vintage-engine:4.+'
+
+        testCompile("org.junit.jupiter:junit-jupiter-api:5.0.0-M3")
+        testCompile("org.junit.platform:junit-platform-runner:1.0.0-M3")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M3")
+        //testCompile 'org.junit.platform:junit-platform-launcher:1.+'
+        //testCompile 'org.junit.jupiter:junit-jupiter-api:5.+'
+        //testCompile 'org.junit.vintage:junit-vintage-engine:4.+'
         testCompile 'org.mockito:mockito-core:2.+'
         ////////////////////////// SPRING //////////////////////////
 
@@ -84,7 +95,7 @@ subprojects {
 
         //compile("com.h2database:h2")
 
-        compile("org.springframework.boot:spring-boot-starter-data-jpa"){
+        compile("org.springframework.boot:spring-boot-starter-data-jpa") {
             //exclude group: 'org.hibernate', module: 'hibernate-core'
         }
 
@@ -127,6 +138,7 @@ subprojects {
         // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
         compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.9'
 
+        compile 'com.github.PartTimeHackerman:Vaer:master-SNAPSHOT'
 
     }
 }

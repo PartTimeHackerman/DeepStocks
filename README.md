@@ -11,7 +11,7 @@ That's why I made this project, let's computers handle that's what peoples just 
 ## Project is divided into three modules:
 - [Model]: 'M' in 'MVC'. Consist of whole buisness logic.
 
-    Made with Spring (Boot, Data), Hibernate, (my own :>) [Proxy] Srcaper. Using PostgreSQL DB.
+    Made with Spring (Boot, Data), Hibernate, [ProxySrcaper]. Using PostgreSQL DB.
 - [Control]: 'C' and 'V' in 'MVC'. All Spring Controllers and main Application are here.
 It's also contains the clinet view, and by that I mean the bunch of JavaScript frameworks.
 
@@ -20,6 +20,7 @@ It's also contains the clinet view, and by that I mean the bunch of JavaScript f
 
     Made with Tensorflow and Python.
 
-    [Model]: <https://github.com/WorstCoder/DeepStocks/tree/master/Model>
-    [Control]: <https://github.com/WorstCoder/DeepStocks/tree/master/Control>
-    [AI]: <https://github.com/WorstCoder/DeepStocks/tree/master/AI>
+    [Model]: <https://github.com/PartTimeHackerman/DeepStocks/tree/master/Model>
+    [Control]: <https://github.com/PartTimeHackerman/DeepStocks/tree/master/Control>
+    [AI]: <https://github.com/PartTimeHackerman/DeepStocks/tree/master/AI>
+    [ProxySrcaper]: <https://github.com/PartTimeHackerman/ProxyScraper>
