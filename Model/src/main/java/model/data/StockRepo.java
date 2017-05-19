@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Component
@@ -39,5 +41,14 @@ public class StockRepo {
 		if (stocks.isEmpty())
 			findAll();
 		return stocks;
+	}
+	
+	public Optional<Stock> findBySymbol(String symbol){
+		return stocks.stream()
+				.map(Stock::getSymbols)
+				.flatMap(Collection::stream)
+				.filter(s -> s.getSymbol().equals(symbol))
+				.map(Symbol::getStock)
+				.findFirst();
 	}
 }
