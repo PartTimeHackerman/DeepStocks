@@ -33,7 +33,7 @@ public class TicksHistoryHandler extends SimpleStream<TicksHistoryHandler.StockC
 	public void handle(Packet packet) {
 		Stock stock = getStock((Integer) packet.getOptional());
 		List<Candle> candles = getCandles(packet);
-		validateResponse(stock, candles);
+		validateResponse(packet);
 		
 		StockCandlesWrapper stockCandlesWrapper = new StockCandlesWrapper(stock, candles);
 		submit(stockCandlesWrapper);
@@ -56,11 +56,8 @@ public class TicksHistoryHandler extends SimpleStream<TicksHistoryHandler.StockC
 		return ticksReceive.getCandles();
 	}
 	
-	private void validateResponse(Stock stock, Collection<Candle> candles) {
-		if (candles.isEmpty())
-			return;
-		Long epochFrom = candles.stream().map(Candle::getEpoch).min(Comparator.comparingLong(v -> v)).get();
-		Long epochTo = candles.stream().map(Candle::getEpoch).max(Comparator.comparingLong(v -> v)).get();
+	private void validateResponse(Packet packet) {
+		requestValidator.setPacketReceived(packet);
 	}
 	
 	@Data

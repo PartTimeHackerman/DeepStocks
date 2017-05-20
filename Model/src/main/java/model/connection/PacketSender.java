@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PacketSender {
 	
-	private ProviderSender binaryPacketSender;
-	
+	private final ProviderSender binaryPacketSender;
 	private final RequestValidator requestValidator;
 	
 	@Autowired

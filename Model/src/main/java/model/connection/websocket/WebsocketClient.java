@@ -20,7 +20,6 @@ public class WebsocketClient {
 	private URI uri;
 	private Proxy proxy;
 	
-	
 	public WebsocketClient(URI uri) throws IOException, DeploymentException {
 		this(uri, null);
 	}

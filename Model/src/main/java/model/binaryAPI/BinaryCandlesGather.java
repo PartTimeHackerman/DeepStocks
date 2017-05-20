@@ -16,15 +16,11 @@ import org.springframework.stereotype.Component;
 public class BinaryCandlesGather {
 	
 	private final PacketSender packetSender;
-	private final TicksHistoryHandler ticksHistoryHandler;
-	private final RequestValidator requestValidator;
-	private Integer count = 5000;
+	private Integer count = 1000;
 	
 	@Autowired
-	public BinaryCandlesGather(PacketSender packetSender, TicksHistoryHandler ticksHistoryHandler, RequestValidator requestValidator) {
+	public BinaryCandlesGather(PacketSender packetSender) {
 		this.packetSender = packetSender;
-		this.ticksHistoryHandler = ticksHistoryHandler;
-		this.requestValidator = requestValidator;
 	}
 	
 	public void getCandles(Stock stock, Long epochFrom, Long epochTo) {

@@ -34,20 +34,17 @@ public class CandlesDBUpdater implements HandlerConsumer<TicksHistoryHandler.Sto
 	
 	@Override
 	public void consume(TicksHistoryHandler.StockCandlesWrapper stockCandlesWrapper) {
-		executorQueueSize.incrementAndGet();
-		threadExecutor.submit(() -> {
-			addToDB(stockCandlesWrapper);
-			executorQueueSize.decrementAndGet();
-		});
+		threadExecutor.submit(() -> addToDB(stockCandlesWrapper));
 	}
 	
 	private void addToDB(TicksHistoryHandler.StockCandlesWrapper stockCandlesWrapper) {
 		List<Candle> candles = stockCandlesWrapper.getCandles();
 		Stock stock = stockCandlesWrapper.getStock();
-		
+		executorQueueSize.addAndGet(candles.size());
 		//MainLogger.log(this).info("Adding candles to DB");
 		candles.forEach(candle -> candle.setStock(stock));
 		candleDAO.getCrudDAO().save(candles);
+		executorQueueSize.set(executorQueueSize.get() - candles.size());
 	}
 	
 	@Override

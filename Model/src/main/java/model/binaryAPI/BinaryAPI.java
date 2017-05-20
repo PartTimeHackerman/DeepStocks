@@ -117,7 +117,7 @@ public class BinaryAPI implements ProviderAPI {
 	}
 	
 	public boolean canSend() {
-		return messageCounter.getRemaining() > 1;
+		return messageCounter.getRemaining() > 0;
 	}
 	
 	public Boolean isConnected() {

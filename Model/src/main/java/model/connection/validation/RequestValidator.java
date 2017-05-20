@@ -2,7 +2,6 @@ package model.connection.validation;
 
 import model.connection.Packet;
 import model.data.PacketBackup;
-import model.data.Stock;
 import model.jdbc.dao.PacketBackupDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,15 +27,14 @@ public class RequestValidator {
 	}
 	
 	public synchronized void setPacketReceived(Packet packet) {
-		PacketBackup backup = backups.stream()
+		backups.stream()
 				.filter(packetBackup ->
 								packet.hashCode() == packetBackup.getHash())
 				.findAny()
-				.orElse(null);
-		if (backup != null) {
-			packetBackupDAO.delete(backup);
-			backups.remove(backup);
-		}
+				.ifPresent(bckup -> {
+					packetBackupDAO.delete(bckup);
+					backups.remove(bckup);
+				});
 	}
 	
 	private PacketBackup persist(Packet packet) {
