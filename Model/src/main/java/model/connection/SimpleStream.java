@@ -4,6 +4,7 @@ import io.reactivex.Flowable;
 import io.reactivex.flowables.ConnectableFlowable;
 import io.reactivex.functions.Predicate;
 import io.reactivex.processors.PublishProcessor;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 import org.reactivestreams.Subscriber;
 
@@ -28,7 +29,9 @@ public abstract class SimpleStream<T> {
 		subscribersMap.put(subscriber, filter::test);
 		stream
 				.filter(filter::test)
-				.onBackpressureBuffer()
+				.parallel()
+				.runOn(Schedulers.io())
+				.sequential()
 				.subscribe(subscriber);
 	}
 	
