@@ -13,9 +13,9 @@ spring:
             portNumber: 5432
             serverName: localhost
         driver-class-name: org.postgresql.Driver
-        idleTimeout: 5001
-        maximumPoolSize: 31
-        minimumIdle: 21
+        idleTimeout: 5000
+        maximumPoolSize: 60
+        minimumIdle: 10
         password: root
         pool-name: HikariConnectionPool
         testWhileIdle: true
@@ -46,9 +46,10 @@ spring:
                 enable_lazy_load_no_trans: true
                 jdbc:
                     batch_size: 100
+                    fetch_size: 100
                     use_get_generated_keys: false
-                order_inserts: true
-                order_updates: true
+                order_inserts: false
+                order_updates: false
                 temp:
                     use_jdbc_metadata_defaults: false
         show-sql: false
