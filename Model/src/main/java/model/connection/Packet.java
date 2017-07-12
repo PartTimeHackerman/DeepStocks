@@ -33,6 +33,12 @@ public class Packet {
 		this.optional = optional;
 	}
 	
+	public boolean equals(Object o){
+		if(o instanceof Packet)
+			return this.sender.equals(((Packet) o).getSender());
+		return false;
+	}
+	
 	public void setReceiver(Object receiver) {
 		this.receiver = (Message) receiver;
 	}
