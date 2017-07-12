@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import model.jdbc.dao.CandleDAO;
+import model.dao.CandleDAO;
 import model.jdbc.resourceProcessor.ReverseResourceRelation;
 import org.hibernate.annotations.*;
 
@@ -17,9 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
@@ -27,7 +25,7 @@ import java.util.List;
 @ToString(exclude = {"binaryData", "stockCandles"})
 @Table(name = "stocks")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Stock implements Serializable{
+public class Stock implements Serializable {
 	
 	@Id
 	@SerializedName("id")
@@ -68,11 +66,15 @@ public class Stock implements Serializable{
 	@JsonIgnore
 	private CandleDAO candleDAO;
 	
-	public Stock(CandleDAO candleDAO){
+	@Transient
+	@JsonIgnore
+	private Candle lastCandle;
+	
+	public Stock(CandleDAO candleDAO) {
 		this.candleDAO = candleDAO;
 	}
 	
-	public Stock(){
+	public Stock() {
 	}
 	
 	public Stock(String name) {
@@ -89,22 +91,22 @@ public class Stock implements Serializable{
 	@BatchSize(size = 1000)
 	//@Where(clause= "DATE_PART('day', to_timestamp((SELECT max(c.epoch) FROM candles c)) - to_timestamp(epoch)) <= 7)")
 	//@Where(clause = "epoch in (SELECT epoch from candles order by epoch desc limit 1000)")
-	private List<Candle> getStockCandlesByAnnotations(){
+	private List<Candle> getStockCandlesByAnnotations() {
 		return stockCandles;
 	}
 	
-	public List<Candle> getStockCandles(){
-		if(stockCandles != null)
+	public List<Candle> getStockCandles() {
+		if (stockCandles != null)
 			return stockCandles;
 		
-		if(candleDAO == null)
+		if (candleDAO == null)
 			return getStockCandlesByAnnotations();
-		
-		stockCandles = candleDAO.findTopLimitByStockidOrderByEpoch(id, 1440);
-		Collections.reverse(stockCandles);
+		else {
+			stockCandles = candleDAO.findTopLimitByStockidOrderByEpoch(id, 1440);
+			Collections.reverse(stockCandles);
+		}
 		return stockCandles;
 	}
-	
 	
 	
 	public void setBinaryData(BinaryData binaryData) {
@@ -112,9 +114,9 @@ public class Stock implements Serializable{
 			this.binaryData.replace(binaryData);
 		} else {
 			this.binaryData = binaryData;
-			binaryData.setStock(this);
-			binaryData.setStockId(this.id);
 		}
+		binaryData.setStock(this);
+		binaryData.setStockId(this.id);
 	}
 	
 	public void addSymbol(Symbol symbol) {
@@ -128,9 +130,17 @@ public class Stock implements Serializable{
 		stockCandles.add(candle);
 	}
 	
+	public Candle getLastCandle() {
+		if (lastCandle == null) {
+			List<Candle> candles = getStockCandles();
+			lastCandle = candles.isEmpty() ? null : candles.get(candles.size() - 1);
+		}
+		return lastCandle;
+	}
 	
-	public String getName() {
-		return name;
+	public void setLastCandle(Candle candle) {
+		lastCandle = candle;
+		lastCandle.setStock(this);
 	}
 	
 	public void setName(String name) {
