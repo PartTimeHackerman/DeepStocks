@@ -24,9 +24,7 @@
 
 <script>
 
-
-    import store from '../store/index.js'
-
+    import store from '../store/store.js'
     import StocksContent from './StocksContent.vue'
     import GraphContent from './graph/GraphContent.vue'
 
