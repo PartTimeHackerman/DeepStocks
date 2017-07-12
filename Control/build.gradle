@@ -62,8 +62,8 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
 }
 
 task webpackWatch(type: Exec) {
-    commandLine "watchJS.cmd"
-    //rgs  "/c", "webpack.cmd --watch & webpack-dev-server.cmd --progress --colors --inline --port 8081"
+    commandLine 'cmd', '/c', 'watchJS.cmd'
+    //args  "/c", "webpack.cmd --watch & webpack-dev-server.cmd --progress --colors --inline --port 8081"
 
     /*addShutdownHook {
         executable "sh"

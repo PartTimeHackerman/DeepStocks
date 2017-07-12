@@ -4,9 +4,6 @@
         <ul class="stocksList">
             <li class="stockListItem grow" @click.stop.prevent="selectStock(stock)" v-for="stock in filteredStocks">
                 {{stock.name}}
-
-
-
             </li>
         </ul>
     </div>
