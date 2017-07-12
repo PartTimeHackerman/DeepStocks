@@ -138,7 +138,7 @@ subprojects {
         // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
         compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.9'
 
-        compile 'com.github.PartTimeHackerman:Vaer:master-SNAPSHOT'
+        compile 'com.github.PartTimeHackerman:Vaer:-SNAPSHOT'
 
     }
 }
