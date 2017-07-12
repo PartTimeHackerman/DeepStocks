@@ -1,4 +1,4 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.Stock;
 import org.hibernate.Session;

@@ -1,4 +1,4 @@
-package spring.websocket;
+package model.connection.websocketServer;
 
 import model.utils.MainLogger;
 import org.springframework.stereotype.Component;

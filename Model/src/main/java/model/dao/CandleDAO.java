@@ -1,24 +1,16 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.Candle;
 import model.data.Stock;
-import org.hibernate.secure.spi.GrantedPermission;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.QueryHint;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
 
 @Repository
 @Transactional

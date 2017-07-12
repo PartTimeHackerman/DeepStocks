@@ -1,4 +1,4 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.BinaryData;
 import org.springframework.data.repository.CrudRepository;

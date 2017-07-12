@@ -27,7 +27,7 @@ public class StockResourceProcesor implements ResourceProcessor<Resource<Stock>>
 	public Resource<Stock> process(Resource<Stock> resource) {
 		resource.add(configuration.entityLinks().linkToSingleResource(Candle.class, resource.getContent().getId()).withRel(relProvider.getCollectionResourceRelFor(Candle.class)));
 		resource.add(configuration.entityLinks().linkToSingleResource(Symbol.class, resource.getContent().getId()).withRel("symbols"));
-		//if (resource.getContent().getBinaryData() != null)
+		//if (resource.getContent().getBinaryDatas() != null)
 			//resource.add(configuration.entityLinks().linkToSingleResource(BinaryData.class, resource.getContent().getId()).withRel("binaryData"));
 		return resource;
 	}

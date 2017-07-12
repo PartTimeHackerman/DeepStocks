@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Interval {
 	
-	
 	public static Disposable doEvery(Long peroid, TimeUnit timeUnit, Runnable runnable) {
 		return Flowable.interval(0, peroid, timeUnit)
 				.publish()

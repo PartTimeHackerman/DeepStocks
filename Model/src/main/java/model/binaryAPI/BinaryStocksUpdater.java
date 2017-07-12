@@ -14,5 +14,4 @@ public class BinaryStocksUpdater {
 		this.stockRepo = stockRepo;
 	}
 	
-	
 }

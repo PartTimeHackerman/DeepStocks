@@ -1,4 +1,4 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.BinaryData;
 import org.hibernate.Session;
@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 @Repository
 public class BinaryDataDAOImpl {
 	
-	private SessionFactory sessionFactory;
+	private final SessionFactory sessionFactory;
 	
 	@Autowired
 	public BinaryDataDAOImpl(EntityManagerFactory entityManagerFactory) {

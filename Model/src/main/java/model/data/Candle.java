@@ -42,28 +42,28 @@ public class Candle implements Serializable, Comparable<Candle> {
 	 */
 	@SerializedName("open")
 	@Expose
-	private Double open;
+	private Float open;
 	
 	/**
 	 * It is the high price value for the given time
 	 */
 	@SerializedName("high")
 	@Expose
-	private Double high;
+	private Float high;
 	
 	/**
 	 * It is the low price value for the given time
 	 */
 	@SerializedName("low")
 	@Expose
-	private Double low;
+	private Float low;
 	
 	/**
 	 * It is the close price value for the given time
 	 */
 	@SerializedName("close")
 	@Expose
-	private Double close;
+	private Float close;
 	
 	private final static long serialVersionUID = -8683231578361442030L;
 	
@@ -72,7 +72,7 @@ public class Candle implements Serializable, Comparable<Candle> {
 	private Integer volume;
 	
 	public void setStock(Stock stock) {
-		//this.stock = stock;
+		this.stock = stock;
 		setStockId(stock.getId());
 	}
 	

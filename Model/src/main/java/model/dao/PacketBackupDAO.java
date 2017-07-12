@@ -1,4 +1,4 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.PacketBackup;
 import org.springframework.data.repository.CrudRepository;

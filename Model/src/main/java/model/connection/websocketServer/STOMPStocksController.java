@@ -1,6 +1,8 @@
-package spring.websocket;
+package model.connection.websocketServer;
 
 import model.data.BinaryData;
+import model.data.Candle;
+import model.data.Stock;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -12,12 +14,13 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 @Controller
 public class STOMPStocksController {
 	
-	private final SimpMessagingTemplate template;
+	private final SimpMessagingTemplate messager;
 	
 	private final STOMPConnectEventListener stompConnectEventListener;
 	
@@ -25,10 +28,10 @@ public class STOMPStocksController {
 	
 	@Autowired
 	public STOMPStocksController(
-			SimpMessagingTemplate template,
+			SimpMessagingTemplate messager,
 			STOMPConnectEventListener stompConnectEventListener,
 			STOMPSessionsManager stompSessionsManager) {
-		this.template = template;
+		this.messager = messager;
 		this.stompConnectEventListener = stompConnectEventListener;
 		this.stompSessionsManager = stompSessionsManager;
 	}
@@ -38,19 +41,30 @@ public class STOMPStocksController {
 	public Long wsTest(Long epoch, Message<Object> message) throws Exception {
 		MainLogger.log(this).debug(message);
 		return epoch + 111;
-		
 	}
 	
-	public void updateStockBinaryData(BinaryData data){
-		
-		template.convertAndSend("/data/stocks/" + data.getStockId(), data);
+	public void updateStockBinaryDataCollection(Collection<BinaryData> binaryDataCollection) {
+		binaryDataCollection.forEach(this::updateStockBinaryData);
+	}
+	
+	public void updateStockBinaryData(BinaryData data) {
+		messager.convertAndSend("/data/stocks/" + data.getStockId(), data);
+	}
+	
+	public void updateStockLastCandles(Collection<Candle> candles){
+		candles.forEach(this::updateStockLastCandle);
+	}
+	
+	public void updateStockLastCandle(Candle candle){
+		Stock candleStock = candle.getStock();
+		messager.convertAndSend("/data/lastCandle/" + candleStock.getId(), candle);
 	}
 	
 	public void sendTimeToAllUsers(Long epoch) {
 		Consumer<String> sendTime = sessionID -> {
 			MainLogger.log(this).debug("Epoch sent to: {}", sessionID);
 			MessageHeaders messageHeaders = getMessageHeaders(sessionID);
-			this.template.convertAndSendToUser(sessionID, "/queue/message", epoch, messageHeaders);
+			messager.convertAndSendToUser(sessionID, "/queue/message", epoch, messageHeaders);
 		};
 		
 		stompSessionsManager.getAllUsers()
@@ -58,6 +72,10 @@ public class STOMPStocksController {
 								 stompSessionsManager.getSessionsFor(user)
 										 .forEach(sendTime));
 		
+	}
+	
+	public void sendTimeToAllSubscribed(Long epoch) {
+		messager.convertAndSend("/queue/message", 0 - epoch);
 	}
 	
 	private MessageHeaders getMessageHeaders(String sessionID) {

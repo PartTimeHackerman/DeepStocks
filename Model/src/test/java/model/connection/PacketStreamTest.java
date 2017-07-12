@@ -19,7 +19,7 @@ public class PacketStreamTest {
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
-		stream = new ReceivedPacketsStream(null);
+		stream = new ReceivedPacketsStream(null, null, null);
 		subscriber = new Subscriber<Packet>() {
 			@Override
 			public void onComplete() {

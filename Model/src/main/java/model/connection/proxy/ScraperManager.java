@@ -50,13 +50,14 @@ public class ScraperManager {
 		if (scraper == null) {
 			scraper = new Scraper(threads, timeout, limit, check, browsers, ocrs);
 			scraper.create();
-		} else
+			//scraper.getProxyScraper().addObserver((o, arg) -> dispose());
+		} else {
 			scraper.create();
+		}
 		
 		workingProxies = scraper.getProxyRepo().getWorking();
 		scraper.getProxyRepo().getWorkingStream().subscribe(this::notifyProviders);
 		sitesCycle = new Vector<>(getSitesWithAvgWorkingProxies(5));
-		scrapeNextSite();
 	}
 	
 	public void scrapeSites() {
@@ -65,9 +66,9 @@ public class ScraperManager {
 	}
 	
 	private Collection<Site> getSitesWithAvgWorkingProxies(Integer minWorking) {
-		List<Site> sites = new ArrayList<>(scraper.getSitesUtility().getSitesFilter().filterAvgWorking(5, scraper.getSitesRepo().getAll()));
-		sites.removeIf(site -> site.getAvgProxies()<=0);
-		sites.sort(Comparator.comparingDouble(s -> ((double)s.getAvgWorkingProxies() / s.getAvgProxies())));
+		List<Site> sites = new ArrayList<>(scraper.getSitesUtility().getSitesFilter().filterAvgWorking(minWorking, scraper.getSitesRepo().getAll()));
+		sites.removeIf(site -> site.getAvgProxies() <= 0);
+		sites.sort(Comparator.comparingDouble(s -> ((double) s.getAvgWorkingProxies() / s.getAvgProxies())));
 		Collections.reverse(sites);
 		return sites;
 	}
@@ -76,23 +77,8 @@ public class ScraperManager {
 		scraper.dispose();
 	}
 	
-	/*public Proxy getProxy() {
-		Proxy proxy;
-		try {
-			proxy = workingProxies.get(0);
-		}catch (IndexOutOfBoundsException e){
-			scrapeNextSite();
-			
-		}
-		workingProxies.remove(proxy);
-		usedProxies.add(proxy);
-		if (workingProxies.size() < 10)
-			scrapeNextSite();
-		return proxy;
-	}*/
-	
 	public void scrapeNextSite() {
-		if (scraper == null)
+		if (scraper == null || !scraper.isCreated())
 			create();
 		
 		scraper.getLimiter().clear();

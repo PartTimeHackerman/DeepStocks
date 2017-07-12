@@ -1,4 +1,4 @@
-package model.jdbc.dao;
+package model.dao;
 
 import model.data.Symbol;
 import org.springframework.data.repository.CrudRepository;

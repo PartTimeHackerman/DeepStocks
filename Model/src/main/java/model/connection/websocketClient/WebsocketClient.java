@@ -1,4 +1,4 @@
-package model.connection.websocket;
+package model.connection.websocketClient;
 
 import model.utils.MainLogger;
 import org.glassfish.tyrus.client.ClientManager;

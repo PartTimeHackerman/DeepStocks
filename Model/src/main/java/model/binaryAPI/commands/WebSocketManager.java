@@ -1,7 +1,7 @@
 package model.binaryAPI.commands;
 
 import model.binaryAPI.IMessagesCounter;
-import model.connection.websocket.WebsocketClient;
+import model.connection.websocketClient.WebsocketClient;
 import model.connection.ConnectionType;
 
 public class WebSocketManager {

@@ -3,42 +3,41 @@ package model.factory;
 import model.data.Stock;
 import model.data.StockRepo;
 import model.data.Symbol;
-import model.jdbc.dao.CandleDAO;
-import model.jdbc.dao.StockDAO;
-import model.jdbc.dao.SymbolDAO;
+import model.dao.CandleDAO;
+import model.dao.StockDAO;
+import model.dao.SymbolDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StockFactory {
 	
-	private final StockDAO stockDataDAO;
-	
-	private final SymbolDAO symbolDAO;
-	
+	private final StockDAO stockDAO;
 	private final StockRepo stockRepo;
-	
+	private final SymbolDAO symbolDAO;
 	private final CandleDAO candleDAO;
 	
 	@Autowired
-	public StockFactory(StockDAO stockDataDAO, SymbolDAO symbolDAO, StockRepo stockRepo, CandleDAO candleDAO) {
-		this.stockDataDAO = stockDataDAO;
-		this.symbolDAO = symbolDAO;
+	public StockFactory(StockDAO stockDAO, StockRepo stockRepo, SymbolDAO symbolDAO, CandleDAO candleDAO) {
+		this.stockDAO = stockDAO;
 		this.stockRepo = stockRepo;
+		this.symbolDAO = symbolDAO;
 		this.candleDAO = candleDAO;
 	}
 	
 	public Stock getByName(String name) {
-		Stock stock = stockDataDAO.findByName(name);
+		Stock stock = stockDAO.findByName(name);
 		
-		if (stock == null)
+		if (stock == null) {
 			stock = new Stock(name);
+			stockRepo.save(stock);
+		}
 		
 		stock.setCandleDAO(candleDAO);
 		return stock;
 	}
 	
-	public Stock getBySymbol(String symbolName){
+	public Stock getBySymbol(String symbolName) {
 		Symbol symbol = symbolDAO.findBySymbol(symbolName);
 		
 		if (symbol == null)
