@@ -1,16 +1,26 @@
 package spring;
 
+import model.binaryAPI.BinaryCandlesGather;
+import model.binaryAPI.BinaryDataGather;
 import model.connection.PacketSender;
-import model.connection.consumer.CandlesDBUpdater;
+import model.connection.consumer.binaryDataConsumer.BinaryDataDBConsumer;
+import model.connection.consumer.binaryDataConsumer.WebSocketBinaryDataUpdater;
+import model.connection.consumer.candlesConsumer.CandlesDBConsumer;
+import model.connection.handleUpdater.CandlesStockUpdater;
+import model.connection.consumer.candlesConsumer.WebSocketCandlesUpdater;
+import model.connection.packetHandler.ActiveSymbolsHandler;
 import model.connection.packetHandler.TicksHistoryHandler;
+import model.connection.packetsService.RequestValidator;
 import model.connection.proxy.ScraperManager;
 import model.connection.proxy.UnrepeatedProxyProvider;
+import model.connection.serverUpdater.MinuteStockUpdater;
+import model.connection.websocketServer.STOMPStocksController;
+import model.dao.BinaryDataDAO;
+import model.dao.StockDAO;
 import model.data.Stock;
-import model.dataUpdater.CandlesUpdaterDB;
-import model.dataUpdater.StocksUpdater;
+import model.connection.handleUpdater.StocksBinaryDataUpdater;
 import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
-import model.jdbc.dao.*;
 import model.binaryAPI.BinaryPacketsService;
 import model.utils.MainLogger;
 import model.utils.StockExcluder;
@@ -27,11 +37,8 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import spring.websocket.STOMPStocksController;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -58,13 +65,8 @@ public class Application implements CommandLineRunner {
 	private BinaryDataDAO binaryDataDAO;
 	
 	@Autowired
-	private StocksUpdater stocksUpdater;
+	private StocksBinaryDataUpdater stocksUpdater;
 	
-	@Autowired
-	private CandleDAOImpl candleDAO;
-	
-	@Autowired
-	private CandlesUpdaterDB candlesUpdaterDB;
 	
 	@Autowired
 	private BinaryPacketsService packetManager;
@@ -85,7 +87,37 @@ public class Application implements CommandLineRunner {
 	private TicksHistoryHandler ticksHistoryHandler;
 	
 	@Autowired
-	private CandlesDBUpdater candlesDBUpdater;
+	private CandlesDBConsumer candlesDBUpdater;
+	
+	@Autowired
+	private CandlesStockUpdater candlesStockUpdater;
+	
+	@Autowired
+	private WebSocketCandlesUpdater webSocketCandlesUpdater;
+	
+	@Autowired
+	private RequestValidator requestValidator;
+	
+	@Autowired
+	private BinaryDataGather binaryDataGather;
+	
+	@Autowired
+	private ActiveSymbolsHandler activeSymbolsHandler;
+	
+	@Autowired
+	private BinaryDataDBConsumer binaryDataDBUpdater;
+	
+	@Autowired
+	private StocksBinaryDataUpdater stocksBinaryDataUpdater;
+	
+	@Autowired
+	private WebSocketBinaryDataUpdater webSocketBinaryDataUpdater;
+	
+	@Autowired
+	private BinaryCandlesGather binaryCandlesGather;
+	
+	@Autowired
+	private MinuteStockUpdater minuteStockUpdater;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -93,18 +125,44 @@ public class Application implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		/*List<Stock> stocks = new ArrayList<>();
-		stocksUpdater.updateStocks(stocks);
 		
-		stockDAO.save(stocks);*/
+		/*BinaryData consumers*/
+		activeSymbolsHandler.subscribe(binaryDataDBUpdater);
+		activeSymbolsHandler.subscribe(webSocketBinaryDataUpdater);
 		
+		/*Candles consumers*/
 		ticksHistoryHandler.subscribe(candlesDBUpdater);
+		ticksHistoryHandler.subscribe(webSocketCandlesUpdater);
+		
+		requestValidator.setResend(true);
+		requestValidator.getBackups().forEach(packetSender::send);
+		
 		Collection<Stock> stocks = stockRepo.getStocks();
 		StockExcluder.excludeVolatility(stocks);
-		stocks.forEach(candlesUpdaterDB::updateForStock);
+		
+		binaryDataGather.fetchBinaryDatas();
+		
+		stocks.parallelStream().forEach(stock -> {
+			binaryCandlesGather.getLatestCandles(stock);
+		});
+		
+		minuteStockUpdater.start();
+		
 		MainLogger.log(this).info("!!!!!!!!DONE!!!!!!!");
 		
-		/*BinaryData data = stockRepo.getStocks().get(1).getBinaryData();
+		/*new Thread(() -> IntStream.range(0, 10000).forEach(i -> {
+			try {
+				//binaryDataGather.fetchBinaryDatas();
+				stocks.parallelStream().forEach(stock -> {
+					binaryCandlesGather.getCandles(stock, EpochUtil.getCurrentTimeSeconds()-1, EpochUtil.getCurrentTimeSeconds());
+				});
+				Thread.sleep(60000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		})).run();*/
+		
+		/*BinaryData data = stockRepo.getStocks().get(1).getBinaryDataList();
 		
 		new Thread(() -> {
 			IntStream.range(0, 10000).forEach(i -> {

@@ -2,7 +2,7 @@ package spring.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.data.Candle;
-import model.jdbc.dao.CandleDAO;
+import model.dao.CandleDAO;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
