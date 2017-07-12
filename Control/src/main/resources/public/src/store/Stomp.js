@@ -1,12 +1,11 @@
 import StompClient from 'webstomp-client'
 import Sockjs from 'sockjs-client'
 
-
 export default class Stomp {
     constructor(user) {
         this.user = user;
         this.endpoint = 'http://localhost:8080/endpoint';
-        this.subscribtions = [];
+        this.subscribtions = new Map();
 
         this.stomp = null;
         this.socket = null;
@@ -14,17 +13,25 @@ export default class Stomp {
 
         this.waitQueue = [];
         this.connect(this.user, this.endpoint);
+
+        this.subscribe('/user/queue/message', function (epoch) {
+            console.log(epoch);
+        });
+
+        this.subscribe('/queue/message', function (epoch) {
+            console.log(epoch);
+        });
     };
 
     connect(user, endpoint) {
         this.socket = new Sockjs(endpoint);
-        this.socket.onopen = function() {
+        this.socket.onopen = function () {
             console.log('open');
         };
-        this.socket.onmessage = function(e) {
+        this.socket.onmessage = function (e) {
             console.log('message', e.data);
         };
-        this.socket.onclose = function() {
+        this.socket.onclose = function () {
             console.log('close');
         };
 
@@ -39,13 +46,23 @@ export default class Stomp {
     };
 
     subscribe(destination, callback, headers) {
-        const sub = () =>
-            this.subscribtions.push(this.stomp.subscribe(destination, callback, headers));
+        let subId = this.subscribtions.size + 1;
+        const sub = () => {
+            this.subscribtions.set(subId, this.stomp.subscribe(destination, callback, headers));
+        };
 
         if (!this.isConnected)
             this.waitQueue.push(sub);
         else
             sub();
+
+        return subId;
+    };
+
+    unsubscribe(subId) {
+        const sub = this.subscribtions.get(subId);
+        if (sub !== undefined)
+            sub.unsubscribe();
     };
 
 
