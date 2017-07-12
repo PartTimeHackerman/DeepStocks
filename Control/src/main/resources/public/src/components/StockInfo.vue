@@ -17,7 +17,6 @@
                     <transition :name="onchange(stock.data.spot, oldStock.data.spot)" mode="out-in">
                         <td :key="stock.data.spot + new Date().getTime()">
                             {{stock.data.spot}} {{stock.data.quotedCurrencySymbol}}
-
                         </td>
                     </transition>
                     <td>Submarket: </td>
@@ -25,8 +24,8 @@
                 </tr>
                 <tr>
                     <td>Spot time: </td>
-                    <transition name="onchange" mode="out-in">
-                        <td>{{spotTime}}</td>
+                    <transition><!--:name="onchange(stock.data.spotTime, oldStock.data.spotTime)" mode="out-in"-->
+                        <td :key="stock.data.spotTime + new Date().getTime()">{{spotTime}}</td>
                     </transition>
                     <td>Exchange name: </td>
                     <td>{{stock.data.exchangeName}}</td>
@@ -35,14 +34,12 @@
                     <td class="pip">Pip:
                         <span class="tooltiptext">Minimum fluctuation amount</span>
                     </td>
-                    <transition name="onchange" mode="out-in">
-                        <td>{{stock.data.pip}}</td>
+                    <transition><!--:name="onchange(stock.data.pip, oldStock.data.pip)" mode="out-in">-->
+                        <td :key="stock.data.pip + new Date().getTime()">{{stock.data.pip}}</td>
                     </transition>
                     <td>Type: </td>
                     <td>{{stock.data.symbolType}}</td>
                 </tr>
-
-
             </table>
         </div>
     </div>
@@ -56,12 +53,23 @@
         name: 'stock-info',
         props: ['stock', 'oldStock'],
         data(){
-            return {}
+            return {
+                subId: {}
+            }
         },
         created () {
             /*this.$on('showStock', id => {
              this.getStock(id);
              });*/
+        },
+        activated(){
+            let id = this.$route.params.id;
+            this.subId = this.$store.state.stomp.stomp.subscribe('/data/stocks/' + id, (response) => {
+                this.$emit("update-stock", JSON.parse(response.body));
+            });
+        },
+        deactivated(){
+            this.$store.state.stomp.stomp.unsubscribe(this.subId);
         },
         methods: {
             onchange(newVal, oldVal){
