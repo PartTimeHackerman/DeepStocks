@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class BinaryAPIProvider {
 	
 	private final Vector<BinaryAPI> apis = new Vector<>();
-	private final Integer maxApis = 100;
+	private final Integer maxApis = 5;
 	private final BinaryAPIFactory binaryAPIFactory;
 	
 	@Autowired
@@ -53,10 +53,10 @@ public class BinaryAPIProvider {
 	}
 	
 	private BinaryAPI createNewApi(ConnectionType connectionType) {
-		MainLogger.log(this).info("No api avaiable, creating new one");
+		//MainLogger.log(this).info("No api avaiable, creating new one");
 		BinaryAPI api;
 		if (apis.size() >= maxApis) {
-			MainLogger.log(this).info("All apis are busy and apis list is full, waiting for a free one");
+			//MainLogger.log(this).info("All apis are busy and apis list is full, waiting for a free one");
 			api = waitForFreeApi(connectionType);
 		} else {
 			try {
@@ -72,7 +72,7 @@ public class BinaryAPIProvider {
 	}
 	
 	private BinaryAPI waitForFreeApi(ConnectionType connectionType) {
-		Waiter.wait(500L, TimeUnit.MILLISECONDS);
+		Waiter.wait(1000L, TimeUnit.MILLISECONDS);
 		return getApiByType(connectionType);
 	}
 	

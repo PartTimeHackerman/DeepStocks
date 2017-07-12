@@ -13,7 +13,7 @@ public class MinuteMessagesCounter implements IMessagesCounter {
 	private Long lastTime = 0L;
 	
 	public MinuteMessagesCounter() {
-		this(240, 60 * 1000);
+		this(200, 61 * 1000);
 	}
 	
 	public MinuteMessagesCounter(Integer messagesLimit, Integer timeLimitMillis){
