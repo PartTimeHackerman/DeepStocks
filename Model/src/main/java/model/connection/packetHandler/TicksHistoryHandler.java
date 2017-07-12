@@ -1,42 +1,42 @@
 package model.connection.packetHandler;
 
 import lombok.Data;
-import model.connection.validation.RequestValidator;
-import model.connection.SimpleStream;
-import model.data.Candle;
 import model.binaryAPI.commands.ticks_history.TicksHistoryReceive;
 import model.connection.Packet;
+import model.connection.SimpleStream;
+import model.connection.handleUpdater.CandlesStockUpdater;
+import model.data.Candle;
 import model.data.Stock;
 import model.data.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @Service
 public class TicksHistoryHandler extends SimpleStream<TicksHistoryHandler.StockCandlesWrapper> implements PacketHandler {
 	
 	private final StockRepo stockRepo;
-	private final RequestValidator requestValidator;
-	//private final Flowable<Candle> flowable;
+	private final CandlesStockUpdater candlesStockUpdater;
 	
 	@Autowired
-	public TicksHistoryHandler(StockRepo stockRepo, RequestValidator requestValidator) {
+	public TicksHistoryHandler(StockRepo stockRepo, CandlesStockUpdater candlesStockUpdater) {
 		this.stockRepo = stockRepo;
-		this.requestValidator = requestValidator;
+		this.candlesStockUpdater = candlesStockUpdater;
 	}
 	
 	@Override
 	public void handle(Packet packet) {
-		Stock stock = getStock((Integer) packet.getOptional());
+		Stock stock = getStock((Long) packet.getOptional());
 		List<Candle> candles = getCandles(packet);
-		validateResponse(packet);
-		
-		StockCandlesWrapper stockCandlesWrapper = new StockCandlesWrapper(stock, candles);
-		submit(stockCandlesWrapper);
+		//validateResponse(packet);
+		if (candles.size() > 0) {
+			StockCandlesWrapper stockCandlesWrapper = new StockCandlesWrapper(stock, candles);
+			candlesStockUpdater.update(stockCandlesWrapper);
+			submit(stockCandlesWrapper);
+		}
 	}
 	
 	@Override
@@ -44,20 +44,19 @@ public class TicksHistoryHandler extends SimpleStream<TicksHistoryHandler.StockC
 		return filterByClass(TicksHistoryReceive.class);
 	}
 	
-	private Stock getStock(Integer hash) {
+	private Stock getStock(Long hash) {
 		return stockRepo.getStocks().stream()
 				.filter(s ->
-								s.hashCode() == hash).findFirst()
+								Objects.equals(s.getId(), hash)).findFirst()
 				.orElse(null);
 	}
 	
 	public List<Candle> getCandles(Packet packet) {
+		Stock stock = getStock((Long) packet.getOptional());
 		TicksHistoryReceive ticksReceive = (TicksHistoryReceive) packet.getReceiver();
-		return ticksReceive.getCandles();
-	}
-	
-	private void validateResponse(Packet packet) {
-		requestValidator.setPacketReceived(packet);
+		List<Candle> candles = ticksReceive.getCandles();
+		candles.forEach(candle -> candle.setStock(stock));
+		return candles;
 	}
 	
 	@Data
