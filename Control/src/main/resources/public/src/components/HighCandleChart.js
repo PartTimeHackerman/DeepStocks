@@ -192,8 +192,8 @@ let theme = {
         },
         candlestick: {
             lineColor: '#808080',
-            color: '#00ff00',
-            upColor: '#ff000b',
+            color: '#ff0000',
+            upColor: '#00ff21',
             states: {
                 hover: {
                     lineWidth: 1
