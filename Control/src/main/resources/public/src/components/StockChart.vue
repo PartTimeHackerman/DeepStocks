@@ -68,8 +68,14 @@
                 rangeSelector.min = new Date(minBound + minOffset);
                 rangeSelector.max = new Date(maxBound - maxOffset);
             } else {
-                rangeSelector.min = (minBound + minOffset) <= new Date(2016, 1, 1).getTime() ? bounds.max : new Date(minBound - minOffset);
-                rangeSelector.max = (maxBound + maxOffset) >= new Date().getTime() ? bounds.max : new Date(maxBound + maxOffset);
+                rangeSelector.min =
+                    (minBound + minOffset) <= new Date(2016, 1, 1).getTime()
+                        ? bounds.max
+                        : new Date(minBound - minOffset);
+                rangeSelector.max =
+                    (maxBound + maxOffset) >= new Date().getTime()
+                        ? bounds.max
+                        : new Date(maxBound + maxOffset);
             }
 
             $('#rangeSelector').dateRangeSlider(
@@ -114,13 +120,12 @@
                 candles: [],
                 grain: 100,
                 chart: {},
-                stockId: 0
+                stockId: 0,
+                subId: 0
             }
         },
         created() {
             chartVue = this;
-
-
         },
         mounted(){
             mountSelector();
@@ -140,8 +145,19 @@
             lastMonth.setMonth(lastMonth.getMonth() - 3);
             setRangeVals(lastMonth.getTime(), today.getTime());
         },
-        watch: {
+        activated(){
+            let id = this.$route.params.id;
+            this.subId = this.$store.state.stomp.stomp.subscribe('/data/lastCandle/' + id, (response) => {
+                const candle = JSON.parse(response.body);
+                pushElementIfDoesntExist(this.candles, candle);
+                this.chart.addToAll([this.candleToChartData(candle)]);
+                this.chart.render();
+            });
         },
+        deactivated(){
+            this.$store.state.stomp.stomp.unsubscribe(this.subId);
+        },
+        watch: {},
         methods: {
             getStockCandles(start, end, size){
                 this.$http.get('http://localhost:8080/data/candles/' + this.stockId + '?start=' + start + '&end=' + end + '&size=' + size).then(function (response) {
@@ -162,13 +178,11 @@
                     console.log(error);
                 });
             },
-            candlesToChartData(){
-                return this.candles.map(candle => {
-                    return {
-                        x: new Date(+candle.epoch * 1000),
-                        y: [candle.open, candle.high, candle.low, candle.close]
-                    }
-                });
+            candleToChartData(candle){
+                return {
+                    x: new Date(+candle.epoch * 1000),
+                    y: [candle.open, candle.high, candle.low, candle.close]
+                }
             }
         },
         computed: {
@@ -181,12 +195,7 @@
                 });
             },
             candlesDataPoints(){
-                return this.candles.map(candle => {
-                    return {
-                        x: new Date(+candle.epoch * 1000),
-                        y: [candle.open, candle.high, candle.low, candle.close]
-                    }
-                });
+                return this.candles.map(candle => this.candleToChartData(candle));
             }
         }
     }
@@ -241,9 +250,9 @@
         cursor: move;
         cursor: grab;
         cursor: -moz-grab;
-        -webkit-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);
-        -moz-box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);
-        box-shadow: inset 0 2px 6px RGBA(0,0,0,0.5);
+        -webkit-box-shadow: inset 0 2px 6px RGBA(0, 0, 0, 0.5);
+        -moz-box-shadow: inset 0 2px 6px RGBA(0, 0, 0, 0.5);
+        box-shadow: inset 0 2px 6px RGBA(0, 0, 0, 0.5);
     }
 
     .ui-rangeSlider-container, .ui-rangeSlider-arrow {
