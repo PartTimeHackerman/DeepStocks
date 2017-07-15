@@ -60,9 +60,18 @@ public class BinaryCandlesGather {
 	}
 	
 	public Optional<Candle> getLatestCandle(Stock stock) {
+		return getCandle(stock, "latest");
+	}
+	
+	
+	public Optional<Candle> getCandle(Stock stock, Long epoch) {
+		return getCandle(stock, epoch.toString());
+	}
+	
+	private Optional<Candle> getCandle(Stock stock, String epoch) {
 		if (stock.getSymbols().stream().filter(symbol -> symbol.getProvider() == StockProvider.BINARY).map(Symbol::getExcluded).findAny().orElse(false))
 			return Optional.empty();
-		Packet packet = getPacket(stock, 0L, "latest", 1);
+		Packet packet = getPacket(stock, 0L, epoch, 1);
 		packet = packetSender.sendAndGet(packet);
 		List<Candle> candles = ticksHistoryHandler.getCandles(packet);
 		return candles.size() > 0 ? Optional.of(candles.get(0)) : Optional.empty();

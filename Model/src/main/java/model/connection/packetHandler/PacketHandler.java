@@ -8,9 +8,10 @@ public interface PacketHandler {
 	
 	void handle(Packet packet);
 	
-	default Predicate<Packet> getFilter() {
+	Predicate<Packet> getFilter();
+	/*default Predicate<Packet> getFilter() {
 		return p -> true;
-	}
+	}*/
 	
 	default Predicate<Packet> filterByClass(Class clazz) {
 		return p -> p.getReceiver()

@@ -1,6 +1,6 @@
 package model.binaryAPI;
 
-public class MinuteMessagesCounter implements IMessagesCounter {
+public class MessagesCounter implements IMessagesCounter {
 	
 	private final Integer messagesLimit;
 	
@@ -12,11 +12,7 @@ public class MinuteMessagesCounter implements IMessagesCounter {
 	
 	private Long lastTime = 0L;
 	
-	public MinuteMessagesCounter() {
-		this(200, 61 * 1000);
-	}
-	
-	public MinuteMessagesCounter(Integer messagesLimit, Integer timeLimitMillis){
+	public MessagesCounter(Integer messagesLimit, Integer timeLimitMillis){
 		this.messagesLimit = messagesLimit;
 		this.timeLimitMillis = timeLimitMillis;
 	}

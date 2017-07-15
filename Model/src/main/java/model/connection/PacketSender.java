@@ -52,8 +52,8 @@ public class PacketSender {
 		});
 	}
 	
-	public Message sendAndGet(Message message) {
-		return sendAndGet(new Packet(message)).getReceiver();
+	public Packet sendAndGet(Message message) {
+		return sendAndGet(new Packet(message));
 	}
 	
 	public Packet sendAndGet(Packet packet) {

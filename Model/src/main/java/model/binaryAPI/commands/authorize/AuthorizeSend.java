@@ -56,6 +56,12 @@ public class AuthorizeSend implements Serializable, BinaryMessage
      */
     public AuthorizeSend() {
     }
+    
+    public AuthorizeSend(String authorize) {
+        super();
+        this.authorize = authorize;
+        this.addToLoginHistory = 1;
+    }
 
     /**
      * 

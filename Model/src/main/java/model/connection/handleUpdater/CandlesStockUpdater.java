@@ -15,6 +15,8 @@ public class CandlesStockUpdater implements HandleUpdater<TicksHistoryHandler.St
 		List<Candle> candles = stockCandlesWrapper.getCandles();
 		Stock stock = stockCandlesWrapper.getStock();
 		
+		candles.forEach(candle -> candle.setStock(stock));
+		
 		Candle lastFetchedCandle = candles.get(candles.size() - 1);
 		Candle lastCandle = stock.getLastCandle();
 		if(lastCandle == null || lastFetchedCandle.getEpoch() > lastCandle.getEpoch()){

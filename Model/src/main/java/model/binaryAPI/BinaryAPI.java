@@ -9,12 +9,15 @@ import model.exception.InvalidSymbolException;
 import model.exception.RateLimitException;
 import model.exception.StreamingNotAllowedException;
 import model.utils.GsonService;
+import model.utils.MainLogger;
 import vaer.Vaer;
 import vaer.model.Group;
 
 import java.util.Optional;
 
 public class BinaryAPI implements ProviderAPI {
+	public static final Integer maxMessages = 200;
+	public static final Integer timeLimit = 61 * 1000;
 	private static final Gson gson = GsonService.getGson();
 	
 	private ProviderReceiver receiver;
@@ -34,7 +37,7 @@ public class BinaryAPI implements ProviderAPI {
 		this.websocketClient = websocketClient;
 		this.sentPacketsContainer = sentPacketsContainer;
 		this.websocketClient.addMessageHandler(this::onMessage);
-		messageCounter = new MinuteMessagesCounter();
+		messageCounter = new MessagesCounter(maxMessages, timeLimit);
 		
 		Group apis = Vaer.get("Binary APIs").group(websocketClient.getProxy().toString());
 		apis.variable("Messages remained").setVariableGetter(messageCounter::getRemaining);
@@ -67,7 +70,13 @@ public class BinaryAPI implements ProviderAPI {
 	}
 	
 	private void onMessage(String json) {
-		Response response = gson.fromJson(json, Response.class);
+		Response response;
+		try {
+			response = gson.fromJson(json, Response.class);
+		} catch (Exception e) {
+			MainLogger.log(this).fatal(e);
+			return;
+		}
 		Integer id = response.req_id;
 		Optional<Packet> optionalPacket = sentPacketsContainer.getByBinaryId(id);
 		if (optionalPacket.isPresent()) {
@@ -118,6 +127,10 @@ public class BinaryAPI implements ProviderAPI {
 	
 	public ConnectionType getConnectionType() {
 		return connectionType;
+	}
+	
+	public IMessagesCounter getMessageCounter() {
+		return messageCounter;
 	}
 	
 	private class Response {

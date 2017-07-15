@@ -4,21 +4,24 @@ import org.springframework.stereotype.Service;
 import scraper.Proxy;
 
 import java.util.Vector;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 public class CycleProxyProvider implements ProxyProvider {
 	
-	private Vector<Proxy> proxies = new Vector<>();
+	private LinkedBlockingQueue<Proxy> proxies = new LinkedBlockingQueue<>();
 	
 	@Override
 	public Proxy getProxy() {
-		Proxy proxy = proxies.remove(0); //TODO Handle NoSuchElementEx
-		proxies.add(proxy);
+		Proxy proxy = proxies.poll(); //TODO Handle NoSuchElementEx
+		if (proxy == null)
+			return getProxy();
+		proxies.offer(proxy);
 		return proxy;
 	}
 	
 	@Override
 	public void addProxy(Proxy proxy) {
-		proxies.add(proxy);
+		proxies.offer(proxy);
 	}
 }

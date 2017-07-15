@@ -30,8 +30,6 @@ public class WebsocketFactory {
 			return new WebsocketClient(uri);
 		} else {
 			Proxy proxy = unrepeatedProxyProvider.getProxy();
-			String ip = proxy.getIp();
-			String port = proxy.getPort().toString();
 			
 			Optional<WebsocketClient> websocketClientOptional = Timeout.after(() -> new WebsocketClient(uri, proxy), 5L, TimeUnit.SECONDS);
 			if (websocketClientOptional.isPresent())
