@@ -1,7 +1,9 @@
 package model.binaryAPI;
 
+import model.binaryAPI.commands.authorize.AuthorizeSend;
 import model.connection.APIsfactory;
 import model.connection.ConnectionType;
+import model.connection.Packet;
 import model.connection.packetsService.SentPacketsContainer;
 import model.connection.websocketClient.WebsocketClient;
 import model.connection.websocketClient.WebsocketFactory;
@@ -35,7 +37,10 @@ public class BinaryAPIFactory implements APIsfactory<BinaryAPI> {
 	@Override
 	public BinaryAPI createApiByConnectionType(ConnectionType connectionType) throws IOException, DeploymentException {
 		WebsocketClient websocketClient = websocketFactory.getWebsocketClient(binaryWebsocketUri, connectionType);
-		return new BinaryAPI(binaryPacketSender, websocketClient, connectionType, sentPacketsContainer);
+		BinaryAPI binaryAPI = new BinaryAPI(binaryPacketSender, websocketClient, connectionType, sentPacketsContainer);
+		if (connectionType.equals(ConnectionType.DIRECT))
+			binaryAPI.send(new Packet(new AuthorizeSend(userToken)));
+		return binaryAPI;
 	}
 	
 	@Autowired
