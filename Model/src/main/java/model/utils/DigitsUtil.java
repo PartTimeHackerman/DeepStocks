@@ -1,6 +1,6 @@
 package model.utils;
 
-public class DigitsRemover {
+public class DigitsUtil {
 	
 	public static <T extends Number> T removeLastNDigits(T number, Integer nDigits){
 		Long newNum = number.longValue();
@@ -8,5 +8,11 @@ public class DigitsRemover {
 			newNum /= (int)10;
 		}
 		return (T)newNum;
+	}
+	
+	public static <T extends Number> T getLastNDigits(T number, Integer nDigits){
+		Long newNum = number.longValue();
+		Long result = newNum % (Math.round(Math.pow(10, nDigits)));
+		return (T)(result);
 	}
 }
