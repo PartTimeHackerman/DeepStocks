@@ -1,7 +1,6 @@
 package model.binaryAPI;
 
 import model.connection.ConnectionType;
-import model.utils.Interval;
 import model.utils.MainLogger;
 import model.utils.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,20 @@ import vaer.Vaer;
 
 import javax.websocket.DeploymentException;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class BinaryAPIProvider {
 	
-	private final Vector<BinaryAPI> apis = new Vector<>();
+	private final LinkedBlockingQueue<BinaryAPI> apis = new LinkedBlockingQueue<>();
 	private final Integer maxApis = 5;
 	private final BinaryAPIFactory binaryAPIFactory;
+	private final Executor singleThreadExecutor = Executors.newSingleThreadExecutor();
+	private final AtomicBoolean creatingApi = new AtomicBoolean(false);
 	
 	@Autowired
 	public BinaryAPIProvider(BinaryAPIFactory binaryAPIFactory) {
@@ -31,7 +35,7 @@ public class BinaryAPIProvider {
 	}
 	
 	public BinaryAPI getApiByType(ConnectionType connectionType) {
-		BinaryAPI api = getApiThatCanSendMssage(connectionType);
+		BinaryAPI api = getApiThatCanSendMessage(connectionType);
 		
 		if (api == null) {
 			api = createNewApi(connectionType);
@@ -41,10 +45,16 @@ public class BinaryAPIProvider {
 			api = reconnectOrCreateNewApi(api, connectionType);
 		}
 		
+		apis.remove(api);
+		apis.offer(api);
+		
+		if (getRemainingMessages() / (double)(apis.size() * BinaryAPI.maxMessages) < 0.5 && apis.size() < maxApis && !creatingApi.get())
+			createApi(connectionType);
+		
 		return api;
 	}
 	
-	private BinaryAPI getApiThatCanSendMssage(ConnectionType connectionType) {
+	private BinaryAPI getApiThatCanSendMessage(ConnectionType connectionType) {
 		return apis.stream()
 				.filter(BinaryAPI::canSend)
 				.filter(binaryAPI ->
@@ -54,21 +64,35 @@ public class BinaryAPIProvider {
 	
 	private BinaryAPI createNewApi(ConnectionType connectionType) {
 		//MainLogger.log(this).info("No api avaiable, creating new one");
-		BinaryAPI api;
+		BinaryAPI api = null;
 		if (apis.size() >= maxApis) {
 			//MainLogger.log(this).info("All apis are busy and apis list is full, waiting for a free one");
 			api = waitForFreeApi(connectionType);
-		} else {
+		} else if (!creatingApi.get()) {
+			createApi(connectionType);
+		}
+		
+		if (api == null)
+			api = waitForFreeApi(connectionType);
+		
+		return api;
+	}
+	
+	private void createApi(ConnectionType connectionType){
+		singleThreadExecutor.execute(() -> {
+			creatingApi.set(true);
 			try {
-				api = binaryAPIFactory.createApiByConnectionType(connectionType);
-				apis.add(api);
+				BinaryAPI newApi = binaryAPIFactory.createApiByConnectionType(connectionType);
+				apis.offer(newApi);
 			} catch (IOException | DeploymentException e) {
 				MainLogger.log(this).fatal("Can't create binary api, cause: {}", e);
-				api = waitForFreeApi(connectionType);
 			}
-		}
-		addToEnd(api);
-		return api;
+			creatingApi.set(false);
+		});
+	}
+	
+	public Integer getRemainingMessages(){
+		return apis.stream().mapToInt(api -> api.getMessageCounter().getRemaining()).sum();
 	}
 	
 	private BinaryAPI waitForFreeApi(ConnectionType connectionType) {
@@ -82,10 +106,5 @@ public class BinaryAPIProvider {
 			return getApiByType(connectionType);
 		}
 		return api;
-	}
-	
-	private void addToEnd(BinaryAPI api){
-		apis.remove(api);
-		apis.add(api);
 	}
 }
