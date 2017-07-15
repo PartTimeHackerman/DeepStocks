@@ -38,6 +38,8 @@ public class WebsocketClient {
 		setUpClient();
 		if (proxy != null)
 			setUpClientProxy(client, proxy);
+		else
+			this.proxy = new Proxy("127.0.0.1:80");
 		client.connectToServer(this, uri);
 		return System.currentTimeMillis() - time;
 	}
