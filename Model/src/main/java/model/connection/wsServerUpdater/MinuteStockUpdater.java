@@ -1,4 +1,4 @@
-package model.connection.serverUpdater;
+package model.connection.wsServerUpdater;
 
 import model.binaryAPI.BinaryCandlesGather;
 import model.binaryAPI.BinaryDataGather;
@@ -7,15 +7,17 @@ import model.data.BinaryData;
 import model.data.Candle;
 import model.dataBaseUpdater.BinaryDataDBUpdater;
 import model.dataBaseUpdater.CandlesDBUpdater;
+import model.utils.DigitsUtil;
+import model.utils.Interval;
+import org.apache.commons.collections.collection.SynchronizedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +31,8 @@ public class MinuteStockUpdater {
 	
 	private final Executor singleThreadUpdater;
 	private Boolean running = false;
-	private Boolean ohBoiRefactorDisxD = false;
+	private Boolean threadRunning = false;
+	
 	
 	@Autowired
 	public MinuteStockUpdater(BinaryCandlesGather binaryCandlesGather, BinaryDataGather binaryDataGather, STOMPStocksController stompStocksController, BinaryDataDBUpdater binaryDataDBUpdater, CandlesDBUpdater candlesDBUpdater) {
@@ -45,13 +48,18 @@ public class MinuteStockUpdater {
 		if (running)
 			return;
 		running = true;
-		if (!ohBoiRefactorDisxD)
+		if (!threadRunning)
 			singleThreadUpdater.execute(() -> {
-				ohBoiRefactorDisxD = true;
-				while (true) { // XDDDD
-					if (running)
-						updateAndWait(5000L);
+				threadRunning = true;
+				update();
+				try {
+					Thread.sleep((65 - Calendar.getInstance().get(Calendar.SECOND)) * 1000L);
+				} catch (InterruptedException ignored) {
 				}
+				Interval.doEvery(1L, TimeUnit.SECONDS, () -> {
+					if (running)
+						updateAndWait(60000L);
+				});
 			});
 	}
 	
@@ -75,14 +83,14 @@ public class MinuteStockUpdater {
 	
 	private void update() {
 		List<BinaryData> binaryDataCollection = binaryDataGather.fetchAndGetBinaryDatas();
-		List<Candle> candles = new ArrayList<>();
+		Vector<Candle> candles = new Vector<>();
 		
 		List<BinaryData> openBinaryDataList = binaryDataCollection.stream()
 				.filter(binaryData -> binaryData.getExchangeIsOpen() == 1)
 				.collect(Collectors.toList());
 		
 		openBinaryDataList.parallelStream()
-				.map(binaryData -> binaryCandlesGather.getLatestCandle(binaryData.getStock()))
+				.map(binaryData -> binaryCandlesGather.getCandle(binaryData.getStock(), getSecondEpochMinuteFloor(binaryData.getSpotTime())))
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.forEach(candles::add);
@@ -95,4 +103,10 @@ public class MinuteStockUpdater {
 		binaryDataDBUpdater.update(binaryDataCollection);
 		candlesDBUpdater.update(candles);
 	}
+	
+	private Long getSecondEpochMinuteFloor(Long epoch) {
+		Long epochSeconds = DigitsUtil.removeLastNDigits(epoch, 3);
+		return epochSeconds - Calendar.getInstance().get(Calendar.SECOND);
+	}
+	
 }
