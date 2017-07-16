@@ -2,17 +2,18 @@
  var $ = global.jQuery;
  window.$ = $;*/
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import VueResource from 'vue-resource-2'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import VueResource from "vue-resource";
+import App from "./components/App.vue";
+import Stomp from "webstomp-client";
+import Sockjs from "sockjs-client";
 
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
 export const EventBus = new Vue();
-
-import App from './components/App.vue'
 
 const router = new VueRouter({
     //mode: 'history',
@@ -27,9 +28,6 @@ window.App = new Vue({
         'app': App
     }
 });
-
-import Stomp from 'webstomp-client'
-import Sockjs from 'sockjs-client'
 
 let stomp = null;
 
