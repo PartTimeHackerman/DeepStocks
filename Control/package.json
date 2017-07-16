@@ -32,7 +32,7 @@
     "vue-html-loader": "latest",
     "vue-loader": "latest",
     "vue-template-compiler": "latest",
-    "vue-resource-2" : "latest",
+    "vue-resource": "latest",
     "vue-router": "latest",
     "vuex": "latest",
 
