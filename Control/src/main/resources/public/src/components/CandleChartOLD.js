@@ -1,5 +1,5 @@
-import ZingChart from 'zingchart'
-import $ from 'jquery'
+import ZingChart from "zingchart";
+import $ from "jquery";
 
 var config = {
     "type": "stock",
@@ -51,12 +51,12 @@ var config = {
         //step: 'decimal',
         //"values": "'min-value':'max-value':.01",
         /*"format": "%v",
-        "guide": {
-            "line-style": "solid"
-        },
-        "item": {
-            "font-size": 10
-        },*/
+         "guide": {
+         "line-style": "solid"
+         },
+         "item": {
+         "font-size": 10
+         },*/
         "minor-ticks": 1,
         "minor-guide": {
             "line-color": "#010101",
@@ -89,7 +89,7 @@ var config = {
 };
 
 function Chart() {
-    this.config = $.extend({}, config );
+    this.config = $.extend({}, config);
     this.values = this.config.series[0].values;
     this.render = function () {
         ZingChart.render({

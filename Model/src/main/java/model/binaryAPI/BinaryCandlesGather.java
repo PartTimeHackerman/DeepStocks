@@ -1,8 +1,8 @@
 package model.binaryAPI;
 
 import model.binaryAPI.commands.ticks_history.TicksHistorySend;
-import model.connection.PacketSender;
 import model.connection.Packet;
+import model.connection.PacketSender;
 import model.connection.packetHandler.TicksHistoryHandler;
 import model.data.Candle;
 import model.data.Stock;
@@ -12,7 +12,6 @@ import model.utils.EpochUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,8 @@ public class BinaryCandlesGather {
 	
 	private final PacketSender packetSender;
 	private final TicksHistoryHandler ticksHistoryHandler;
-	private Integer count = 1000;
-	private Integer granularity = 60;
+	private final Integer count = 1000;
+	private final Integer granularity = 60;
 	
 	
 	@Autowired

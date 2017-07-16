@@ -1,28 +1,16 @@
 package model.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import model.data.Stock;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GsonSerializer {
 	
 	private static final Gson gson = new Gson();
 	
-	public static String toJson(Object o){
+	public static String toJson(Object o) {
 		return gson.toJson(o);
 	}
 	
-	public static <T> T fromJson(Class<T> clazz, String json){
+	public static <T> T fromJson(Class<T> clazz, String json) {
 		return gson.fromJson(json, clazz);
 	}
 	

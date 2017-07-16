@@ -33,7 +33,7 @@ public class WebsocketClient {
 	private Long setUpWebsocket(URI uri, Proxy proxy) throws IOException, DeploymentException {
 		this.uri = uri;
 		this.proxy = proxy;
-		this.client = ClientManager.createClient();
+		client = ClientManager.createClient();
 		Long time = System.currentTimeMillis();
 		setUpClient();
 		if (proxy != null)
@@ -57,7 +57,7 @@ public class WebsocketClient {
 	
 	public void sendMessage(String message) {
 		try {
-			this.userSession.getBasicRemote().sendText(message);
+			userSession.getBasicRemote().sendText(message);
 		} catch (IOException e) {
 			MainLogger.log(this).error(e);
 		}
@@ -65,8 +65,8 @@ public class WebsocketClient {
 	
 	@OnMessage
 	public void onMessage(String message) {
-		if (this.messageHandler != null) {
-			this.messageHandler.accept(message);
+		if (messageHandler != null) {
+			messageHandler.accept(message);
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class WebsocketClient {
 	}
 	
 	public void addMessageHandler(Consumer<String> msgHandler) {
-		this.messageHandler = msgHandler;
+		messageHandler = msgHandler;
 	}
 	
 	public ClientManager getClient() {
@@ -97,7 +97,7 @@ public class WebsocketClient {
 	public Boolean reconnect() {
 		MainLogger.log(this).info("Reconnecting websocket {}", client);
 		try {
-			setUpWebsocket(this.uri, this.proxy);
+			setUpWebsocket(uri, proxy);
 			MainLogger.log(this).info("Reconnected websocket {}", client);
 			return true;
 		} catch (IOException | DeploymentException e) {

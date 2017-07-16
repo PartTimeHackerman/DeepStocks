@@ -1,13 +1,12 @@
 package model.connection;
 
 import io.reactivex.subscribers.DisposableSubscriber;
+import model.connection.packetHandler.PacketHandler;
 import model.connection.packetsService.PacketsService;
-import model.connection.packetsService.RequestValidator;
+import model.utils.MainLogger;
 import org.reactivestreams.Subscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import model.connection.packetHandler.PacketHandler;
-import model.utils.MainLogger;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -17,12 +16,11 @@ import java.util.function.Predicate;
 @Component
 public class ReceivedPacketsStream extends SimpleStream<Packet> {
 	
-	@Autowired
-	private Collection<PacketHandler> handlers;
-	
 	private final PacketsService requestValidator;
 	private final PacketsService packetsTimeoutResender;
 	private final PacketsService sentPacketsContainer;
+	@Autowired
+	private Collection<PacketHandler> handlers;
 	
 	@Autowired
 	public ReceivedPacketsStream(PacketsService requestValidator, PacketsService packetsTimeoutResender, PacketsService sentPacketsContainer) {

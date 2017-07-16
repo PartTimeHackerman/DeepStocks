@@ -4,7 +4,6 @@ import model.data.Stock;
 import model.data.StockProvider;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class StockExcluder {
 	

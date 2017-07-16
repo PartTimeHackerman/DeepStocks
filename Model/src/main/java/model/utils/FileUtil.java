@@ -7,43 +7,38 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public final class FileUtil
-{
+public final class FileUtil {
 	
-	public final static byte[] loadSimple(FileInputStream in) throws IOException {
+	public static final byte[] loadSimple(FileInputStream in) throws IOException {
 		return IOUtils.toByteArray(in);
 	}
 	
-	public final static void writeSimple(byte[] bytes, FileOutputStream out) throws IOException {
+	public static final void writeSimple(byte[] bytes, FileOutputStream out) throws IOException {
 		IOUtils.write(bytes, out);
 	}
 	
-	public final static byte[] load(String fileName)
-	{
+	public static final byte[] load(String fileName) {
 		try {
-			FileInputStream fin=new FileInputStream(fileName);
+			FileInputStream fin = new FileInputStream(fileName);
 			return load(fin);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			
 			return new byte[0];
 		}
 	}
 	
-	public final static byte[] load(File file)
-	{
+	public static final byte[] load(File file) {
 		try {
-			FileInputStream fin=new FileInputStream(file);
+			FileInputStream fin = new FileInputStream(file);
 			return load(fin);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			
 			return new byte[0];
 		}
 	}
 	
-	public final static byte[] load(FileInputStream fin) {
-		byte readBuf[] = new byte[512*1024];
+	public static final byte[] load(FileInputStream fin) {
+		byte readBuf[] = new byte[512 * 1024];
 		
 		try {
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -57,8 +52,7 @@ public final class FileUtil
 			fin.close();
 			
 			return bout.toByteArray();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			
 			return new byte[0];
 		}

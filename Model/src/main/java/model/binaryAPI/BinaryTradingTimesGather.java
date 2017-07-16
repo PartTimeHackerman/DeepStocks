@@ -17,11 +17,11 @@ public class BinaryTradingTimesGather {
 		this.packetSender = packetSender;
 	}
 	
-	public void fetchTradingTimesFrom(Calendar fromCalendar){
+	public void fetchTradingTimesFrom(Calendar fromCalendar) {
 		Calendar today = Calendar.getInstance();
 		Calendar incrementedCalendar = Calendar.getInstance();
 		incrementedCalendar.setTimeInMillis(fromCalendar.getTimeInMillis());
-		while(incrementedCalendar.getTimeInMillis() < today.getTimeInMillis()){
+		while (incrementedCalendar.getTimeInMillis() < today.getTimeInMillis()) {
 			packetSender.send(new TradingTimesSend(incrementedCalendar.getTimeInMillis()));
 			incrementedCalendar.add(Calendar.DAY_OF_MONTH, 1);
 		}

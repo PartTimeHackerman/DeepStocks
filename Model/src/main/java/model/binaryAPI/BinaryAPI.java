@@ -19,13 +19,11 @@ public class BinaryAPI implements ProviderAPI {
 	public static final Integer maxMessages = 200;
 	public static final Integer timeLimit = 61 * 1000;
 	private static final Gson gson = GsonService.getGson();
-	
-	private ProviderReceiver receiver;
-	
-	private ConnectionType connectionType;
-	private WebsocketClient websocketClient;
-	private IMessagesCounter messageCounter;
 	private final SentPacketsContainer sentPacketsContainer;
+	private final ProviderReceiver receiver;
+	private final ConnectionType connectionType;
+	private final WebsocketClient websocketClient;
+	private final IMessagesCounter messageCounter;
 	
 	public BinaryAPI(ProviderReceiver binaryPacketSender, WebsocketClient websocketClient, SentPacketsContainer sentPacketsContainer) {
 		this(binaryPacketSender, websocketClient, ConnectionType.DIRECT, sentPacketsContainer);
@@ -134,8 +132,8 @@ public class BinaryAPI implements ProviderAPI {
 	}
 	
 	private class Response {
-		ResErr error;
 		public int req_id;
+		ResErr error;
 		
 		private class ResErr {
 			public String code;

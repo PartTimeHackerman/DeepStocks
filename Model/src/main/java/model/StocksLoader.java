@@ -16,10 +16,8 @@ import java.util.Observable;
 @Deprecated
 public class StocksLoader extends Observable {
 	
-	private Serializer serializer;
-	
-	public final static String defaultPath = "stocksSER";
-	
+	public static final String defaultPath = "stocksSER";
+	private final Serializer serializer;
 	private String currentStock;
 	
 	private Integer total;

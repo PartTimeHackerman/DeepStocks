@@ -1,8 +1,8 @@
 package spring.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.data.Candle;
 import model.dao.CandleDAO;
+import model.data.Candle;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +42,8 @@ public class CandlesController {
 		return candles;
 	}
 	
-	@RequestMapping(value = "/candles/{stockId}/granularity", method = RequestMethod.GET)//, produces = {"application/json"})
+	@RequestMapping(value = "/candles/{stockId}/granularity", method = RequestMethod.GET)
+//, produces = {"application/json"})
 	public List<Candle> getCandlesWithGranularity(
 			@PathVariable("stockId") Long stockId,
 			@RequestParam(value = "start", defaultValue = "0", required = false) Long start,

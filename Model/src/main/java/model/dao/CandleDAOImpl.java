@@ -16,7 +16,7 @@ public class CandleDAOImpl {
 	
 	@Autowired
 	public CandleDAOImpl(EntityManagerFactory entityManagerFactory) {
-		this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+		sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
 		//this.crudDAO = crudDAO;
 	}
 	

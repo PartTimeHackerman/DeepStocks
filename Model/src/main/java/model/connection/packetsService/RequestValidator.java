@@ -2,15 +2,17 @@ package model.connection.packetsService;
 
 import model.connection.Packet;
 import model.connection.PacketSender;
-import model.data.PacketBackup;
 import model.dao.PacketBackupDAO;
+import model.data.PacketBackup;
 import model.utils.ShutdownHook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import vaer.Vaer;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -20,8 +22,8 @@ public class RequestValidator implements PacketsService {
 	private final PacketBackupDAO packetBackupDAO;
 	private final List<Packet> backups = Collections.synchronizedList(new Vector<>());
 	private final PacketSender packetSender;
-	private Boolean resend = false;
 	private final AtomicInteger resent = new AtomicInteger(0);
+	private Boolean resend = false;
 	
 	@Autowired
 	public RequestValidator(PacketBackupDAO packetBackupDAO, @Lazy PacketSender packetSender) {

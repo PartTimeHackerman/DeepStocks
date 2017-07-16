@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
-
-<HBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.IO">
-   <children>
-      <Button fx:id="loadData" mnemonicParsing="false" text="Load data" />
-      <Button fx:id="saveData" mnemonicParsing="false" text="Save data" />
-   </children>
+<HBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.60"
+      fx:controller="view.IO">
+    <children>
+        <Button fx:id="loadData" mnemonicParsing="false" text="Load data"/>
+        <Button fx:id="saveData" mnemonicParsing="false" text="Save data"/>
+    </children>
 </HBox>

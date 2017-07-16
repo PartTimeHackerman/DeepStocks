@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository
-public interface BinaryDataDAO extends CrudRepository<BinaryData, Long>{
+public interface BinaryDataDAO extends CrudRepository<BinaryData, Long> {
 }

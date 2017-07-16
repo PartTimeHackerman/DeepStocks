@@ -9,15 +9,16 @@ import model.dataBaseUpdater.BinaryDataDBUpdater;
 import model.dataBaseUpdater.CandlesDBUpdater;
 import model.utils.DigitsUtil;
 import model.utils.Interval;
-import org.apache.commons.collections.collection.SynchronizedCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +42,7 @@ public class MinuteStockUpdater {
 		this.stompStocksController = stompStocksController;
 		this.binaryDataDBUpdater = binaryDataDBUpdater;
 		this.candlesDBUpdater = candlesDBUpdater;
-		this.singleThreadUpdater = Executors.newSingleThreadExecutor();
+		singleThreadUpdater = Executors.newSingleThreadExecutor();
 	}
 	
 	public void start() {

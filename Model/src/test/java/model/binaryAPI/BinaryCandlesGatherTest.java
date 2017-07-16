@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.assertTrue;
 
 @org.springframework.transaction.annotation.Transactional
-public class BinaryCandlesGatherTest extends SpringTest{
+public class BinaryCandlesGatherTest extends SpringTest {
 	
 	@Autowired
 	BinaryCandlesGather binaryCandlesGather;

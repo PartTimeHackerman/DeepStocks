@@ -1,10 +1,10 @@
 package model.connection.packetHandler;
 
-import model.connection.SimpleStream;
-import model.connection.handleUpdater.StocksBinaryDataUpdater;
-import model.data.*;
 import model.binaryAPI.commands.active_symbols.ActiveSymbolsReceive;
 import model.connection.Packet;
+import model.connection.SimpleStream;
+import model.connection.handleUpdater.StocksBinaryDataUpdater;
+import model.data.BinaryData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class ActiveSymbolsHandler extends SimpleStream<Collection<BinaryData>> i
 		submit(binaryDataList);
 	}
 	
-	public List<BinaryData> getAndAssocBinaryDatas(Packet packet){
+	public List<BinaryData> getAndAssocBinaryDatas(Packet packet) {
 		ActiveSymbolsReceive activeSymbolsReceive = (ActiveSymbolsReceive) packet.getReceiver();
 		List<BinaryData> binaryDataList = activeSymbolsReceive.getActiveSymbols();
 		stocksBinaryDataUpdater.update(binaryDataList);

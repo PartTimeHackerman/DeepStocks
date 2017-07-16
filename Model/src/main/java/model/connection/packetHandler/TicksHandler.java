@@ -18,7 +18,7 @@ public class TicksHandler extends SimpleStream<TicksHandler.StockCandleWrapper> 
 	private final StockRepo stockRepo;
 	
 	@Autowired
-	public TicksHandler(StockRepo stockRepo){
+	public TicksHandler(StockRepo stockRepo) {
 		this.stockRepo = stockRepo;
 	}
 	
@@ -75,12 +75,12 @@ public class TicksHandler extends SimpleStream<TicksHandler.StockCandleWrapper> 
 	}*/
 	
 	@Data
-	public final class StockCandleWrapper{
+	public final class StockCandleWrapper {
 		
 		private final Stock stock;
 		private final Candle candles;
 		
-		public StockCandleWrapper(Stock stock, Candle candles){
+		public StockCandleWrapper(Stock stock, Candle candles) {
 			this.stock = stock;
 			this.candles = candles;
 		}

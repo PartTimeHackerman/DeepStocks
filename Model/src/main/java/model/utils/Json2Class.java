@@ -92,7 +92,7 @@ public class Json2Class {
 			"trading_times",
 			"transaction",
 			"transfer_between_accounts",
-			"verify_email" ,
+			"verify_email",
 			"website_status"));
 	
 	public static void main(String[] args) {
@@ -119,7 +119,7 @@ public class Json2Class {
 		
 		for (String dir : dirs) {
 			getClass(dir, codeModel, mapper);
-			System.out.println(dirs.indexOf(dir)+"/"+dirs.size());
+			System.out.println(dirs.indexOf(dir) + "/" + dirs.size());
 		}
 		
 	}
@@ -134,11 +134,11 @@ public class Json2Class {
 		
 		try {
 			json = Jsoup.connect(url + dir + "/" + "send.json").get().text();
-			mapper.generate(codeModel, getWithoutFloor(dir) + "Send", "binaryAPI.commands."+dir, json);
+			mapper.generate(codeModel, getWithoutFloor(dir) + "Send", "binaryAPI.commands." + dir, json);
 			codeModel.build(file);
 			
 			json = Jsoup.connect(url + "/" + dir + "/" + "receive.json").get().text();
-			mapper.generate(codeModel, getWithoutFloor(dir) + "Receive", "binaryAPI.commands."+dir, json);
+			mapper.generate(codeModel, getWithoutFloor(dir) + "Receive", "binaryAPI.commands." + dir, json);
 			codeModel.build(file);
 			
 			

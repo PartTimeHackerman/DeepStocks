@@ -8,7 +8,6 @@ import model.data.BinaryData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -28,7 +27,7 @@ public class BinaryDataGather {
 		packetSender.send(new Packet(new ActiveSymbolsSend()));
 	}
 	
-	public List<BinaryData> fetchAndGetBinaryDatas(){
+	public List<BinaryData> fetchAndGetBinaryDatas() {
 		Packet packet = packetSender.sendAndGet(new Packet(new ActiveSymbolsSend()));
 		return activeSymbolsHandler.getAndAssocBinaryDatas(packet);
 	}

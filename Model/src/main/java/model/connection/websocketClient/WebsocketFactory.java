@@ -2,7 +2,6 @@ package model.connection.websocketClient;
 
 import model.connection.ConnectionType;
 import model.connection.proxy.UnrepeatedProxyProvider;
-import model.connection.websocketClient.WebsocketClient;
 import model.utils.MainLogger;
 import model.utils.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;

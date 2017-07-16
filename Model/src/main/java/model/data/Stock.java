@@ -9,15 +9,16 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import model.dao.CandleDAO;
 import model.jdbc.resourceProcessor.ReverseResourceRelation;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Data
@@ -116,12 +117,12 @@ public class Stock implements Serializable {
 			this.binaryData = binaryData;
 		}
 		binaryData.setStock(this);
-		binaryData.setStockId(this.id);
+		binaryData.setStockId(id);
 	}
 	
 	public void addSymbol(Symbol symbol) {
 		symbol.setStock(this);
-		symbol.setStockId(this.id);
+		symbol.setStockId(id);
 		symbols.add(symbol);
 	}
 	
@@ -145,6 +146,6 @@ public class Stock implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
-		this.id = (long) name.hashCode();
+		id = (long) name.hashCode();
 	}
 }

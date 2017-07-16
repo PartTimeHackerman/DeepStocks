@@ -12,7 +12,7 @@ public class MessagesCounter implements IMessagesCounter {
 	
 	private Long lastTime = 0L;
 	
-	public MessagesCounter(Integer messagesLimit, Integer timeLimitMillis){
+	public MessagesCounter(Integer messagesLimit, Integer timeLimitMillis) {
 		this.messagesLimit = messagesLimit;
 		this.timeLimitMillis = timeLimitMillis;
 	}

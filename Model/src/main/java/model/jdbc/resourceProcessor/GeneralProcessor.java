@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.mapping.context.PersistentEntities;
 import org.springframework.data.rest.core.support.SelfLinkProvider;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
-import org.springframework.data.rest.webmvc.json.PersistentEntityJackson2Module;
 import org.springframework.data.rest.webmvc.mapping.Associations;
 import org.springframework.data.rest.webmvc.mapping.LinkCollector;
 import org.springframework.hateoas.*;
@@ -21,7 +20,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Configuration

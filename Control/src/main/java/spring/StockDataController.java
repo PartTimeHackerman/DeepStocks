@@ -1,11 +1,11 @@
 package spring;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 //@Component
 //@RestController
 @RequestMapping("/stocks")
-public class StockDataController{// implements CommandLineRunner {
+public class StockDataController {// implements CommandLineRunner {
 	/*
 	//@Autowired
 	private StockDataRepo repo;

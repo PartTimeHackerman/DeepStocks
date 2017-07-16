@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode
-public class SubMarket implements Serializable{
+public class SubMarket implements Serializable {
 	
 	@SerializedName("name")
 	@Expose

@@ -3,13 +3,12 @@ package model.connection.proxy;
 import org.springframework.stereotype.Service;
 import scraper.Proxy;
 
-import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 public class CycleProxyProvider implements ProxyProvider {
 	
-	private LinkedBlockingQueue<Proxy> proxies = new LinkedBlockingQueue<>();
+	private final LinkedBlockingQueue<Proxy> proxies = new LinkedBlockingQueue<>();
 	
 	@Override
 	public Proxy getProxy() {

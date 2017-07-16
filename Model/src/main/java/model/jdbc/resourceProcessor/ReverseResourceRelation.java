@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @RestResource(exported = false)
 @JsonIgnore
-public @interface ReverseResourceRelation{
+public @interface ReverseResourceRelation {
 }

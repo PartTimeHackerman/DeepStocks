@@ -7,7 +7,6 @@ import model.data.Stock;
 import model.data.StockProvider;
 import model.data.StockRepo;
 import model.exception.StreamingNotAllowedException;
-import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @Component
 public class STOMPSessionsManager {
 	
-	private Map<String, List<String>> usersSessions = new HashMap<>();
+	private final Map<String, List<String>> usersSessions = new HashMap<>();
 	
 	public void addSession(String user, String session) {
 		if (!usersSessions.containsKey(user))

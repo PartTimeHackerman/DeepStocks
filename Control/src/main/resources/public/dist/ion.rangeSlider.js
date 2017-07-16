@@ -10,7 +10,7 @@
 // http://ionden.com/a/plugins/licence-en.html
 // =====================================================================================================================
 
-;(function(factory) {
+;(function (factory) {
     if (typeof define === "function" && define.amd) {
         define(["jquery"], function (jQuery) {
             return factory(jQuery, document, window, navigator);
@@ -20,7 +20,7 @@
     } else {
         factory(jQuery, document, window, navigator);
     }
-} (function ($, document, window, navigator, undefined) {
+}(function ($, document, window, navigator, undefined) {
     "use strict";
 
     // =================================================================================================================
@@ -42,7 +42,7 @@
             }
         }
         return false;
-    } ());
+    }());
     if (!Function.prototype.bind) {
         Function.prototype.bind = function bind(that) {
 
@@ -58,7 +58,8 @@
 
                     if (this instanceof bound) {
 
-                        var F = function(){};
+                        var F = function () {
+                        };
                         F.prototype = target.prototype;
                         var self = new F();
 
@@ -86,7 +87,7 @@
         };
     }
     if (!Array.prototype.indexOf) {
-        Array.prototype.indexOf = function(searchElement, fromIndex) {
+        Array.prototype.indexOf = function (searchElement, fromIndex) {
             var k;
             if (this == null) {
                 throw new TypeError('"this" is null or not defined');
@@ -115,7 +116,6 @@
     }
 
 
-
     // =================================================================================================================
     // Template
 
@@ -141,7 +141,6 @@
 
     var disable_html =
         '<span class="irs-disable-mask"></span>';
-
 
 
     // =================================================================================================================
@@ -259,7 +258,6 @@
             p_single_fake: 0,
             p_single_left: 0
         };
-
 
 
         /**
@@ -420,7 +418,6 @@
         }
 
 
-
         // js config extends default config
         $.extend(config, options);
 
@@ -430,11 +427,9 @@
         this.options = config;
 
 
-
         // validate config, to be sure that all data types are correct
         this.update_check = {};
         this.validate();
-
 
 
         // default result object, returned to callbacks
@@ -453,7 +448,6 @@
             to_percent: 0,
             to_value: null
         };
-
 
 
         this.init();
@@ -753,7 +747,7 @@
             if ($.contains(this.$cache.cont[0], e.target) || this.dragging) {
                 this.callOnFinish();
             }
-            
+
             this.dragging = false;
         },
 
@@ -930,7 +924,6 @@
                 this.old_min_interval = null;
             }
         },
-
 
 
         // =============================================================================================================
@@ -1144,7 +1137,7 @@
                 return;
             }
 
-            if (this.coords.x_pointer < 0 || isNaN(this.coords.x_pointer)  ) {
+            if (this.coords.x_pointer < 0 || isNaN(this.coords.x_pointer)) {
                 this.coords.x_pointer = 0;
             } else if (this.coords.x_pointer > this.coords.w_rs) {
                 this.coords.x_pointer = this.coords.w_rs;
@@ -1254,7 +1247,6 @@
 
             }
         },
-
 
 
         // =============================================================================================================
@@ -1570,7 +1562,6 @@
         },
 
 
-
         /**
          * Write values to input element
          */
@@ -1592,7 +1583,6 @@
                 this.$cache.input.data("to", this.result.to);
             }
         },
-
 
 
         // =============================================================================================================
@@ -1626,8 +1616,6 @@
                 this.options.onUpdate(this.result);
             }
         },
-
-
 
 
         // =============================================================================================================
@@ -2098,7 +2086,6 @@
                 html = '';
 
 
-
             this.calcGridMargin();
 
             if (o.grid_snap) {
@@ -2167,7 +2154,6 @@
                 html += '<span class="irs-grid-text js-grid-text-' + i + '" style="left: ' + big_w + '%">' + result + '</span>';
             }
             this.coords.big_num = Math.ceil(big_num + 1);
-
 
 
             this.$cache.cont.addClass("irs-with-grid");
@@ -2265,13 +2251,12 @@
             } else {
                 this.coords.w_handle = this.$cache.s_from.outerWidth(false);
             }
-            this.coords.p_handle = this.toFixed(this.coords.w_handle  / this.coords.w_rs * 100);
+            this.coords.p_handle = this.toFixed(this.coords.w_handle / this.coords.w_rs * 100);
             this.coords.grid_gap = this.toFixed((this.coords.p_handle / 2) - 0.1);
 
             this.$cache.grid[0].style.width = this.toFixed(100 - this.coords.p_handle) + "%";
             this.$cache.grid[0].style.left = this.coords.grid_gap + "%";
         },
-
 
 
         // =============================================================================================================
@@ -2323,13 +2308,12 @@
     };
 
     $.fn.ionRangeSlider = function (options) {
-        return this.each(function() {
+        return this.each(function () {
             if (!$.data(this, "ionRangeSlider")) {
                 $.data(this, "ionRangeSlider", new IonRangeSlider(this, options, plugin_count++));
             }
         });
     };
-
 
 
     // =================================================================================================================
@@ -2340,27 +2324,29 @@
 
     // MIT license
 
-    (function() {
+    (function () {
         var lastTime = 0;
         var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
-                || window[vendors[x]+'CancelRequestAnimationFrame'];
+        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+                || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame)
-            window.requestAnimationFrame = function(callback, element) {
+            window.requestAnimationFrame = function (callback, element) {
                 var currTime = new Date().getTime();
                 var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                var id = window.setTimeout(function () {
+                        callback(currTime + timeToCall);
+                    },
                     timeToCall);
                 lastTime = currTime + timeToCall;
                 return id;
             };
 
         if (!window.cancelAnimationFrame)
-            window.cancelAnimationFrame = function(id) {
+            window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
     }());

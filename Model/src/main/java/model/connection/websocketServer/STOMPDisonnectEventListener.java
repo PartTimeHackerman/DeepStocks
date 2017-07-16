@@ -1,6 +1,5 @@
 package model.connection.websocketServer;
 
-import model.connection.websocketServer.STOMPSessionsManager;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

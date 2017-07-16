@@ -10,10 +10,8 @@ import java.util.stream.IntStream;
 public class MainPool implements IPool {
 	
 	private static MainPool pool;
-	
-	private ThreadPoolExecutor executor;
-	
 	private static Integer threads = 100;
+	private final ThreadPoolExecutor executor;
 	
 	private MainPool(int threads) {
 		executor = new ThreadPoolExecutor(threads, threads,
@@ -29,6 +27,12 @@ public class MainPool implements IPool {
 			}
 		}
 		return pool;
+	}
+	
+	public static void setThreadsStatic(Integer threads) {
+		MainPool.threads = threads;
+		if (pool != null)
+			pool.setThreads(threads);
 	}
 	
 	//Send one lambda
@@ -61,7 +65,7 @@ public class MainPool implements IPool {
 	
 	@Override
 	public <R> R sendTask(Callable<R> callable, boolean wait, Integer times) {
-		
+
 		if (times <= 1) {
 			Future<R> future = executor.submit(callable);
 			try {
@@ -70,22 +74,22 @@ public class MainPool implements IPool {
 				MainLogger.log(this).fatal(Thread.currentThread().getName() + " thread was interrupted!");
 			}
 		}
-		
+
 		Future<R> future = executor.submit(() -> {
 			List<Callable<R>> calls = new ArrayList<>();
 			IntStream.range(0, times)
 					.forEach(i -> calls.add(callable));
-			
+
 			sendTasks(calls);
 			return null;
 		});
-		
+
 		if (wait) try {
 			future.get();
 		} catch (InterruptedException | ExecutionException e) {
 			MainLogger.log(this).fatal("Some thread was interrupted!");
 		}
-		
+
 		return null;
 	}
 	
@@ -126,7 +130,7 @@ public class MainPool implements IPool {
 		return new ExecutorCompletionService<>(executor);
 	}
 	
-	public <T,R> List<R> subPool(List<T> list, Function<T,R> function, Integer threads){
+	public <T, R> List<R> subPool(List<T> list, Function<T, R> function, Integer threads) {
 		threads = threads > getThreads() ? getThreads() : threads;
 		threads = threads >= list.size() ? list.size() : threads;
 		
@@ -142,15 +146,16 @@ public class MainPool implements IPool {
 			completionService.submit(() -> function.apply(element));
 		}
 		
-		while (completed.size() < responses ){
+		while (completed.size() < responses) {
 			R completedFunc = null;
 			try {
 				completedFunc = completionService.take().get();
-			} catch (InterruptedException | ExecutionException ignored) {}
-			
+			} catch (InterruptedException | ExecutionException ignored) {
+			}
+
 			completed.add(completedFunc);
 			
-			if(list.isEmpty()) break;
+			if (list.isEmpty()) break;
 			T element = list.get(0);
 			list.remove(element);
 			
@@ -160,10 +165,9 @@ public class MainPool implements IPool {
 		return completed;
 	}
 	
-	public static void setThreadsStatic(Integer threads) {
-		MainPool.threads = threads;
-		if (pool != null)
-			pool.setThreads(threads);
+	@Override
+	public Integer getThreads() {
+		return threads;
 	}
 	
 	@Override
@@ -172,11 +176,6 @@ public class MainPool implements IPool {
 		executor.setCorePoolSize(threads);
 		executor.setMaximumPoolSize(threads);
 		
-	}
-	
-	@Override
-	public Integer getThreads() {
-		return threads;
 	}
 	
 	@Override

@@ -19,10 +19,9 @@ import java.net.URI;
 public class BinaryAPIFactory implements APIsfactory<BinaryAPI> {
 	private static final URI binaryWebsocketUri = URI.create("wss://ws.binaryws.com/websockets/v3?app_id=2663");
 	private static final String userToken = "QuZpbffDx7DUipF";
-	
+	private final SentPacketsContainer sentPacketsContainer;
 	private BinaryPacketsService binaryPacketSender;
 	private WebsocketFactory websocketFactory;
-	private final SentPacketsContainer sentPacketsContainer;
 	
 	@Autowired
 	public BinaryAPIFactory(SentPacketsContainer sentPacketsContainer) {

@@ -48,7 +48,7 @@ public class BinaryAPIProvider {
 		apis.remove(api);
 		apis.offer(api);
 		
-		if (getRemainingMessages() / (double)(apis.size() * BinaryAPI.maxMessages) < 0.5 && apis.size() < maxApis && !creatingApi.get())
+		if (getRemainingMessages() / (double) (apis.size() * BinaryAPI.maxMessages) < 0.5 && apis.size() < maxApis && !creatingApi.get())
 			createApi(connectionType);
 		
 		return api;
@@ -78,7 +78,7 @@ public class BinaryAPIProvider {
 		return api;
 	}
 	
-	private void createApi(ConnectionType connectionType){
+	private void createApi(ConnectionType connectionType) {
 		singleThreadExecutor.execute(() -> {
 			creatingApi.set(true);
 			try {
@@ -91,7 +91,7 @@ public class BinaryAPIProvider {
 		});
 	}
 	
-	public Integer getRemainingMessages(){
+	public Integer getRemainingMessages() {
 		return apis.stream().mapToInt(api -> api.getMessageCounter().getRemaining()).sum();
 	}
 	

@@ -1,11 +1,11 @@
 package model.factory;
 
-import model.data.Stock;
-import model.data.StockRepo;
-import model.data.Symbol;
 import model.dao.CandleDAO;
 import model.dao.StockDAO;
 import model.dao.SymbolDAO;
+import model.data.Stock;
+import model.data.StockRepo;
+import model.data.Symbol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

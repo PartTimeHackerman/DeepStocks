@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vaer.Vaer;
 
-import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
@@ -70,13 +68,13 @@ public class PacketSender {
 		}
 	}
 	
-	private void addToServices(Packet packet){
+	private void addToServices(Packet packet) {
 		requestValidator.addPacket(packet);
 		packetsTimeoutResender.addPacket(packet);
 		sentPacketsContainer.addPacket(packet);
 	}
 	
-	private void sendByProvider(Packet packet, StockProvider provider){
+	private void sendByProvider(Packet packet, StockProvider provider) {
 		switch (provider) {
 			case BINARY:
 				binaryPacketSender.send(packet);

@@ -4,15 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import scraper.Proxy;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UnrepeatedProxyProvider implements ProxyProvider {
 	
 	private final ScraperManager scraperManager;
-	private List<Proxy> proxies = new Vector<>();
-	private List<Proxy> usedProxies = new Vector<>();
+	private final List<Proxy> proxies = new Vector<>();
+	private final List<Proxy> usedProxies = new Vector<>();
 	
 	@Autowired
 	public UnrepeatedProxyProvider(ScraperManager scraperManager) {

@@ -2,7 +2,7 @@ package model.exception;
 
 public class InvalidSymbolException extends Exception {
 	
-	public InvalidSymbolException(){
+	public InvalidSymbolException() {
 		super("Invalid symbol");
 	}
 }

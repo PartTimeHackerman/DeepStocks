@@ -1,4 +1,4 @@
-import Highcharts from 'highstock-release'
+import Highcharts from "highstock-release";
 
 export default class Chart {
 

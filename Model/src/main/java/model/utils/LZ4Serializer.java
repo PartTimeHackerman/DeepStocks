@@ -13,10 +13,8 @@ import java.io.Serializable;
 
 public class LZ4Serializer implements ISerializer {
 	
-	private Lz4Compressor compressor = new Lz4Compressor();
-	
-	private Lz4Decompressor decompressor = new Lz4Decompressor();
-	
+	private final Lz4Compressor compressor = new Lz4Compressor();
+	private final Lz4Decompressor decompressor = new Lz4Decompressor();
 	LZ4Factory factory = LZ4Factory.fastestInstance();
 	
 	@Override
@@ -36,7 +34,7 @@ public class LZ4Serializer implements ISerializer {
 					objBytes, 0, objBytes.length,
 					compressed, 0, maxCompressedLength);
 			
-					
+			
 			FileUtil.writeSimple(compressed, out);
 		} catch (IOException e) {
 			e.printStackTrace();

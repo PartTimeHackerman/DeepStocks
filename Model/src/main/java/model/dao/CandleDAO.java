@@ -28,7 +28,7 @@ public interface CandleDAO extends CrudRepository<Candle, Candle.CandlePK> {
 	List<Candle> findTopLimitByStockidOrderByEpoch(@Param("stockid") Long stockid, @Param("limit") Integer limit);
 	
 	@Query(value =
-					"WITH " +
+			"WITH " +
 					"candlesOrdered AS (SELECT *" +
 					"                     FROM candles c                      " +
 					"                     WHERE stockid = :stockid AND epoch BETWEEN :start AND :end " +
@@ -39,7 +39,7 @@ public interface CandleDAO extends CrudRepository<Candle, Candle.CandlePK> {
 					"SELECT c.epoch, c.close, c.high, c.low, c.open, c.volume, c.stockid, c.row FROM candlesTemp c " +
 					"WHERE " +
 					"CASE WHEN ((cast((SELECT * FROM maxRow) AS FLOAT)/:granularity)>=1) " +
-					"THEN ( row % ((select * from maxRow)/:granularity)=0 OR row = (select * from maxRow) OR row = 1) " +
+					"THEN ( row % ((SELECT * FROM maxRow)/:granularity)=0 OR row = (SELECT * FROM maxRow) OR row = 1) " +
 					"    ELSE TRUE END " +
 					"ORDER BY c.epoch ASC"
 			, nativeQuery = true)

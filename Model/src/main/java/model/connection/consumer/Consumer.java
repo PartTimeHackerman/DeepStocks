@@ -1,6 +1,5 @@
 package model.connection.consumer;
 
-import model.connection.packetHandler.TicksHistoryHandler;
 import model.utils.MainLogger;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;

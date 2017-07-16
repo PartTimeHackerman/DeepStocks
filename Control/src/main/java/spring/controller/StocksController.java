@@ -1,7 +1,7 @@
 package spring.controller;
 
-import model.data.Stock;
 import model.dao.StockDAO;
+import model.data.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ public class StocksController {
 	}
 	
 	@RequestMapping(value = "/stocksPage", method = RequestMethod.GET)
-	public Page<Stock> getStocksPage(Pageable page){
+	public Page<Stock> getStocksPage(Pageable page) {
 		Page<Stock> stocks = stockDAO.findAll(page);
 		return stocks;
 	}

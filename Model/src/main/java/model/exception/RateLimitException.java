@@ -2,7 +2,7 @@ package model.exception;
 
 public class RateLimitException extends Exception {
 	
-	public RateLimitException(){
+	public RateLimitException() {
 		super("Rate limit");
 	}
 }

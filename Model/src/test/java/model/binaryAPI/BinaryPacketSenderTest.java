@@ -16,7 +16,7 @@ public class BinaryPacketSenderTest extends SpringTest {
 		TicksHistorySend ticksHistory = new TicksHistorySend();
 		ticksHistory.setTicksHistory("AEX");
 		ticksHistory.setStart(1488116600L);
-		ticksHistory.setEnd(1488116600L+"");
+		ticksHistory.setEnd(1488116600L + "");
 		ticksHistory.setCount(1);
 		ticksHistory.setGranularity(60);
 		ticksHistory.setStyle(TicksHistorySend.Style.CANDLES);

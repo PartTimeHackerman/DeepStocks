@@ -1,13 +1,10 @@
 package model.connection;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Packet {
 	
 	private Message sender;
@@ -24,18 +21,18 @@ public class Packet {
 	
 	private boolean wait;
 	
-	public Packet(Message sender){
+	public Packet(Message sender) {
 		this.sender = sender;
 	}
 	
-	public Packet(Message sender, Object optional){
+	public Packet(Message sender, Object optional) {
 		this.sender = sender;
 		this.optional = optional;
 	}
 	
-	public boolean equals(Object o){
-		if(o instanceof Packet)
-			return this.sender.equals(((Packet) o).getSender());
+	public boolean equals(Object o) {
+		if (o instanceof Packet)
+			return sender.equals(((Packet) o).getSender());
 		return false;
 	}
 	

@@ -1,41 +1,27 @@
 package model.connection.proxy;
 
-import model.utils.MainLogger;
 import org.springframework.stereotype.Component;
 import scraper.Proxy;
 import scraper.Scraper;
 import scraper.data.Site;
 
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
 
 @Component
 public class ScraperManager {
 	
+	private final Integer threads = 100;
+	private final Integer timeout = 10000;
+	private final Integer limit = Integer.MAX_VALUE;
+	private final Boolean check = true;
+	private final Integer browsers = 5;
+	private final Integer ocrs = 5;
+	private final Integer minProxies = 10;
+	private final Integer maxProxiesToScrape = 30;
+	private final Set<ProxyProvider> proxyProviders = new HashSet<>();
+	private final Set<Proxy> usedProxies = new HashSet<>();
 	private Scraper scraper;
-	
-	private Integer threads = 100;
-	
-	private Integer timeout = 10000;
-	
-	private Integer limit = Integer.MAX_VALUE;
-	
-	private Boolean check = true;
-	
-	private Integer browsers = 5;
-	
-	private Integer ocrs = 5;
-	
-	private Integer minProxies = 10;
-	
-	private Integer maxProxiesToScrape = 30;
-	
-	private Set<ProxyProvider> proxyProviders = new HashSet<>();
-	
 	private List<Proxy> workingProxies;
-	
-	private Set<Proxy> usedProxies = new HashSet<>();
-	
 	private Vector<Site> sitesCycle = new Vector<>();
 	
 	

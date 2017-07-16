@@ -4,7 +4,6 @@ import model.connection.consumer.Consumer;
 import model.connection.packetHandler.TicksHistoryHandler;
 import model.connection.websocketServer.STOMPStocksController;
 import model.data.Candle;
-import model.data.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,18 +1,8 @@
 package model.binaryAPI;
 
 import model.connection.*;
-import model.utils.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
-import model.utils.MainLogger;
 import org.springframework.stereotype.Service;
-import vaer.Vaer;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Predicate;
 
 @Service
 public class BinaryPacketsService implements ProviderSender, ProviderReceiver {
@@ -39,6 +29,6 @@ public class BinaryPacketsService implements ProviderSender, ProviderReceiver {
 	
 	@Override
 	public void receive(Packet packet) {
-			packetStream.receive(packet);
+		packetStream.receive(packet);
 	}
 }

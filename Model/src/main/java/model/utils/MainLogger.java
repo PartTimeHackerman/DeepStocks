@@ -18,13 +18,10 @@ import java.util.function.Consumer;
 
 public class MainLogger {
 	
-	private static MainLogger logger;
-	
-	private final String name = MainLogger.class.getSimpleName();
-	
-	private final LoggerOutputStream out = new LoggerOutputStream();
-	
 	private static final Map<Class, Logger> loggersMap = new HashMap<>();
+	private static MainLogger logger;
+	private final String name = MainLogger.class.getSimpleName();
+	private final LoggerOutputStream out = new LoggerOutputStream();
 	
 	private MainLogger() {
 		addAppender(out, name);
@@ -52,7 +49,7 @@ public class MainLogger {
 		return getInstance().out;
 	}
 	
-	private void addAppender(final OutputStream outputStream, final String outputStreamName) {
+	private void addAppender(OutputStream outputStream, String outputStreamName) {
 		LoggerContext context = LoggerContext.getContext(false);
 		Configuration config = context.getConfiguration();
 		PatternLayout layout = PatternLayout.createDefaultLayout(config);
@@ -61,7 +58,7 @@ public class MainLogger {
 		appender.start();
 		config.addAppender(appender);
 		
-		for (final LoggerConfig loggerConfig : config.getLoggers().values()) {
+		for (LoggerConfig loggerConfig : config.getLoggers().values()) {
 			loggerConfig.addAppender(appender, null, null);
 		}
 		config.getRootLogger().addAppender(appender, null, null);

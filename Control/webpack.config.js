@@ -1,5 +1,5 @@
 var path = require('path');
-var webpack = require('webpack')
+var webpack = require('webpack');
 var ROOT = path.resolve(__dirname, 'src/main/resources/public');
 var SRC = path.resolve(ROOT, 'src');
 var DIST = path.resolve(ROOT, 'dist');
@@ -14,7 +14,7 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/dist/'
     },
-    devServer:{
+    devServer: {
         contentBase: ROOT
     },
     resolve: {
@@ -48,9 +48,9 @@ module.exports = {
         ]
     }
     /*, plugins:[
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
-        })
-    ]*/
+     new webpack.ProvidePlugin({
+     $: "jquery",
+     jQuery: "jquery"
+     })
+     ]*/
 };

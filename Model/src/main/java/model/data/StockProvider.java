@@ -15,17 +15,17 @@ public enum StockProvider {
 			lookup.put(p.getValue(), p);
 	}
 	
-	StockProvider(Integer value){
+	private final int value;
+	
+	StockProvider(Integer value) {
 		this.value = value;
-	}
-	
-	private int value;
-	
-	public int getValue() {
-		return value;
 	}
 	
 	public static StockProvider get(int value) {
 		return lookup.get(value);
 	}
+	
+	public int getValue() {
+		return value;
 	}
+}

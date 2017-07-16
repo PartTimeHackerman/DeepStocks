@@ -6,11 +6,11 @@ import java.io.*;
 
 public class BytesUtils {
 	
-	public static byte[] toByteSimple(Serializable obj){
+	public static byte[] toByteSimple(Serializable obj) {
 		return SerializationUtils.serialize(obj);
 	}
 	
-	public static <T> T toByteSimple(byte[] bytes){
+	public static <T> T toByteSimple(byte[] bytes) {
 		return SerializationUtils.deserialize(bytes);
 	}
 	

@@ -8,7 +8,9 @@
       "es2015",
       "stage-0"
     ],
-    "plugins": ["transform-runtime"]
+    "plugins": [
+      "transform-runtime"
+    ]
   },
   "devDependencies": {
     "babel-core": "latest",
@@ -19,14 +21,12 @@
     "babel-runtime": "latest",
     "babel-plugin-transform-runtime": "latest",
     "expose": "latest",
-
     "css-loader": "latest",
     "file-loader": "latest",
     "less": "latest",
     "less-loader": "latest",
     "style-loader": "latest",
     "url-loader": "latest",
-
     "vue": "latest",
     "vue-hot-reload-api": "latest",
     "vue-html-loader": "latest",
@@ -35,19 +35,14 @@
     "vue-resource": "latest",
     "vue-router": "latest",
     "vuex": "latest",
-
     "moment": "latest",
     "jquery": "latest",
-
     "normalize.css": "latest",
-
-    "highcharts":"latest",
-    "highstock-release":"latest",
+    "highcharts": "latest",
+    "highstock-release": "latest",
     "cytoscape": "latest",
-
     "sockjs-client": "latest",
-    "webstomp-client":"latest",
-
+    "webstomp-client": "latest",
     "webpack-dev-server": "latest",
     "webpack": "latest"
   },

@@ -15,10 +15,10 @@ public class BinaryDataDAOImpl {
 	
 	@Autowired
 	public BinaryDataDAOImpl(EntityManagerFactory entityManagerFactory) {
-		this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+		sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
 	}
 	
-	public BinaryData load(Long id){
+	public BinaryData load(Long id) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		BinaryData activeSymbol = session.find(BinaryData.class, id);

@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-import Stocks from './Stocks.js'
-import Stomp from './Stomp.js'
+import Stocks from "./Stocks.js";
+import Stomp from "./Stomp.js";
 
 Vue.use(Vuex);
 

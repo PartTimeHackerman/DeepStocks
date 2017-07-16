@@ -51,11 +51,11 @@ public class STOMPStocksController {
 		messager.convertAndSend("/data/stocks/" + data.getStockId(), data);
 	}
 	
-	public void updateStockLastCandles(Collection<Candle> candles){
+	public void updateStockLastCandles(Collection<Candle> candles) {
 		candles.forEach(this::updateStockLastCandle);
 	}
 	
-	public void updateStockLastCandle(Candle candle){
+	public void updateStockLastCandle(Candle candle) {
 		Stock candleStock = candle.getStock();
 		messager.convertAndSend("/data/lastCandle/" + candleStock.getId(), candle);
 	}

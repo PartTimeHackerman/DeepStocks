@@ -1,5 +1,5 @@
-import StompClient from 'webstomp-client'
-import Sockjs from 'sockjs-client'
+import StompClient from "webstomp-client";
+import Sockjs from "sockjs-client";
 
 export default class Stomp {
     constructor(user) {

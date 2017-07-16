@@ -13,6 +13,7 @@ import java.util.List;
 public class CandlesDBConsumer implements Consumer<TicksHistoryHandler.StockCandlesWrapper> {
 	
 	private final CandlesDBUpdater candlesUpdaterDB;
+	
 	@Autowired
 	public CandlesDBConsumer(CandlesDBUpdater candlesUpdaterDB) {
 		this.candlesUpdaterDB = candlesUpdaterDB;

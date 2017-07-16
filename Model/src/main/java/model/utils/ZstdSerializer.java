@@ -13,7 +13,7 @@ public class ZstdSerializer implements ISerializer {
 	public <T extends Serializable> void serialize(T data, FileOutputStream out) {
 		try {
 			byte[] objBytes = BytesUtils.toByteSimple(data);
-			byte[] compressed = Zstd.compress(objBytes,1);
+			byte[] compressed = Zstd.compress(objBytes, 1);
 			
 			FileUtil.writeSimple(compressed, out);
 		} catch (IOException e) {

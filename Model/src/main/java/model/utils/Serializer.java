@@ -6,7 +6,7 @@ public class Serializer {
 	
 	ISerializer serializer;
 	
-	public Serializer(ISerializer serializer){
+	public Serializer(ISerializer serializer) {
 		this.serializer = serializer;
 	}
 	

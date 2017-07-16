@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
 import java.util.function.Predicate;
 
 import static org.junit.Assert.assertTrue;
@@ -33,7 +34,7 @@ public class PacketStreamTest {
 			
 			@Override
 			public void onSubscribe(Subscription s) {
-			
+
 			}
 			
 			@Override
@@ -42,7 +43,7 @@ public class PacketStreamTest {
 			}
 		};
 		
-		filter = integer -> (Integer)integer.getOptional() % 2 == 0;
+		filter = integer -> (Integer) integer.getOptional() % 2 == 0;
 		
 	}
 	
@@ -55,13 +56,13 @@ public class PacketStreamTest {
 	public void subscribe() throws Exception {
 		
 		stream.subscribe(subscriber);
-		assertTrue(stream.getSubscribersMap().size()==1);
+		assertTrue(stream.getSubscribersMap().size() == 1);
 	}
 	
 	@Test
 	public void subscribe1() throws Exception {
 		stream.subscribe(subscriber, filter);
-		assertTrue(stream.getSubscribersMap().size()==1);
+		assertTrue(stream.getSubscribersMap().size() == 1);
 	}
 	
 	@Test
@@ -72,7 +73,7 @@ public class PacketStreamTest {
 	@Test
 	public void unsubscribe() throws Exception {
 		stream.unsubscribe((DisposableSubscriber<Packet>) subscriber);
-		assertTrue(stream.getSubscribersMap().size()==0);
+		assertTrue(stream.getSubscribersMap().size() == 0);
 	}
 	
 }
