@@ -1,5 +1,7 @@
 DeepStocks
-==============
+===
+[![codebeat badge](https://codebeat.co/badges/a7606e11-8238-493e-83b8-146a0e10544e)](https://codebeat.co/projects/github-com-parttimehackerman-deepstocks-master)
+
 If You ever wanted to trade stocks, You've seen it's not that's easy. There's so many stocks in which You can invest in, so many relations between them, between news and actions that corporations make.
 Every action or new product corporation make influence whole stocks exchange.
 Literally everything correlate with each other.
