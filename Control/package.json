@@ -1,11 +1,10 @@
 {
-  "name": "StockNNView",
+  "name": "DeepStocksView",
   "version": "0.0.1",
   "description": "DeepStocks view client",
   "scripts": {},
   "babel": {
     "presets": [
-      "react",
       "es2015",
       "stage-0"
     ],
