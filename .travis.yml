@@ -2,3 +2,5 @@ language: java
 jdk:
   - oraclejdk8
 sudo: enabled
+before_install:
+ - chmod +x gradlew
