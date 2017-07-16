@@ -1,11 +1,10 @@
 language: java
 jdk:
-  - oraclejdk8
+ - oraclejdk8
 sudo: enabled
 before_install:
  - chmod +x gradlew
  - chmod +x gradle/wrapper/gradle-wrapper.jar
- script:
+script:
  - ./gradlew build
-
 
