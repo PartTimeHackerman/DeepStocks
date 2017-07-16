@@ -1,7 +1,8 @@
 DeepStocks
 ===
-[![codebeat badge](https://codebeat.co/badges/a7606e11-8238-493e-83b8-146a0e10544e)](https://codebeat.co/projects/github-com-parttimehackerman-deepstocks-master)
 [![Build Status](https://travis-ci.org/PartTimeHackerman/DeepStocks.svg?branch=master)](https://travis-ci.org/PartTimeHackerman/DeepStocks)
+[![codebeat badge](https://codebeat.co/badges/a7606e11-8238-493e-83b8-146a0e10544e)](https://codebeat.co/projects/github-com-parttimehackerman-deepstocks-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c9fe09382944275bc9e75bc919e0431)](https://www.codacy.com/app/kuriozalnie/DeepStocks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PartTimeHackerman/DeepStocks&amp;utm_campaign=Badge_Grade)
 
 If You ever wanted to trade stocks, You've seen it's not that's easy. There's so many stocks in which You can invest in, so many relations between them, between news and actions that corporations make.
 Every action or new product corporation make influence whole stocks exchange.
