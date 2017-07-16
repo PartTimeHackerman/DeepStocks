@@ -2,26 +2,29 @@ package spring;
 
 import model.binaryAPI.BinaryCandlesGather;
 import model.binaryAPI.BinaryDataGather;
+import model.binaryAPI.BinaryPacketsService;
+import model.binaryAPI.BinaryTradingTimesGather;
 import model.connection.PacketSender;
+import model.connection.ReceivedPacketsStream;
 import model.connection.consumer.binaryDataConsumer.BinaryDataDBConsumer;
 import model.connection.consumer.binaryDataConsumer.WebSocketBinaryDataUpdater;
 import model.connection.consumer.candlesConsumer.CandlesDBConsumer;
-import model.connection.handleUpdater.CandlesStockUpdater;
 import model.connection.consumer.candlesConsumer.WebSocketCandlesUpdater;
+import model.connection.consumer.tradingTimesConsumer.TradingTimesDBConsumer;
+import model.connection.handleUpdater.CandlesStockUpdater;
+import model.connection.handleUpdater.StocksBinaryDataUpdater;
 import model.connection.packetHandler.ActiveSymbolsHandler;
 import model.connection.packetHandler.TicksHistoryHandler;
+import model.connection.packetHandler.TradingTimesHandler;
 import model.connection.packetsService.RequestValidator;
 import model.connection.proxy.ScraperManager;
 import model.connection.proxy.UnrepeatedProxyProvider;
-import model.connection.serverUpdater.MinuteStockUpdater;
 import model.connection.websocketServer.STOMPStocksController;
+import model.connection.wsServerUpdater.MinuteStockUpdater;
 import model.dao.BinaryDataDAO;
 import model.dao.StockDAO;
 import model.data.Stock;
-import model.connection.handleUpdater.StocksBinaryDataUpdater;
-import model.connection.ReceivedPacketsStream;
 import model.data.StockRepo;
-import model.binaryAPI.BinaryPacketsService;
 import model.utils.MainLogger;
 import model.utils.StockExcluder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -119,6 +123,15 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	private MinuteStockUpdater minuteStockUpdater;
 	
+	@Autowired
+	private TradingTimesHandler tradingTimesHandler;
+	
+	@Autowired
+	private TradingTimesDBConsumer tradingTimesDBConsumer;
+	
+	@Autowired
+	private BinaryTradingTimesGather binaryTradingTimesGather;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -134,11 +147,17 @@ public class Application implements CommandLineRunner {
 		ticksHistoryHandler.subscribe(candlesDBUpdater);
 		ticksHistoryHandler.subscribe(webSocketCandlesUpdater);
 		
+		tradingTimesHandler.subscribe(tradingTimesDBConsumer);
+		
 		requestValidator.setResend(true);
 		requestValidator.getBackups().forEach(packetSender::send);
 		
 		Collection<Stock> stocks = stockRepo.getStocks();
 		StockExcluder.excludeVolatility(stocks);
+		
+		Calendar jul_1st = Calendar.getInstance();
+		jul_1st.set(2017, Calendar.JULY, 1);
+		binaryTradingTimesGather.fetchTradingTimesFrom(jul_1st);
 		
 		binaryDataGather.fetchBinaryDatas();
 		
