@@ -23,7 +23,7 @@ public class StockTradingTimes implements Serializable {
 	@Column(name = "stockId", insertable = false, updatable = false)
 	private Long stockId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@MapsId
 	@JoinColumn(name = "stockId")
 	private Stock stock;
