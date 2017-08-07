@@ -9,8 +9,8 @@
         <Root level="ALL">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger name="scraper" level="ERROR" additivity="false">
-            <level value="ERROR"/>
+        <Logger name="scraper" level="OFF" additivity="false">
+            <level value="OFF"/>
         </Logger>
     </Loggers>
 </Configuration>

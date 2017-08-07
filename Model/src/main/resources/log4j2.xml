@@ -6,9 +6,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="off">
+        <Root level="all">
             <AppenderRef ref="Console"/>
         </Root>
-        <logger name="org" additivity="false" level="off"/>
+        <Logger name="scraper" level="ERROR" additivity="true"/>
+        <!--<logger name="org" additivity="false" level="off"/>-->
     </Loggers>
 </Configuration>
