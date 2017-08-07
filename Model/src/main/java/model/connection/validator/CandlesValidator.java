@@ -2,11 +2,8 @@ package model.connection.validator;
 
 import model.binaryAPI.BinaryCandlesGather;
 import model.dao.CandleDAO;
-import model.dao.StockTradingTimesDAO;
-import model.data.Candle;
-import model.data.Stock;
-import model.data.StockRepo;
-import model.data.StockTradingTimes;
+import model.data.*;
+import model.utils.DigitsUtil;
 import model.utils.MainLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +16,16 @@ import java.util.List;
 public class CandlesValidator {
 	
 	private final StockRepo stockRepo;
-	private final StockTradingTimesDAO stockTradingTimesDAO;
 	private final CandleDAO candleDAO;
 	private final BinaryCandlesGather binaryCandlesGather;
+	private final StockTradingTimesRepo stockTradingTimesRepo;
 	
 	@Autowired
-	public CandlesValidator(StockRepo stockRepo, StockTradingTimesDAO stockTradingTimesDAO, CandleDAO candleDAO, BinaryCandlesGather binaryCandlesGather) {
+	public CandlesValidator(StockRepo stockRepo, CandleDAO candleDAO, BinaryCandlesGather binaryCandlesGather, StockTradingTimesRepo stockTradingTimesRepo) {
 		this.stockRepo = stockRepo;
-		this.stockTradingTimesDAO = stockTradingTimesDAO;
 		this.candleDAO = candleDAO;
 		this.binaryCandlesGather = binaryCandlesGather;
+		this.stockTradingTimesRepo = stockTradingTimesRepo;
 	}
 	
 	public void validateAllStocks() {
@@ -43,8 +40,7 @@ public class CandlesValidator {
 	}
 	
 	public void validateStockFrom(Stock stock, Calendar date) {
-		Long calendarEpoch = date.getTimeInMillis();
-		List<StockTradingTimes> stockTradingTimes = stockTradingTimesDAO.findByStockAndDayEpochIsGreaterThan(stock, calendarEpoch);
+		List<StockTradingTimes> stockTradingTimes = stockTradingTimesRepo.getStockTradingTimesFrom(stock, date);
 		stockTradingTimes.parallelStream().forEach(this::validateDay);
 	}
 	
@@ -60,11 +56,22 @@ public class CandlesValidator {
 		Long openEpoch = stockTradingTimes.getOpenEpoch();
 		Long closeEpoch = stockTradingTimes.getCloseEpoch();
 		
+		openEpoch = DigitsUtil.removeLastNDigits(openEpoch, 3);
+		closeEpoch = DigitsUtil.removeLastNDigits(closeEpoch, 3);
+		
 		List<Candle> candles = candleDAO.findByStockAndEpochBetween(stock, openEpoch, closeEpoch);
 		
 		HashMap<Long, Long> missedFromToPairs = new HashMap<>();
 		
-		for (int i = 0; i < candles.size(); i++) {
+		
+		Candle oldDummyCandle = new Candle();
+		oldDummyCandle.setEpoch(openEpoch);
+		Candle youngDummyCandle = new Candle();
+		youngDummyCandle.setEpoch(closeEpoch);
+		candles.add(0, oldDummyCandle);
+		candles.add(youngDummyCandle);
+		
+		for (int i = 0; i < candles.size() - 1; i++) {
 			Long oldCandleEpoch = candles.get(i).getEpoch();
 			Long youngCandleEpoch = candles.get(i + 1).getEpoch();
 			if (youngCandleEpoch - oldCandleEpoch > 60) {
@@ -73,11 +80,10 @@ public class CandlesValidator {
 		}
 		
 		missedFromToPairs.entrySet().parallelStream().forEach(pair -> {
-			Long oldCandleEpoch = pair.getKey() + 60;
-			Long youngCandleEpoch = pair.getKey() - 60;
-			binaryCandlesGather.getCandles(stock, oldCandleEpoch, youngCandleEpoch);
+			Long oldCandleEpochPlus = pair.getKey() + 60;
+			Long youngCandleEpochMinus = pair.getValue() - 60;
+			binaryCandlesGather.getCandles(stock, oldCandleEpochPlus, youngCandleEpochMinus);
 		});
-		
 		
 	}
 }

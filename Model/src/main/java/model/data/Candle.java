@@ -20,18 +20,23 @@ import java.io.Serializable;
 public class Candle implements Serializable, Comparable<Candle> {
 	
 	private static final long serialVersionUID = -8683231578361442030L;
+	
 	@EmbeddedId
 	private CandlePK candlePK = new CandlePK();
+	
 	@Column(name = "stockId", insertable = false, updatable = false)
 	private Long stockId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId
 	@JoinColumn(name = "stockId")
 	private Stock stock;
+	
 	@Column(name = "epoch", insertable = false, updatable = false)
 	@SerializedName("epoch")
 	@Expose
 	private Long epoch;
+	
 	/**
 	 * It is the open price value for the given time
 	 */

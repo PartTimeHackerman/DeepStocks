@@ -19,6 +19,7 @@ public class ReceivedPacketsStream extends SimpleStream<Packet> {
 	private final PacketsService requestValidator;
 	private final PacketsService packetsTimeoutResender;
 	private final PacketsService sentPacketsContainer;
+	
 	@Autowired
 	private Collection<PacketHandler> handlers;
 	

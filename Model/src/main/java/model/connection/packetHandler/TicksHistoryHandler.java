@@ -4,6 +4,7 @@ import lombok.Data;
 import model.binaryAPI.commands.ticks_history.TicksHistoryReceive;
 import model.connection.Packet;
 import model.connection.SimpleStream;
+import model.connection.consumer.Consumer;
 import model.connection.handleUpdater.CandlesStockUpdater;
 import model.data.Candle;
 import model.data.Stock;
@@ -11,6 +12,7 @@ import model.data.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -22,9 +24,10 @@ public class TicksHistoryHandler extends SimpleStream<TicksHistoryHandler.StockC
 	private final CandlesStockUpdater candlesStockUpdater;
 	
 	@Autowired
-	public TicksHistoryHandler(StockRepo stockRepo, CandlesStockUpdater candlesStockUpdater) {
+	public TicksHistoryHandler(StockRepo stockRepo, CandlesStockUpdater candlesStockUpdater, Collection<Consumer<TicksHistoryHandler.StockCandlesWrapper>> ticksHistoryConsumers) {
 		this.stockRepo = stockRepo;
 		this.candlesStockUpdater = candlesStockUpdater;
+		ticksHistoryConsumers.forEach(this::subscribe);
 	}
 	
 	@Override

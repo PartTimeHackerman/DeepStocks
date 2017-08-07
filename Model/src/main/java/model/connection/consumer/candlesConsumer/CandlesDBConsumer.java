@@ -7,6 +7,7 @@ import model.dataBaseUpdater.CandlesDBUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class CandlesDBConsumer implements Consumer<TicksHistoryHandler.StockCand
 	@Override
 	public void consume(TicksHistoryHandler.StockCandlesWrapper stockCandlesWrapper) {
 		List<Candle> candles = stockCandlesWrapper.getCandles();
-		candlesUpdaterDB.update(candles);
+		candlesUpdaterDB.update(new ArrayList<>(candles));
 	}
 	
 }

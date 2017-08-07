@@ -23,17 +23,19 @@ public class RequestValidator implements PacketsService {
 	private final List<Packet> backups = Collections.synchronizedList(new Vector<>());
 	private final PacketSender packetSender;
 	private final AtomicInteger resent = new AtomicInteger(0);
-	private Boolean resend = false;
+	private Boolean resend = true;
 	
 	@Autowired
 	public RequestValidator(PacketBackupDAO packetBackupDAO, @Lazy PacketSender packetSender) {
 		this.packetBackupDAO = packetBackupDAO;
 		this.packetSender = packetSender;
-		packetBackupDAO.findAll().forEach(backup -> backups.add(backup.getPacket()));
-		ShutdownHook.add(this::persistBackups);
 		
 		Vaer.get().group(getClass().getSimpleName()).variable("Backups").setVariableGetter(backups::size);
 		Vaer.get().group(getClass().getSimpleName()).variable("Resent").setVariableGetter(resent::get);
+		
+		packetBackupDAO.findAll().forEach(backup -> backups.add(backup.getPacket()));
+		ShutdownHook.add(this::persistBackups);
+		getBackups().forEach(packetSender::send);
 		
 	}
 	

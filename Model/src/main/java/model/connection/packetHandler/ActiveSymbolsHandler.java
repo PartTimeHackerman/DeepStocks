@@ -3,6 +3,7 @@ package model.connection.packetHandler;
 import model.binaryAPI.commands.active_symbols.ActiveSymbolsReceive;
 import model.connection.Packet;
 import model.connection.SimpleStream;
+import model.connection.consumer.Consumer;
 import model.connection.handleUpdater.StocksBinaryDataUpdater;
 import model.data.BinaryData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,14 @@ import java.util.function.Predicate;
 @Service
 public class ActiveSymbolsHandler extends SimpleStream<Collection<BinaryData>> implements PacketHandler {
 	
+	@Autowired
 	private final StocksBinaryDataUpdater stocksBinaryDataUpdater;
 	
 	@Autowired
-	public ActiveSymbolsHandler(StocksBinaryDataUpdater stocksBinaryDataUpdater) {
+	public ActiveSymbolsHandler(StocksBinaryDataUpdater stocksBinaryDataUpdater, Collection<Consumer<Collection<BinaryData>>> binaryDatasConsumers) {
 		super();
 		this.stocksBinaryDataUpdater = stocksBinaryDataUpdater;
+		binaryDatasConsumers.forEach(this::subscribe);
 	}
 	
 	@Override
