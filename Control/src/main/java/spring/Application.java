@@ -1,5 +1,6 @@
 package spring;
 
+import com.rollbar.Rollbar;
 import model.binaryAPI.BinaryCandlesGather;
 import model.binaryAPI.BinaryDataGather;
 import model.binaryAPI.BinaryPacketsService;
@@ -55,6 +56,8 @@ import java.util.Collection;
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 @CrossOrigin
 public class Application implements CommandLineRunner {
+	
+	public static final Rollbar rollbar = new Rollbar("b8e1c4f364f542798117f8d7380a0ea0", "production");
 	
 	@Autowired
 	private StockDAO stockDAO;
@@ -133,24 +136,12 @@ public class Application implements CommandLineRunner {
 	private BinaryTradingTimesGather binaryTradingTimesGather;
 	
 	public static void main(String[] args) {
+		rollbar.handleUncaughtErrors();
 		SpringApplication.run(Application.class, args);
 	}
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
-		/*BinaryData consumers*/
-		activeSymbolsHandler.subscribe(binaryDataDBUpdater);
-		activeSymbolsHandler.subscribe(webSocketBinaryDataUpdater);
-		
-		/*Candles consumers*/
-		ticksHistoryHandler.subscribe(candlesDBUpdater);
-		ticksHistoryHandler.subscribe(webSocketCandlesUpdater);
-		
-		tradingTimesHandler.subscribe(tradingTimesDBConsumer);
-		
-		requestValidator.setResend(true);
-		requestValidator.getBackups().forEach(packetSender::send);
 		
 		Collection<Stock> stocks = stockRepo.getStocks();
 		StockExcluder.excludeVolatility(stocks);
@@ -160,10 +151,9 @@ public class Application implements CommandLineRunner {
 		binaryTradingTimesGather.fetchTradingTimesFrom(jul_1st);
 		
 		binaryDataGather.fetchBinaryDatas();
+		//stocks.parallelStream().forEach(stock -> binaryCandlesGather.getLatestCandles(stock));
 		
-		stocks.parallelStream().forEach(stock -> binaryCandlesGather.getLatestCandles(stock));
-		
-		minuteStockUpdater.start();
+		//minuteStockUpdater.start();
 		
 		MainLogger.log(this).info("!!!!!!!!DONE!!!!!!!");
 		
