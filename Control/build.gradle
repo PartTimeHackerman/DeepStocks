@@ -22,15 +22,18 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
     }
 }
 
 node {
-    version = '6.9.4'
-    npmVersion = '3.10.10'
+    version = '8.2.1'
+    npmVersion = '5.3.0'
     download = true
     // distBaseUrl = Custom artifactory location here.
 }
@@ -42,10 +45,6 @@ war {
 
 configurations {
     providedRuntime
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
 }
 
 task webpack(type: NodeTask, dependsOn: 'npmInstall') {
@@ -60,7 +59,7 @@ task webpack(type: NodeTask, dependsOn: 'npmInstall') {
 task webpackWatch(type: Exec) {
     commandLine 'cmd', '/c', 'watchJS.cmd'
     //args  "/c", "webpack.cmd --watch & webpack-dev-server.cmd --progress --colors --inline --port 8081"
-
+    //args  "/c", "webpack.cmd"
     /*addShutdownHook {
         executable "sh"
         args "-c", "kill \$! &"
