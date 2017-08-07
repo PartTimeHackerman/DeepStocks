@@ -30,6 +30,21 @@ public class BinaryCandlesGather {
 		this.ticksHistoryHandler = ticksHistoryHandler;
 	}
 	
+	
+	public void getLatestCandles(Stock stock) {
+		if (stock.getSymbols().stream().filter(symbol -> symbol.getProvider() == StockProvider.BINARY).map(Symbol::getExcluded).findAny().orElse(false))
+			return;
+		
+		Long currentTime = EpochUtil.getCurrentTimeSeconds();
+		
+		Long start = stock.getStockCandles().isEmpty()
+				? EpochUtil.getWeekAgoTimeSeconds()
+				: stock.getLastCandle().getEpoch() + granularity;
+		
+		getCandles(stock, start, currentTime);
+	}
+	
+	
 	public void getCandles(Stock stock, Long epochFrom, Long epochTo) {
 		Integer step = (count * granularity);
 		
@@ -43,19 +58,6 @@ public class BinaryCandlesGather {
 			epochFrom = epochFromWithStep + 60;
 			packetSender.send(packet);
 		}
-	}
-	
-	public void getLatestCandles(Stock stock) {
-		if (stock.getSymbols().stream().filter(symbol -> symbol.getProvider() == StockProvider.BINARY).map(Symbol::getExcluded).findAny().orElse(false))
-			return;
-		
-		Long currentTime = EpochUtil.getCurrentTimeSeconds();
-		
-		Long start = stock.getStockCandles().isEmpty()
-				? EpochUtil.getWeekAgoTimeSeconds()
-				: stock.getLastCandle().getEpoch() + granularity;
-		
-		getCandles(stock, start, currentTime);
 	}
 	
 	public Optional<Candle> getLatestCandle(Stock stock) {

@@ -14,4 +14,6 @@ public interface StockTradingTimesDAO extends CrudRepository<StockTradingTimes, 
 	
 	List<StockTradingTimes> findByStockAndDayEpochIsGreaterThan(Stock stock, Long dayEpoch);
 	
+	StockTradingTimes findTopByStockOrderByDayEpochDesc(Stock stock);
+	
 }

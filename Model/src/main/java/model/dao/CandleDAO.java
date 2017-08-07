@@ -2,6 +2,7 @@ package model.dao;
 
 import model.data.Candle;
 import model.data.Stock;
+import model.utils.DigitsUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +23,20 @@ public interface CandleDAO extends CrudRepository<Candle, Candle.CandlePK> {
 	
 	List<Candle> findByStockAndEpochBetween(Stock stockId, Long epoch1, Long epoch2);
 	
+	default List<Candle> findByStockAndEpochBetweenWithMillis(Stock stockId, Long epoch1, Long epoch2) {
+		return findByStockAndEpochBetween(stockId,
+										  DigitsUtil.removeLastNDigits(epoch1, 3),
+										  DigitsUtil.removeLastNDigits(epoch2, 3));
+	}
+	
 	List<Candle> findByStockIdAndEpochBetweenOrderByEpochDesc(Long stockId, Long epoch1, Long epoch2, Pageable pageable);
+	
+	default List<Candle> findByStockIdAndEpochBetweenOrderByEpochDescWithMillis(Long stockId, Long epoch1, Long epoch2, Pageable pageable) {
+		return findByStockIdAndEpochBetweenOrderByEpochDesc(stockId,
+															DigitsUtil.removeLastNDigits(epoch1, 3),
+															DigitsUtil.removeLastNDigits(epoch2, 3),
+															pageable);
+	}
 	
 	@Query(value = "SELECT * FROM candles c WHERE c.stockid=:stockid ORDER BY c.epoch DESC LIMIT :limit", nativeQuery = true)
 	List<Candle> findTopLimitByStockidOrderByEpoch(@Param("stockid") Long stockid, @Param("limit") Integer limit);
