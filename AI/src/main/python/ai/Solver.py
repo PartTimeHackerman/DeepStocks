@@ -2,6 +2,9 @@ import math
 
 
 class Solver:
+    def __init__(self):
+        self.demo()
+
     def demo(self):
         a = int(input("a "))
         b = int(input("b "))
@@ -13,4 +16,5 @@ class Solver:
         print(root1, root2)
 
 
-Solver().demo()
+solver = Solver()
+print("koniec")

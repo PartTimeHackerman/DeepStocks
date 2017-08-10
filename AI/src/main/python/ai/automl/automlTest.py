@@ -1,14 +1,27 @@
-import Solver as Solver
-import genArr
 import pandas as pd
 from auto_ml import Predictor
 from auto_ml.utils import get_boston_dataset
 from auto_ml.utils_models import load_ml_model
 from sklearn.datasets import load_boston
 
+
+def genArr(origin=None, width=100, height=50):
+    if origin is None:
+        origin = []
+        for i in range(height):
+            origin.append(i)
+
+    arr = [[0 for x in range(height)] for y in range(width)]
+    arr[0] = origin
+    for i in range(1, width):
+        for j in range(height):
+            arr[i][j] = i % 2 == 0 and arr[i-1][j] / i or 0 - arr[i - 1][j] / i
+    return arr
+
+
+arr = genArr()
+arrData = pd.DataFrame(arr)
 # Load data
-s = Solver()
-g = genArr.genArr()
 df_train, df_test = get_boston_dataset()
 
 first = [5., 3., 0., 2., 7.]

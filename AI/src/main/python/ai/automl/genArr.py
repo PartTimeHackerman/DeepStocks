@@ -1,4 +1,4 @@
-class genArr:
+class genArr(object):
     def genArr(self, origin=None, length=100, size=100):
         if origin is None:
             for i in range(length):
